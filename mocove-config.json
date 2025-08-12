@@ -1,0 +1,42 @@
+{
+  "system": {
+    "name": "MoCoVe AI Trading System",
+    "version": "2.0.0",
+    "environment": "production"
+  },
+  "backend": {
+    "port": 5000,
+    "host": "localhost",
+    "testnet": false,
+    "cors_enabled": true
+  },
+  "frontend": {
+    "port": 3000,
+    "host": "localhost",
+    "api_base_url": "http://localhost:5000"
+  },
+  "ai_agent": {
+    "enabled": false,
+    "symbol": "DOGEUSDT",
+    "investment_amount": 10.0,
+    "risk_level": "conservative",
+    "confidence_threshold": 0.7
+  },
+  "trading": {
+    "testnet_mode": false,
+    "max_trades_per_day": 10,
+    "stop_loss_percentage": 2.0,
+    "take_profit_percentage": 5.0
+  },
+  "notifications": {
+    "enabled": true,
+    "email": false,
+    "webhook": false,
+    "telegram": false
+  },
+  "deploy": {
+    "surge_enabled": false,
+    "domain": "mocove-ai-trading.surge.sh",
+    "auto_deploy": false
+  }
+}

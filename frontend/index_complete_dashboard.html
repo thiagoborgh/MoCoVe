@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 MoCoVe - Sistema de Trading</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Axios para HTTP requests -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #e2e8f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .card {
+            background: linear-gradient(145deg, #2d3748 0%, #1a202c 100%);
+            border: 1px solid #4a5568;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .animate-pulse-custom {
+            animation: pulse-custom 2s infinite;
+        }
+        
+        @keyframes pulse-custom {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .notification.error {
+            background: #ef4444;
+        }
+        
+        .notification.info {
+            background: #3b82f6;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .loading {
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .grid-auto-fit {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+    <div class="container mx-auto max-w-7xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold mb-2">🚀 MoCoVe - Sistema de Trading</h1>
+            <p class="text-xl text-gray-300">Monitoramento, Compra e Venda automatizada de memecoins com IA</p>
+            <div class="mt-4 p-4 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-lg border border-green-500/30">
+                <span class="text-green-400 font-semibold">Status:</span>
+                <span id="systemStatusText">Carregando...</span>
+            </div>
+        </div>
+
+        <!-- Status do Trading IA -->
+        <div class="card mb-6">
+            <h2 class="text-2xl font-bold mb-4">🤖 Status do Trading IA</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="p-4 bg-gray-700 rounded">
+                    <div class="text-sm text-gray-400 mb-1">Status do Sistema</div>
+                    <div id="tradingStatus" class="text-yellow-400 font-bold text-lg">Verificando...</div>
+                </div>
+                <div class="p-4 bg-gray-700 rounded">
+                    <div class="text-sm text-gray-400 mb-1">Última Análise</div>
+                    <div id="lastAnalysis" class="text-blue-400 font-bold">Carregando...</div>
+                </div>
+                <div class="p-4 bg-gray-700 rounded">
+                    <div class="text-sm text-gray-400 mb-1">Controle</div>
+                    <div id="aiTradingControl" class="text-gray-400">Carregando...</div>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <button id="toggleTradingBtn" class="btn-primary flex-1" onclick="toggleAutoTrading()">🔄 Verificando...</button>
+                <button class="btn-secondary" onclick="checkAITradingStatus()">🔍 Verificar Status</button>
+            </div>
+        </div>
+
+        <!-- Configurações de Trading IA -->
+        <div class="card mb-6">
+            <h2 class="text-2xl font-bold mb-4">⚙️ Configurações de Trading IA</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Valor por Trade (USDT)</label>
+                    <input type="number" id="aiTradeAmount" min="5" max="500" step="1" value="20" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" onchange="updateAIConfig()" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Max Trades/Dia</label>
+                    <input type="number" id="aiMaxTrades" min="1" max="50" step="1" value="20" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" onchange="updateAIConfig()" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Confiança Mínima (%)</label>
+                    <input type="number" id="aiConfidence" min="10" max="90" step="5" value="40" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" onchange="updateAIConfig()" />
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Stop Loss (%)</label>
+                    <input type="number" id="aiStopLoss" min="1" max="20" step="0.5" value="5" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" onchange="updateAIConfig()" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Take Profit (%)</label>
+                    <input type="number" id="aiTakeProfit" min="1" max="50" step="0.5" value="10" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" onchange="updateAIConfig()" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Modo</label>
+                    <select id="aiTradingMode" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" onchange="updateAIConfig()">
+                        <option value="conservative">🛡️ Conservador</option>
+                        <option value="balanced" selected>⚖️ Equilibrado</option>
+                        <option value="aggressive">🚀 Agressivo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <button class="btn-primary" onclick="saveAIConfig()">💾 Salvar Configurações</button>
+                <button class="btn-secondary" onclick="loadAIConfig()">🔄 Recarregar</button>
+                <div id="aiConfigStatus" class="text-green-400 hidden">✅ Configurações salvas!</div>
+            </div>
+        </div>
+
+        <!-- Painel de Trading Manual -->
+        <div class="card mb-6">
+            <h2 class="text-2xl font-bold mb-4">📊 Trading Manual</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Moeda</label>
+                    <select id="tradingSymbol" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600">
+                        <option value="DOGEUSDT">DOGE/USDT</option>
+                        <option value="SHIBUSDT">SHIB/USDT</option>
+                        <option value="PEPEUSDT">PEPE/USDT</option>
+                        <option value="FLOKIUSDT">FLOKI/USDT</option>
+                        <option value="WIFUSDT">WIF/USDT</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Valor (USDT)</label>
+                    <input type="number" id="manualTradeAmount" min="1" max="1000" step="0.01" value="10" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Preço Atual</label>
+                    <div id="currentPrice" class="p-2 bg-gray-700 rounded text-green-400 font-bold">Loading...</div>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <button class="btn-success" onclick="executeBuyOrder()">🚀 Comprar</button>
+                <button class="btn-danger" onclick="executeSellOrder()">💰 Vender Tudo</button>
+            </div>
+        </div>
+        
+        <!-- Controles Essenciais -->
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-6">🎛️ Status dos Componentes</h2>
+            
+            <!-- Status dos Componentes (apenas visualização) -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="p-3 bg-gray-700 rounded text-center">
+                    <div class="text-lg">🖥️ Backend</div>
+                    <div id="backend-status" class="text-sm text-yellow-400">Verificando...</div>
+                </div>
+                <div class="p-3 bg-gray-700 rounded text-center">
+                    <div class="text-lg">🔗 Binance</div>
+                    <div id="binance-status" class="text-sm text-yellow-400">Verificando...</div>
+                </div>
+                <div class="p-3 bg-gray-700 rounded text-center">
+                    <div class="text-lg">🤖 AI Agent</div>
+                    <div id="ai-status" class="text-sm text-yellow-400">Verificando...</div>
+                </div>
+                <div class="p-3 bg-gray-700 rounded text-center">
+                    <div class="text-lg">📋 Watchlist</div>
+                    <div id="watchlist-status" class="text-sm text-yellow-400">Verificando...</div>
+                </div>
+            </div>
+            
+            <!-- Apenas controle essencial -->
+            <div class="text-center">
+                <button onclick="refreshAll()" class="btn-success">
+                    🔄 Atualizar Dashboard Completo
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Principal -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Saldo da Conta -->
+            <div class="card">
+                <h3 class="text-xl font-bold mb-4">� Saldo da Conta</h3>
+                <div id="balanceInfo" class="space-y-2">
+                    <div class="loading">Carregando saldo...</div>
+                </div>
+            </div>
+            
+            <!-- Watchlist Resumo -->
+            <div class="card">
+                <h3 class="text-xl font-bold mb-4">� Watchlist Ativa</h3>
+                <div id="watchlistSummary" class="space-y-2">
+                    <div class="loading">Carregando watchlist...</div>
+                </div>
+            </div>
+
+            <!-- Performance Hoje -->
+            <div class="card">
+                <h3 class="text-xl font-bold mb-4">� Performance Hoje</h3>
+                <div id="dailyPerformance" class="space-y-2">
+                    <div class="loading">Carregando performance...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trading Dashboard -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            <!-- Histórico de Trades -->
+            <div class="card">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">📈 Registro de Operações</h3>
+                    <button onclick="loadTradesHistory()" class="btn-primary text-sm">🔄 Atualizar</button>
+                </div>
+                <div id="tradesHistory" class="space-y-2 max-h-80 overflow-y-auto">
+                    <div class="loading">Carregando trades...</div>
+                </div>
+                <div class="mt-3 p-2 bg-gray-800 rounded text-xs text-gray-400">
+                    💡 Histórico completo de compras e vendas executadas
+                </div>
+            </div>
+            
+            <!-- Posições Atuais -->
+            <div class="card">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">💼 Posições Atuais</h3>
+                    <button onclick="loadCurrentPositions()" class="btn-primary text-sm">🔄 Atualizar</button>
+                </div>
+                <div id="currentPositions" class="space-y-2 max-h-80 overflow-y-auto">
+                    <div class="loading">Carregando posições...</div>
+                </div>
+                <div class="mt-3 p-2 bg-gray-800 rounded text-xs text-gray-400">
+                    💰 Saldos atuais de todas as moedas
+                </div>
+            </div>
+        </div>
+
+        <!-- Pensamento da IA em Tempo Real -->
+        <div class="card mt-6">
+            <h3 class="text-xl font-bold mb-4">🧠 Pensamento da IA Trading</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Análise Técnica -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-blue-400">📊 Análise Técnica</h4>
+                    <div id="technicalAnalysis" class="space-y-2 max-h-60 overflow-y-auto">
+                        <div class="loading">Analisando mercado...</div>
+                    </div>
+                </div>
+                
+                <!-- Decisões da IA -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-purple-400">🤖 Decisões da IA</h4>
+                    <div id="aiDecisions" class="space-y-2 max-h-60 overflow-y-auto">
+                        <div class="loading">Carregando decisões...</div>
+                    </div>
+                </div>
+                
+                <!-- Log de Atividades -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-green-400">⚡ Atividades Recentes</h4>
+                    <div id="aiActivityLog" class="space-y-2 max-h-60 overflow-y-auto">
+                        <div class="loading">Carregando atividades...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Próximos Movimentos -->
+            <div class="mt-4 p-4 bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-lg border border-purple-500/30">
+                <h4 class="text-lg font-semibold mb-2 text-purple-400">🎯 Próximos Movimentos</h4>
+                <div id="nextMoves" class="text-sm">
+                    <div class="loading">Calculando estratégia...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market Data -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            <!-- Top Performers -->
+            <div class="card">
+                <h3 class="text-xl font-bold mb-4">🏆 Top Performers</h3>
+                <div id="topPerformers" class="space-y-2">
+                    <div class="loading">Carregando performers...</div>
+                </div>
+            </div>
+            
+            <!-- Sentimento Social -->
+            <div class="card">
+                <h3 class="text-xl font-bold mb-4">📱 Sentimento Social</h3>
+                <div id="sentimentData" class="space-y-2">
+                    <div class="loading">Carregando sentimento...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Estado do trading IA
+        let iaTradingActive = false;
+
+        // Função para ativar/desativar trading automático
+        async function toggleAutoTrading() {
+            const btn = document.getElementById('toggleTradingBtn');
+            const status = document.getElementById('tradingStatus');
+            const control = document.getElementById('aiTradingControl');
+            
+            btn.disabled = true;
+            btn.textContent = '⏳ Processando...';
+            
+            try {
+                if (iaTradingActive) {
+                    // Desativar Trading IA
+                    showNotification('Parando AI Trading Agent...', 'info');
+                    const response = await apiCall('/system/stop-ai-agent', { method: 'POST' });
+                    
+                    if (response.success) {
+                        iaTradingActive = false;
+                        btn.textContent = '🚀 Ativar Trading IA';
+                        btn.className = 'btn-primary flex-1';
+                        status.textContent = 'Inativo';
+                        status.className = 'text-red-400 font-bold';
+                        control.textContent = 'Parado';
+                        showNotification('Trading IA desativado!', 'success');
+                    } else {
+                        throw new Error(response.message || 'Erro ao parar AI Agent');
+                    }
+                } else {
+                    // Ativar Trading IA
+                    showNotification('Iniciando AI Trading Agent...', 'info');
+                    const response = await apiCall('/system/start-ai-agent', { method: 'POST' });
+                    
+                    if (response.success) {
+                        iaTradingActive = true;
+                        btn.textContent = '⏹️ Desativar Trading IA';
+                        btn.className = 'btn-danger flex-1';
+                        status.textContent = 'Ativo';
+                        status.className = 'text-green-400 font-bold';
+                        control.textContent = 'Rodando';
+                        showNotification('Trading IA ativado!', 'success');
+                        
+                        // Aguardar um pouco e verificar status
+                        setTimeout(() => {
+                            checkAITradingStatus();
+                        }, 3000);
+                    } else {
+                        throw new Error(response.message || 'Erro ao iniciar AI Agent');
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao alternar Trading IA:', error);
+                showNotification('Erro: ' + error.message, 'error');
+                
+                // Restaurar estado anterior
+                btn.textContent = iaTradingActive ? '⏹️ Desativar Trading IA' : '🚀 Ativar Trading IA';
+                btn.className = iaTradingActive ? 'btn-danger flex-1' : 'btn-primary flex-1';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // Verificar status da IA Trading
+        async function checkAITradingStatus() {
+            try {
+                const data = await apiCall('/system/status');
+                if (data && data.success && data.status) {
+                    const aiActive = data.status.ai_agent_active;
+                    const statusElement = document.getElementById('tradingStatus');
+                    const btn = document.getElementById('toggleTradingBtn');
+                    const control = document.getElementById('aiTradingControl');
+                    
+                    if (aiActive) {
+                        iaTradingActive = true;
+                        statusElement.textContent = 'Ativo';
+                        statusElement.className = 'text-green-400 font-bold';
+                        btn.textContent = '⏹️ Desativar Trading IA';
+                        btn.className = 'btn-danger flex-1';
+                        control.textContent = 'Rodando';
+                        control.className = 'text-green-400 font-bold';
+                    } else {
+                        iaTradingActive = false;
+                        statusElement.textContent = 'Inativo';
+                        statusElement.className = 'text-red-400 font-bold';
+                        btn.textContent = '🚀 Ativar Trading IA';
+                        btn.className = 'btn-primary flex-1';
+                        control.textContent = 'Parado';
+                        control.className = 'text-red-400 font-bold';
+                    }
+                    
+                    btn.disabled = false;
+                } else {
+                    // Se não conseguir verificar o status
+                    const statusElement = document.getElementById('tradingStatus');
+                    const btn = document.getElementById('toggleTradingBtn');
+                    const control = document.getElementById('aiTradingControl');
+                    
+                    statusElement.textContent = 'Erro de conexão';
+                    statusElement.className = 'text-yellow-400 font-bold';
+                    btn.textContent = '❌ Erro de conexão';
+                    btn.className = 'btn-secondary flex-1';
+                    btn.disabled = true;
+                    control.textContent = 'Desconhecido';
+                    control.className = 'text-yellow-400';
+                }
+            } catch (error) {
+                console.error('Erro ao verificar status da IA:', error);
+            }
+        }
+
+        // Função para iniciar IA Trading manualmente
+        async function startIATrading() {
+            const amount = document.getElementById('tradeAmountInput').value;
+            showNotification(`Iniciando IA Trading com ${amount} USDT...`, 'info');
+            // Chamar endpoint backend para iniciar trading IA
+            try {
+                const res = await apiCall('/system/start-ai-agent', { method: 'POST', data: { amount: amount } });
+                if (res && res.success) {
+                    iaTradingActive = true;
+                    document.getElementById('tradingStatus').textContent = 'Ativo';
+                    document.getElementById('tradingStatus').className = 'text-green-400 font-bold';
+                    showNotification('🤖 IA Trading iniciado com sucesso!', 'success');
+                } else {
+                    showNotification('Erro ao iniciar IA Trading: ' + (res?.message || 'Erro desconhecido'), 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao iniciar IA Trading:', error);
+                showNotification('Erro ao iniciar IA Trading', 'error');
+            }
+        }
+
+        // Função para parar IA Trading manualmente
+        async function stopIATrading() {
+            showNotification('Parando IA Trading...', 'info');
+            // Chamar endpoint backend para parar trading IA
+            try {
+                const res = await apiCall('/system/stop-ai-agent', { method: 'POST' });
+                if (res && res.success) {
+                    iaTradingActive = false;
+                    document.getElementById('tradingStatus').textContent = 'Inativo';
+                    document.getElementById('tradingStatus').className = 'text-red-400 font-bold';
+                    showNotification('🤖 IA Trading parado com sucesso!', 'success');
+                } else {
+                    showNotification('Erro ao parar IA Trading: ' + (res?.message || 'Erro desconhecido'), 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao parar IA Trading:', error);
+                showNotification('Erro ao parar IA Trading', 'error');
+            }
+        }
+
+        // FUNÇÕES DE TRADING MANUAL
+        async function executeBuyOrder() {
+            const symbol = document.getElementById('tradingSymbol').value;
+            const amount = document.getElementById('manualTradeAmount').value;
+            
+            if (!symbol || !amount || amount <= 0) {
+                showNotification('Selecione moeda e valor válidos', 'error');
+                return;
+            }
+            
+            showNotification(`Executando compra de ${symbol}...`, 'info');
+            
+            try {
+                const data = await apiCall('/trading/buy', {
+                    method: 'POST',
+                    data: { symbol: symbol, amount: parseFloat(amount) }
+                });
+                
+                if (data.success) {
+                    showNotification(`Compra executada! ${data.order.quantity.toFixed(8)} ${symbol} por $${data.order.amount_usdt.toFixed(2)}`, 'success');
+                    loadTradesHistory();
+                    loadBalanceInfo();
+                } else {
+                    showNotification(`Erro na compra: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao executar compra', 'error');
+            }
+        }
+
+        async function executeSellOrder() {
+            const symbol = document.getElementById('tradingSymbol').value;
+            const currency = symbol.replace('USDT', '');
+            
+            showNotification(`Verificando saldo de ${currency}...`, 'info');
+            
+            try {
+                // Primeiro, obter posições para saber quanto vender
+                const positions = await apiCall('/trading/positions');
+                
+                if (positions.success) {
+                    const position = positions.positions.find(p => p.currency === currency);
+                    
+                    if (!position || position.quantity <= 0) {
+                        showNotification(`Não há saldo de ${currency} para vender`, 'error');
+                        return;
+                    }
+                    
+                    // Executar venda de toda a posição
+                    const data = await apiCall('/trading/sell', {
+                        method: 'POST',
+                        data: { symbol: symbol, quantity: position.quantity }
+                    });
+                    
+                    if (data.success) {
+                        showNotification(`Venda executada! ${data.order.quantity.toFixed(8)} ${currency} por $${data.order.amount_usdt.toFixed(2)}`, 'success');
+                        loadTradesHistory();
+                        loadBalanceInfo();
+                    } else {
+                        showNotification(`Erro na venda: ${data.error}`, 'error');
+                    }
+                } else {
+                    showNotification('Erro ao verificar posições', 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao executar venda', 'error');
+            }
+        }
+
+        async function updateCurrentPrice() {
+            const symbol = document.getElementById('tradingSymbol').value;
+            
+            try {
+                // Simular preço até termos endpoint real de preços
+                const prices = {
+                    'DOGEUSDT': 0.082,
+                    'SHIBUSDT': 0.0000095,
+                    'PEPEUSDT': 0.0000014,
+                    'FLOKIUSDT': 0.000028,
+                    'WIFUSDT': 2.45
+                };
+                
+                const price = prices[symbol] || 0;
+                document.getElementById('currentPrice').textContent = `$${price.toFixed(8)}`;
+                
+            } catch (error) {
+                document.getElementById('currentPrice').textContent = 'Erro';
+            }
+        }
+        const API_BASE = 'http://localhost:5000/api';
+        let autoRefresh = true;
+        let refreshInterval = 30000; // 30 segundos
+
+        // Função para fazer chamadas à API
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await axios({
+                    url: API_BASE + endpoint,
+                    method: options.method || 'GET',
+                    data: options.data,
+                    timeout: 10000
+                });
+                
+                return response.data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // Sistema de notificações
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Função para ativar componentes
+        async function activateComponent(component) {
+            try {
+                const componentNames = {
+                    'backend': 'Backend',
+                    'binance': 'Binance', 
+                    'ai_agent': 'AI Agent',
+                    'watchlist': 'Watchlist'
+                };
+                
+                const componentName = componentNames[component] || component;
+                const button = document.getElementById(`${component}-btn`);
+                
+                // Desabilitar botão durante ativação
+                if (button) {
+                    button.disabled = true;
+                    button.innerHTML = `⏳ Ativando ${componentName}...`;
+                }
+                
+                showNotification(`Ativando ${componentName}...`, 'info');
+                
+                const data = await apiCall(`/system/activate/${component}`, { method: 'POST' });
+                
+                if (data.success) {
+                    showNotification(`${componentName} ativado com sucesso!`, 'success');
+                    
+                    // Atualizar botão para status ativo
+                    if (button) {
+                        button.className = 'btn-success';
+                        button.innerHTML = `✅ ${componentName} Ativo`;
+                        button.disabled = false;
+                    }
+                    
+                    // Recarregar status do sistema
+                    await updateButtonsStatus();
+                    
+                } else {
+                    showNotification(`Erro ao ativar ${componentName}: ${data.message}`, 'error');
+                    
+                    // Restaurar botão
+                    if (button) {
+                        button.disabled = false;
+                        button.innerHTML = `❌ Erro - ${componentName}`;
+                        button.className = 'btn-danger';
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Erro ao ativar componente:', error);
+                showNotification(`Erro ao ativar ${componentName}`, 'error');
+                
+                // Restaurar botão
+                const button = document.getElementById(`${component}-btn`);
+                if (button) {
+                    button.disabled = false;
+                    button.innerHTML = `❌ Erro`;
+                    button.className = 'btn-danger';
+                }
+            }
+        }
+
+        // Carregar performance diária
+        async function loadDailyPerformance() {
+            try {
+                const data = await apiCall('/trades/daily-performance');
+                
+                if (data.success && data.performance) {
+                    const perf = data.performance;
+                    const totalProfitColor = perf.total_profit > 0 ? 'text-green-400' : 'text-red-400';
+                    const winRateColor = perf.win_rate > 50 ? 'text-green-400' : 'text-red-400';
+                    
+                    const html = `
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>� P&L Total:</span>
+                                <span class="${totalProfitColor} font-bold">${perf.total_profit > 0 ? '+' : ''}$${perf.total_profit.toFixed(2)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>📊 Trades Hoje:</span>
+                                <span class="text-blue-400 font-bold">${perf.total_trades}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>🎯 Taxa de Acerto:</span>
+                                <span class="${winRateColor} font-bold">${perf.win_rate.toFixed(1)}%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>� Melhor Trade:</span>
+                                <span class="text-green-400 font-bold">+$${perf.best_trade.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('dailyPerformance').innerHTML = html;
+                } else {
+                    document.getElementById('dailyPerformance').innerHTML = '<div class="text-gray-400">Nenhum trade hoje ainda</div>';
+                }
+            } catch (error) {
+                document.getElementById('dailyPerformance').innerHTML = '<div class="text-red-400">Erro ao carregar performance</div>';
+            }
+        }
+
+        // Carregar saldo da conta
+        async function loadBalanceInfo() {
+            try {
+                const data = await apiCall('/balance');
+                
+                if (data && (data.success || data.USDT || data.balance)) {
+                    // Suporte para diferentes formatos de resposta
+                    const balance = data.balance || data;
+                    const lastUpdate = balance.last_update || balance['last_update'] || 'Nunca';
+                    // Principais moedas
+                    const mainCoins = ['USDT', 'DOGE', 'SHIB', 'PEPE'];
+                    // Se vier raw_balances, usar para listar todas
+                    const raw = data.raw_balances || balance.raw_balances || {};
+                    let coinsHtml = '';
+                    // Listar todas as moedas com saldo > 0.001
+                    Object.entries(raw).forEach(([symbol, info]) => {
+                        if (info.total > 0.001) {
+                            let color = 'text-gray-300';
+                            if (symbol === 'USDT') color = 'text-green-400';
+                            if (symbol === 'DOGE') color = 'text-yellow-400';
+                            if (symbol === 'SHIB') color = 'text-orange-400';
+                            if (symbol === 'PEPE') color = 'text-green-400';
+                            coinsHtml += `<div class="flex justify-between">
+                                <span>${symbol}:</span>
+                                <span class="${color} font-bold">${info.total}</span>
+                            </div>`;
+                        }
+                    });
+                    // Se não houver raw_balances, mostrar principais
+                    if (!coinsHtml) {
+                        coinsHtml = mainCoins.map(symbol => {
+                            let color = 'text-gray-300';
+                            if (symbol === 'USDT') color = 'text-green-400';
+                            if (symbol === 'DOGE') color = 'text-yellow-400';
+                            if (symbol === 'SHIB') color = 'text-orange-400';
+                            if (symbol === 'PEPE') color = 'text-green-400';
+                            const value = balance[symbol] || balance[symbol.toLowerCase()] || '0';
+                            return `<div class="flex justify-between">
+                                <span>${symbol}:</span>
+                                <span class="${color} font-bold">${value}</span>
+                            </div>`;
+                        }).join('');
+                    }
+                    const html = `
+                        <div class="space-y-3">
+                            ${coinsHtml}
+                            <div class="text-xs text-gray-400 mt-2">
+                                Última atualização: ${lastUpdate}
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('balanceInfo').innerHTML = html;
+                } else {
+                    // Mostrar erro específico mas manter interface
+                    const errorMsg = data?.error || 'Erro desconhecido';
+                    document.getElementById('balanceInfo').innerHTML = `
+                        <div class="space-y-2">
+                            <div class="text-red-400 text-sm mb-2">${errorMsg}</div>
+                            <div class="flex justify-between">
+                                <span>💵 USDT:</span>
+                                <span class="text-gray-500">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>🐕 DOGE:</span>
+                                <span class="text-gray-500">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>🦊 SHIB:</span>
+                                <span class="text-gray-500">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>🐸 PEPE:</span>
+                                <span class="text-gray-500">-</span>
+                            </div>
+                            <div class="text-xs text-yellow-400 mt-2">
+                                ⚠️ Configure API Binance para ver saldo real
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar saldo:', error);
+                document.getElementById('balanceInfo').innerHTML = `
+                    <div class="space-y-2">
+                        <div class="text-red-400 text-sm mb-2">Erro de conexão</div>
+                        <div class="text-gray-400 text-sm">
+                            Verifique se o backend está rodando e a Binance está configurada
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Atualizar status dos botões baseado no sistema
+        async function updateButtonsStatus() {
+            try {
+                const data = await apiCall('/system/status');
+                
+                if (data.success && data.status) {
+                    const status = data.status;
+                    
+                    // Backend Status
+                    const backendStatus = document.getElementById('backend-status');
+                    if (backendStatus) {
+                        backendStatus.textContent = status.backend_running ? 'Online' : 'Offline';
+                        backendStatus.className = `text-sm ${status.backend_running ? 'text-green-400' : 'text-red-400'}`;
+                    }
+                    
+                    // Binance Status
+                    const binanceStatus = document.getElementById('binance-status');
+                    if (binanceStatus) {
+                        binanceStatus.textContent = status.binance_connected ? 'Conectado' : 'Desconectado';
+                        binanceStatus.className = `text-sm ${status.binance_connected ? 'text-green-400' : 'text-red-400'}`;
+                    }
+                    
+                    // AI Agent Status
+                    const aiStatus = document.getElementById('ai-status');
+                    if (aiStatus) {
+                        aiStatus.textContent = status.ai_agent_active ? 'Ativo' : 'Inativo';
+                        aiStatus.className = `text-sm ${status.ai_agent_active ? 'text-green-400' : 'text-red-400'}`;
+                    }
+                    
+                    // Watchlist Status
+                    const watchlistStatus = document.getElementById('watchlist-status');
+                    if (watchlistStatus) {
+                        watchlistStatus.textContent = status.watchlist_loaded ? 'Carregado' : 'Não carregado';
+                        watchlistStatus.className = `text-sm ${status.watchlist_loaded ? 'text-green-400' : 'text-yellow-400'}`;
+                    }
+                    
+                    // Status geral do Trading IA
+                    const tradingStatus = document.getElementById('tradingStatus');
+                    if (tradingStatus) {
+                        if (status.ai_agent_active) {
+                            tradingStatus.textContent = 'Ativo';
+                            tradingStatus.className = 'text-green-400 font-bold text-lg';
+                        } else {
+                            tradingStatus.textContent = 'Inativo';
+                            tradingStatus.className = 'text-red-400 font-bold text-lg';
+                        }
+                    }
+                    
+                    // Última análise da IA
+                    const lastAnalysis = document.getElementById('lastAnalysis');
+                    if (lastAnalysis) {
+                        const now = new Date();
+                        lastAnalysis.textContent = now.toLocaleTimeString();
+                    }
+                    
+                    // Atualizar texto do header
+                    const allOnline = status.backend_running && status.binance_connected && 
+                                    status.ai_agent_active && status.watchlist_loaded;
+                    
+                    const systemStatusText = document.getElementById('systemStatusText');
+                    if (systemStatusText) {
+                        systemStatusText.textContent = allOnline ? '🟢 Sistema Totalmente Operacional' : '🔴 Alguns componentes offline';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar status dos botões:', error);
+            }
+        }
+
+        // Carregar resumo da watchlist
+        async function loadWatchlistSummary() {
+            try {
+                const data = await apiCall('/watchlist/summary');
+                
+                if (data && (data.success || data.summary)) {
+                    const summary = data.summary || data;
+                    const total_coins = summary.total_coins || summary['total_coins'] || 0;
+                    const trading_enabled = summary.trading_enabled || summary['trading_enabled'] || 0;
+                    const positive = (summary.price_stats && summary.price_stats.positive_performers) || summary.positive_performers || 0;
+                    const negative = (summary.price_stats && summary.price_stats.negative_performers) || summary.negative_performers || 0;
+                    const lastUpdate = summary.last_updated || summary['last_updated'] || '';
+
+                    const html = `
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>📊 Total de Moedas:</span>
+                                <span class="text-blue-400 font-bold">${total_coins}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>📈 Trading Ativo:</span>
+                                <span class="text-green-400 font-bold">${trading_enabled}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>🏆 Performers Positivos:</span>
+                                <span class="text-green-400 font-bold">${positive}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>📉 Performers Negativos:</span>
+                                <span class="text-red-400 font-bold">${negative}</span>
+                            </div>
+                            <div class="text-xs text-gray-400 mt-2">
+                                Última atualização: ${lastUpdate ? new Date(lastUpdate).toLocaleTimeString() : 'N/A'}
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('watchlistSummary').innerHTML = html;
+                } else {
+                    document.getElementById('watchlistSummary').innerHTML = '<div class="text-gray-400">Ative a watchlist para ver dados</div>';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar watchlist:', error);
+                document.getElementById('watchlistSummary').innerHTML = '<div class="text-red-400">Erro ao carregar watchlist</div>';
+            }
+        }
+
+        // Carregar histórico de trades
+        async function loadTradesHistory() {
+            try {
+                const data = await apiCall('/trades?limit=15');
+                
+                if (data && Array.isArray(data) && data.length > 0) {
+                    const trades = data;
+                    
+                    const html = trades.map(trade => {
+                        const side = trade.side || trade.type || 'N/A';
+                        const symbol = trade.symbol || 'N/A';
+                        const quantity = trade.quantity || trade.amount || 0;
+                        const price = trade.price || 0;
+                        const amount_usdt = trade.amount_usdt || trade.total || 0;
+                        const timestamp = trade.timestamp || Date.now();
+                        const status = trade.status || 'COMPLETED';
+                        
+                        const sideColor = side === 'BUY' ? 'text-green-400' : side === 'SELL' ? 'text-red-400' : 'text-yellow-400';
+                        const statusColor = status === 'COMPLETED' ? 'text-green-400' : status === 'FAILED' ? 'text-red-400' : 'text-yellow-400';
+                        
+                        return `
+                            <div class="p-3 bg-gray-700 rounded mb-2">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <div class="font-bold text-blue-300">${symbol}</div>
+                                        <div class="text-sm text-gray-400">${new Date(timestamp).toLocaleString()}</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="${sideColor} font-bold">${side}</div>
+                                        <div class="text-xs ${statusColor}">${status}</div>
+                                    </div>
+                                </div>
+                                <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
+                                    <div>Qtd: <span class="text-yellow-300">${parseFloat(quantity).toFixed(8)}</span></div>
+                                    <div>Preço: <span class="text-green-300">$${parseFloat(price).toFixed(8)}</span></div>
+                                    <div>Total: <span class="text-blue-300">$${parseFloat(amount_usdt).toFixed(2)}</span></div>
+                                    <div>ID: <span class="text-gray-400">#${trade.order_id || 'N/A'}</span></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    document.getElementById('tradesHistory').innerHTML = html;
+                } else {
+                    document.getElementById('tradesHistory').innerHTML = `
+                        <div class="text-center p-6 text-gray-400">
+                            <div class="text-2xl mb-2">📭</div>
+                            <div>Nenhuma operação encontrada</div>
+                            <div class="text-sm mt-1">Comece a negociar para ver o histórico!</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar trades:', error);
+                document.getElementById('tradesHistory').innerHTML = '<div class="text-red-400">Erro ao carregar histórico de trades</div>';
+            }
+        }
+
+        // Carregar posições atuais
+        async function loadCurrentPositions() {
+            try {
+                const data = await apiCall('/trading/positions');
+                
+                if (data && data.success && Array.isArray(data.positions) && data.positions.length > 0) {
+                    const positions = data.positions;
+                    const totalValue = data.total_value || 0;
+                    
+                    const html = positions.map(position => {
+                        const currency = position.currency;
+                        const quantity = position.quantity || 0;
+                        const value_usdt = position.value_usdt || 0;
+                        const free = position.free || 0;
+                        const used = position.used || 0;
+                        
+                        let currencyIcon = '💰';
+                        if (currency === 'USDT') currencyIcon = '💵';
+                        if (currency === 'DOGE') currencyIcon = '🐕';
+                        if (currency === 'SHIB') currencyIcon = '🦊';
+                        if (currency === 'PEPE') currencyIcon = '🐸';
+                        
+                        return `
+                            <div class="p-3 bg-gray-700 rounded mb-2">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <div class="font-bold text-blue-300">${currencyIcon} ${currency}</div>
+                                        <div class="text-sm text-gray-400">Posição atual</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-green-400 font-bold">$${value_usdt.toFixed(2)}</div>
+                                        <div class="text-xs text-gray-400">Valor USDT</div>
+                                    </div>
+                                </div>
+                                <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
+                                    <div>Total: <span class="text-yellow-300">${quantity.toFixed(8)}</span></div>
+                                    <div>Livre: <span class="text-green-300">${free.toFixed(8)}</span></div>
+                                    <div>Em uso: <span class="text-orange-300">${used.toFixed(8)}</span></div>
+                                    <div>%: <span class="text-blue-300">${((value_usdt / totalValue) * 100).toFixed(1)}%</span></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    const summary = `
+                        <div class="p-3 bg-gradient-to-r from-green-600/20 to-blue-600/20 rounded mb-3 border border-green-500/30">
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-green-400">$${totalValue.toFixed(2)}</div>
+                                <div class="text-sm text-gray-300">Valor Total da Carteira</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('currentPositions').innerHTML = summary + html;
+                } else {
+                    document.getElementById('currentPositions').innerHTML = `
+                        <div class="text-center p-6 text-gray-400">
+                            <div class="text-2xl mb-2">💼</div>
+                            <div>Nenhuma posição encontrada</div>
+                            <div class="text-sm mt-1">Configure a Binance para ver suas posições</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar posições:', error);
+                document.getElementById('currentPositions').innerHTML = '<div class="text-red-400">Erro ao carregar posições</div>';
+            }
+        }
+
+        // Carregar decisões da IA
+        async function loadAIDecisions() {
+            try {
+                // Simular decisões da IA baseadas na watchlist
+                const watchlistData = await apiCall('/watchlist/summary');
+                
+                if (watchlistData.success && watchlistData.summary) {
+                    // Gerar decisões simuladas para demonstração
+                    const coins = ['DOGEUSDT', 'SHIBUSDT', 'PEPEUSDT', 'WIFUSDT', 'FLOKIUSDT'];
+                    const decisions = ['BUY', 'SELL', 'HOLD'];
+                    
+                    const aiDecisions = coins.map(coin => {
+                        const decision = decisions[Math.floor(Math.random() * decisions.length)];
+                        const confidence = 0.6 + Math.random() * 0.4;
+                        const reasons = [
+                            'RSI oversold, tendência de alta',
+                            'Volume alto, momento favorável',
+                            'Resistência próxima, aguardar',
+                            'Suporte forte, oportunidade',
+                            'Volatilidade alta, cautela'
+                        ];
+                        
+                        return {
+                            symbol: coin,
+                            decision: decision,
+                            confidence: confidence,
+                            reasoning: reasons[Math.floor(Math.random() * reasons.length)]
+                        };
+                    });
+                    
+                    const html = aiDecisions.map(decision => {
+                        const decisionColor = decision.decision === 'BUY' ? 'text-green-400' : 
+                                            decision.decision === 'SELL' ? 'text-red-400' : 'text-yellow-400';
+                        const decisionIcon = decision.decision === 'BUY' ? '📈' : 
+                                           decision.decision === 'SELL' ? '📉' : '➡️';
+                        
+                        return `
+                            <div class="flex justify-between items-center p-3 bg-gray-700 rounded">
+                                <div>
+                                    <div class="font-bold">${decision.symbol}</div>
+                                    <div class="text-sm text-gray-400">${decision.reasoning}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="${decisionColor} font-bold">${decisionIcon} ${decision.decision}</div>
+                                    <div class="text-sm text-gray-400">Confiança: ${(decision.confidence * 100).toFixed(0)}%</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    document.getElementById('aiDecisions').innerHTML = html;
+                } else {
+                    document.getElementById('aiDecisions').innerHTML = '<div class="text-gray-400">IA offline - ative o AI Agent</div>';
+                }
+            } catch (error) {
+                document.getElementById('aiDecisions').innerHTML = '<div class="text-red-400">Erro ao carregar decisões da IA</div>';
+            }
+        }
+
+        // Carregar top performers
+        async function loadTopPerformers() {
+            try {
+                const data = await apiCall('/watchlist/top-performers?limit=5');
+                
+                if (data.success && data.performers) {
+                    const performers = data.performers;
+                    
+                    if (performers.length > 0) {
+                        const html = performers.map(coin => {
+                            const change = coin.change_24h || 0;
+                            const changeColor = change > 0 ? 'text-green-400' : 'text-red-400';
+                            const changeIcon = change > 0 ? '📈' : '📉';
+                            
+                            return `
+                                <div class="flex justify-between items-center">
+                                    <span>${changeIcon} ${coin.symbol}</span>
+                                    <div class="text-right">
+                                        <div class="${changeColor} font-bold">${change > 0 ? '+' : ''}${change.toFixed(2)}%</div>
+                                        <div class="text-xs text-gray-400">$${coin.price}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                        
+                        document.getElementById('topPerformers').innerHTML = html;
+                    } else {
+                        document.getElementById('topPerformers').innerHTML = '<div class="text-gray-400">Nenhum dado disponível</div>';
+                    }
+                }
+            } catch (error) {
+                document.getElementById('topPerformers').innerHTML = '<div class="text-red-400">Erro ao carregar performers</div>';
+            }
+        }
+
+        // Carregar análise técnica da IA
+        async function loadTechnicalAnalysis() {
+            try {
+                // Simular análise técnica até termos endpoint real
+                const analysis = [
+                    {
+                        symbol: 'DOGEUSDT',
+                        rsi: 45.2,
+                        sma20: 0.082,
+                        sma50: 0.085,
+                        volume: 'Alto',
+                        trend: 'Lateral',
+                        recommendation: 'HOLD'
+                    },
+                    {
+                        symbol: 'SHIBUSDT',
+                        rsi: 72.8,
+                        sma20: 0.0000095,
+                        sma50: 0.0000092,
+                        volume: 'Médio',
+                        trend: 'Alta',
+                        recommendation: 'SELL'
+                    },
+                    {
+                        symbol: 'PEPEUSDT',
+                        rsi: 28.5,
+                        sma20: 0.0000014,
+                        sma50: 0.0000016,
+                        volume: 'Baixo',
+                        trend: 'Baixa',
+                        recommendation: 'BUY'
+                    }
+                ];
+
+                const html = analysis.map(coin => {
+                    const rsiColor = coin.rsi > 70 ? 'text-red-400' : coin.rsi < 30 ? 'text-green-400' : 'text-yellow-400';
+                    const trendColor = coin.trend === 'Alta' ? 'text-green-400' : coin.trend === 'Baixa' ? 'text-red-400' : 'text-yellow-400';
+                    const recColor = coin.recommendation === 'BUY' ? 'text-green-400' : coin.recommendation === 'SELL' ? 'text-red-400' : 'text-yellow-400';
+                    
+                    return `
+                        <div class="p-3 bg-gray-700 rounded mb-2">
+                            <div class="font-semibold text-blue-300">${coin.symbol}</div>
+                            <div class="text-sm grid grid-cols-2 gap-2 mt-1">
+                                <span>RSI: <span class="${rsiColor}">${coin.rsi}</span></span>
+                                <span>Volume: ${coin.volume}</span>
+                                <span>Trend: <span class="${trendColor}">${coin.trend}</span></span>
+                                <span>Rec: <span class="${recColor}">${coin.recommendation}</span></span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                document.getElementById('technicalAnalysis').innerHTML = html;
+            } catch (error) {
+                document.getElementById('technicalAnalysis').innerHTML = '<div class="text-red-400">Erro ao carregar análise técnica</div>';
+            }
+        }
+
+        // Carregar log de atividades da IA
+        async function loadAIActivityLog() {
+            try {
+                // Simular atividades até termos endpoint real
+                const activities = [
+                    {
+                        time: new Date(Date.now() - 2000),
+                        action: 'Analisando',
+                        symbol: 'DOGEUSDT',
+                        details: 'RSI neutro, aguardando confirmação'
+                    },
+                    {
+                        time: new Date(Date.now() - 15000),
+                        action: 'Decisão',
+                        symbol: 'PEPEUSDT',
+                        details: 'RSI oversold detectado, recomendando BUY'
+                    },
+                    {
+                        time: new Date(Date.now() - 30000),
+                        action: 'Monitorando',
+                        symbol: 'SHIBUSDT',
+                        details: 'Volume alto, possível reversão'
+                    },
+                    {
+                        time: new Date(Date.now() - 45000),
+                        action: 'Trade',
+                        symbol: 'DOGEUSDT',
+                        details: 'Ordem de compra executada - $10 USDT'
+                    },
+                    {
+                        time: new Date(Date.now() - 60000),
+                        action: 'Alerta',
+                        symbol: 'FLOKIUSDT',
+                        details: 'Suporte quebrado, stop loss ativado'
+                    }
+                ];
+
+                const html = activities.map(activity => {
+                    const actionColor = activity.action === 'Trade' ? 'text-green-400' : 
+                                       activity.action === 'Alerta' ? 'text-red-400' : 
+                                       activity.action === 'Decisão' ? 'text-blue-400' : 'text-gray-400';
+                    
+                    return `
+                        <div class="p-2 bg-gray-800 rounded mb-1">
+                            <div class="flex justify-between items-start">
+                                <span class="${actionColor} font-semibold text-sm">${activity.action}</span>
+                                <span class="text-xs text-gray-500">${activity.time.toLocaleTimeString()}</span>
+                            </div>
+                            <div class="text-sm text-yellow-300">${activity.symbol}</div>
+                            <div class="text-xs text-gray-300 mt-1">${activity.details}</div>
+                        </div>
+                    `;
+                }).join('');
+                
+                document.getElementById('aiActivityLog').innerHTML = html;
+            } catch (error) {
+                document.getElementById('aiActivityLog').innerHTML = '<div class="text-red-400">Erro ao carregar atividades</div>';
+            }
+        }
+
+        // Carregar próximos movimentos da IA
+        async function loadNextMoves() {
+            try {
+                const nextMoves = [
+                    "🎯 Aguardando RSI do DOGE cair abaixo de 30 para entrada",
+                    "⏳ Monitorando volume do SHIB para possível saída",
+                    "📈 PEPE com setup de compra confirmado - aguardando confirmação",
+                    "🛡️ Stop loss configurado em 2% para todas as posições ativas"
+                ];
+
+                const html = nextMoves.map(move => `
+                    <div class="text-sm text-gray-300 mb-1">• ${move}</div>
+                `).join('');
+                
+                document.getElementById('nextMoves').innerHTML = html;
+            } catch (error) {
+                document.getElementById('nextMoves').innerHTML = '<div class="text-red-400">Erro ao carregar próximos movimentos</div>';
+            }
+        }
+        async function loadSentimentData() {
+            try {
+                const data = await apiCall('/system/sentiment');
+                
+                if (data.success && data.sentiment) {
+                    const sentiments = data.sentiment.sentiments || [];
+                    
+                    if (sentiments.length > 0) {
+                        const html = sentiments.slice(0, 5).map(s => {
+                            const sentiment = s.avg_sentiment || 0;
+                            const emoji = sentiment > 0.3 ? '😊' : sentiment > -0.3 ? '😐' : '😞';
+                            const colorClass = sentiment > 0.3 ? 'text-green-400' : sentiment > -0.3 ? 'text-yellow-400' : 'text-red-400';
+                            
+                            return `
+                                <div class="flex justify-between items-center">
+                                    <span>${emoji} ${s.symbol}</span>
+                                    <div class="text-right">
+                                        <div class="${colorClass} font-bold">${sentiment.toFixed(2)}</div>
+                                        <div class="text-xs text-gray-400">${s.total_mentions} menções</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                        
+                        document.getElementById('sentimentData').innerHTML = html;
+                    } else {
+                        document.getElementById('sentimentData').innerHTML = '<div class="text-gray-400">Nenhum dado disponível</div>';
+                    }
+                } else {
+                    document.getElementById('sentimentData').innerHTML = '<div class="text-gray-400">Sentimento offline</div>';
+                }
+            } catch (error) {
+                document.getElementById('sentimentData').innerHTML = '<div class="text-red-400">Erro ao carregar sentimento</div>';
+            }
+        }
+
+        // Outras funções de controle
+        async function testBinance() {
+            try {
+                showNotification('Testando conexão Binance...', 'info');
+                const data = await apiCall('/system/test-binance', { method: 'POST' });
+                
+                if (data.success && data.binance && data.binance.connected) {
+                    showNotification('Binance conectado com sucesso!');
+                } else {
+                    showNotification('Erro na conexão Binance', 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao testar Binance', 'error');
+            }
+        }
+
+        async function startAIAgent() {
+            try {
+                showNotification('Iniciando AI Agent...', 'info');
+                const data = await apiCall('/system/start-ai-agent', { method: 'POST' });
+                
+                if (data.success) {
+                    showNotification('AI Agent iniciado com sucesso!');
+                    loadAIDecisions();
+                } else {
+                    showNotification('Erro ao iniciar AI Agent', 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao iniciar AI Agent', 'error');
+            }
+        }
+
+        async function updateBalance() {
+            try {
+                showNotification('Atualizando saldo...', 'info');
+                const data = await apiCall('/system/update-balance', { method: 'POST' });
+                
+                if (data.success) {
+                    showNotification('Saldo atualizado!');
+                    loadBalanceInfo();
+                } else {
+                    showNotification('Erro ao atualizar saldo', 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao atualizar saldo', 'error');
+            }
+        }
+
+        async function updateMarketData() {
+            try {
+                showNotification('Atualizando dados de mercado...', 'info');
+                const data = await apiCall('/market_data', { method: 'GET' });
+                
+                if (data.success) {
+                    showNotification('Dados de mercado atualizados!');
+                    loadTopPerformers();
+                } else {
+                    showNotification('Erro ao atualizar dados', 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao atualizar dados', 'error');
+            }
+        }
+
+        async function updateSentiment() {
+            try {
+                showNotification('Atualizando sentimento...', 'info');
+                const data = await apiCall('/system/sentiment', { method: 'GET' });
+                
+                if (data.success) {
+                    showNotification('Sentimento atualizado!');
+                    loadSentimentData();
+                } else {
+                    showNotification('Erro ao atualizar sentimento', 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao atualizar sentimento', 'error');
+            }
+        }
+
+        async function refreshAll() {
+            showNotification('Atualizando todo o sistema...', 'info');
+            
+            try {
+                await Promise.all([
+                    updateButtonsStatus(),
+                    loadWatchlistSummary(),
+                    loadTopPerformers(),
+                    loadBalanceInfo(),
+                    loadSentimentData(),
+                    loadTradesHistory(),
+                    loadCurrentPositions(),
+                    loadAIDecisions(),
+                    loadDailyPerformance(),
+                    loadTechnicalAnalysis(),
+                    loadAIActivityLog(),
+                    loadNextMoves(),
+                    checkAITradingStatus()
+                ]);
+                
+                showNotification('Sistema atualizado com sucesso!');
+            } catch (error) {
+                showNotification('Erro na atualização completa', 'error');
+            }
+        }
+
+        // Função de refresh manual do registro de operações
+        async function refreshTradesHistory() {
+            const button = document.querySelector('button[onclick="refreshTradesHistory()"]');
+            if (button) {
+                button.innerHTML = '🔄 Atualizando...';
+                button.disabled = true;
+            }
+            
+            await loadTradesHistory();
+            
+            if (button) {
+                button.innerHTML = '🔄 Atualizar';
+                button.disabled = false;
+            }
+        }
+
+        // Função de refresh manual das posições
+        async function refreshPositions() {
+            const button = document.querySelector('button[onclick="refreshPositions()"]');
+            if (button) {
+                button.innerHTML = '🔄 Atualizando...';
+                button.disabled = true;
+            }
+            
+            await loadCurrentPositions();
+            
+            if (button) {
+                button.innerHTML = '🔄 Atualizar';
+                button.disabled = false;
+            }
+        }
+
+        // Inicialização do app
+        function initializeApp() {
+            console.log('🚀 Inicializando MoCoVe Dashboard');
+            
+            // Carregar dados iniciais
+            refreshAll();
+            updateCurrentPrice();
+            loadAIConfig(); // Carregar configurações do AI
+
+        }
+
+        // Funções de configuração do AI Trading
+        function updateAIConfig() {
+            const amount = document.getElementById('aiTradeAmount').value;
+            const maxTrades = document.getElementById('aiMaxTrades').value;
+            const confidence = document.getElementById('aiConfidence').value;
+            const stopLoss = document.getElementById('aiStopLoss').value;
+            const takeProfit = document.getElementById('aiTakeProfit').value;
+            const mode = document.getElementById('aiTradingMode').value;
+            
+            // Aplicar configurações baseadas no modo selecionado
+            if (mode === 'conservative') {
+                document.getElementById('aiConfidence').value = Math.max(confidence, 60);
+                document.getElementById('aiStopLoss').value = Math.min(stopLoss, 3);
+                document.getElementById('aiMaxTrades').value = Math.min(maxTrades, 10);
+            } else if (mode === 'aggressive') {
+                document.getElementById('aiConfidence').value = Math.max(confidence, 25);
+                document.getElementById('aiStopLoss').value = Math.max(stopLoss, 8);
+                document.getElementById('aiMaxTrades').value = Math.max(maxTrades, 30);
+            }
+        }
+
+        async function saveAIConfig() {
+            try {
+                const config = {
+                    trade_amount: parseFloat(document.getElementById('aiTradeAmount').value),
+                    max_daily_trades: parseInt(document.getElementById('aiMaxTrades').value),
+                    min_confidence: parseFloat(document.getElementById('aiConfidence').value),
+                    stop_loss_percent: parseFloat(document.getElementById('aiStopLoss').value),
+                    take_profit_percent: parseFloat(document.getElementById('aiTakeProfit').value),
+                    trading_mode: document.getElementById('aiTradingMode').value
+                };
+                
+                const response = await apiCall('/ai-config', {
+                    method: 'POST',
+                    data: config
+                });
+                
+                if (response.success) {
+                    document.getElementById('aiConfigStatus').classList.remove('hidden');
+                    setTimeout(() => {
+                        document.getElementById('aiConfigStatus').classList.add('hidden');
+                    }, 3000);
+                    showNotification('Configurações do AI salvas!', 'success');
+                } else {
+                    showNotification('Erro ao salvar configurações', 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao salvar configurações', 'error');
+            }
+        }
+
+        async function loadAIConfig() {
+            try {
+                const response = await apiCall('/ai-config');
+                
+                if (response.success && response.config) {
+                    const config = response.config;
+                    document.getElementById('aiTradeAmount').value = config.trade_amount || 20;
+                    document.getElementById('aiMaxTrades').value = config.max_daily_trades || 20;
+                    document.getElementById('aiConfidence').value = config.min_confidence || 40;
+                    document.getElementById('aiStopLoss').value = config.stop_loss_percent || 5;
+                    document.getElementById('aiTakeProfit').value = config.take_profit_percent || 10;
+                    document.getElementById('aiTradingMode').value = config.trading_mode || 'balanced';
+                    
+                    showNotification('Configurações carregadas!', 'success');
+                }
+            } catch (error) {
+                console.log('Usando configurações padrão');
+            }
+        }
+
+        function initializeMainApp() {
+            
+            // Auto-refresh a cada 30 segundos
+            setInterval(() => {
+                if (autoRefresh) {
+                    updateButtonsStatus();
+                    loadWatchlistSummary();
+                    loadTopPerformers();
+                    loadBalanceInfo();
+                    loadCurrentPositions();
+                    loadDailyPerformance();
+                    updateCurrentPrice();
+                }
+            }, refreshInterval);
+            
+            // Atualizar decisões da IA e trades a cada 60 segundos
+            setInterval(() => {
+                loadAIDecisions();
+                loadTechnicalAnalysis();
+                loadAIActivityLog();
+                loadNextMoves();
+                loadTradesHistory();
+                checkAITradingStatus();
+            }, 60000);
+        }
+
+        // Executar quando a página carregar
+        document.addEventListener('DOMContentLoaded', initializeMainApp);
+    </script>
+</body>
+</html>

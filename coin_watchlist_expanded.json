@@ -1,0 +1,468 @@
+{
+  "memecoins": {
+    "tier1": [
+      {
+        "symbol": "DOGEUSDT",
+        "name": "Dogecoin",
+        "category": "Original Meme",
+        "market_cap_rank": 8,
+        "volume_threshold": 1000000000,
+        "volatility_target": 0.05,
+        "social_weight": 0.9,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "SHIBUSDT", 
+        "name": "Shiba Inu",
+        "category": "Ecosystem Token",
+        "market_cap_rank": 15,
+        "volume_threshold": 500000000,
+        "volatility_target": 0.08,
+        "social_weight": 0.8,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "PEPEUSDT",
+        "name": "Pepe",
+        "category": "Meme Revival",
+        "market_cap_rank": 25,
+        "volume_threshold": 200000000,
+        "volatility_target": 0.12,
+        "social_weight": 0.7,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "WIFUSDT",
+        "name": "dogwifhat",
+        "category": "Solana Meme",
+        "market_cap_rank": 35,
+        "volume_threshold": 100000000,
+        "volatility_target": 0.15,
+        "social_weight": 0.6,
+        "trading_enabled": true
+      }
+    ],
+    "tier2": [
+      {
+        "symbol": "FLOKIUSDT",
+        "name": "Floki Inu",
+        "category": "Dog Token",
+        "market_cap_rank": 50,
+        "volume_threshold": 50000000,
+        "volatility_target": 0.15,
+        "social_weight": 0.6,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "BONKUSDT",
+        "name": "Bonk",
+        "category": "Solana Meme",
+        "market_cap_rank": 60,
+        "volume_threshold": 40000000,
+        "volatility_target": 0.18,
+        "social_weight": 0.5,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "MEMEUSDT",
+        "name": "Memecoin",
+        "category": "Meta Meme",
+        "market_cap_rank": 70,
+        "volume_threshold": 30000000,
+        "volatility_target": 0.20,
+        "social_weight": 0.4,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "BOMEUSDT",
+        "name": "Book of Meme",
+        "category": "Solana Meme",
+        "market_cap_rank": 75,
+        "volume_threshold": 25000000,
+        "volatility_target": 0.25,
+        "social_weight": 0.4,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "JUPUSDT",
+        "name": "Jupiter",
+        "category": "DeFi Meme",
+        "market_cap_rank": 80,
+        "volume_threshold": 20000000,
+        "volatility_target": 0.22,
+        "social_weight": 0.3,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "MYRO",
+        "name": "Myro",
+        "category": "Solana Dog",
+        "market_cap_rank": 85,
+        "volume_threshold": 15000000,
+        "volatility_target": 0.30,
+        "social_weight": 0.3,
+        "trading_enabled": false
+      }
+    ],
+    "tier3": [
+      {
+        "symbol": "BABYDOGEUSDT",
+        "name": "Baby Doge Coin",
+        "category": "Baby Token",
+        "market_cap_rank": 90,
+        "volume_threshold": 10000000,
+        "volatility_target": 0.35,
+        "social_weight": 0.3,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "AKITAUSDT",
+        "name": "Akita Inu",
+        "category": "Dog Token",
+        "market_cap_rank": 120,
+        "volume_threshold": 5000000,
+        "volatility_target": 0.40,
+        "social_weight": 0.2,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "SAFEMOONUSDT",
+        "name": "SafeMoon",
+        "category": "DeFi Meme",
+        "market_cap_rank": 150,
+        "volume_threshold": 3000000,
+        "volatility_target": 0.50,
+        "social_weight": 0.1,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "KISHUUSDT",
+        "name": "Kishu Inu",
+        "category": "Dog Token",
+        "market_cap_rank": 180,
+        "volume_threshold": 2000000,
+        "volatility_target": 0.60,
+        "social_weight": 0.1,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "HOKK",
+        "name": "Hokkaido Inu",
+        "category": "Dog Token",
+        "market_cap_rank": 200,
+        "volume_threshold": 1000000,
+        "volatility_target": 0.70,
+        "social_weight": 0.1,
+        "trading_enabled": false
+      }
+    ],
+    "trending": [
+      {
+        "symbol": "BRETTUSDT",
+        "name": "Brett",
+        "category": "Base Meme",
+        "market_cap_rank": 95,
+        "volume_threshold": 8000000,
+        "volatility_target": 0.30,
+        "social_weight": 0.5,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "POPCATUSDT",
+        "name": "Popcat",
+        "category": "Cat Meme",
+        "market_cap_rank": 100,
+        "volume_threshold": 7000000,
+        "volatility_target": 0.35,
+        "social_weight": 0.4,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "MEWUSDT",
+        "name": "Cat in a Dogs World",
+        "category": "Cat Revolution",
+        "market_cap_rank": 110,
+        "volume_threshold": 6000000,
+        "volatility_target": 0.40,
+        "social_weight": 0.3,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "MOODENGUSDT",
+        "name": "Moo Deng",
+        "category": "Animal Meme",
+        "market_cap_rank": 130,
+        "volume_threshold": 4000000,
+        "volatility_target": 0.45,
+        "social_weight": 0.3,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "PONKEUSDT",
+        "name": "PonkeSOL",
+        "category": "Solana Meme",
+        "market_cap_rank": 140,
+        "volume_threshold": 3000000,
+        "volatility_target": 0.50,
+        "social_weight": 0.2,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "NEIRO",
+        "name": "Neiro",
+        "category": "Dog Tribute",
+        "market_cap_rank": 145,
+        "volume_threshold": 2500000,
+        "volatility_target": 0.55,
+        "social_weight": 0.2,
+        "trading_enabled": false
+      }
+    ]
+  },
+  "altcoins": {
+    "defi": [
+      {
+        "symbol": "UNIUSDT",
+        "name": "Uniswap",
+        "category": "DEX",
+        "market_cap_rank": 12,
+        "volume_threshold": 300000000,
+        "volatility_target": 0.10,
+        "social_weight": 0.7,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "AAVEUSDT",
+        "name": "Aave",
+        "category": "Lending",
+        "market_cap_rank": 18,
+        "volume_threshold": 200000000,
+        "volatility_target": 0.12,
+        "social_weight": 0.6,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "COMPUSDT",
+        "name": "Compound",
+        "category": "Lending",
+        "market_cap_rank": 40,
+        "volume_threshold": 100000000,
+        "volatility_target": 0.15,
+        "social_weight": 0.5,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "SUSHIUSDT",
+        "name": "SushiSwap",
+        "category": "DEX",
+        "market_cap_rank": 65,
+        "volume_threshold": 50000000,
+        "volatility_target": 0.18,
+        "social_weight": 0.4,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "CRVUSDT",
+        "name": "Curve DAO Token",
+        "category": "DEX",
+        "market_cap_rank": 55,
+        "volume_threshold": 80000000,
+        "volatility_target": 0.16,
+        "social_weight": 0.5,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "1INCHUSDT",
+        "name": "1inch",
+        "category": "DEX Aggregator",
+        "market_cap_rank": 75,
+        "volume_threshold": 30000000,
+        "volatility_target": 0.20,
+        "social_weight": 0.3,
+        "trading_enabled": false
+      }
+    ],
+    "layer1": [
+      {
+        "symbol": "SOLUSDT",
+        "name": "Solana",
+        "category": "Smart Contract",
+        "market_cap_rank": 5,
+        "volume_threshold": 2000000000,
+        "volatility_target": 0.08,
+        "social_weight": 0.8,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "ADAUSDT",
+        "name": "Cardano",
+        "category": "Smart Contract",
+        "market_cap_rank": 9,
+        "volume_threshold": 800000000,
+        "volatility_target": 0.10,
+        "social_weight": 0.7,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "name": "Avalanche",
+        "category": "Smart Contract",
+        "market_cap_rank": 11,
+        "volume_threshold": 600000000,
+        "volatility_target": 0.12,
+        "social_weight": 0.6,
+        "trading_enabled": true
+      },
+      {
+        "symbol": "DOTUSDT",
+        "name": "Polkadot",
+        "category": "Interoperability",
+        "market_cap_rank": 13,
+        "volume_threshold": 400000000,
+        "volatility_target": 0.14,
+        "social_weight": 0.5,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "ATOMUSDT",
+        "name": "Cosmos",
+        "category": "Interoperability",
+        "market_cap_rank": 20,
+        "volume_threshold": 200000000,
+        "volatility_target": 0.16,
+        "social_weight": 0.4,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "NEARUSDT",
+        "name": "NEAR Protocol",
+        "category": "Smart Contract",
+        "market_cap_rank": 22,
+        "volume_threshold": 150000000,
+        "volatility_target": 0.18,
+        "social_weight": 0.4,
+        "trading_enabled": false
+      }
+    ],
+    "ai_tokens": [
+      {
+        "symbol": "FETUSDT",
+        "name": "Fetch.ai",
+        "category": "AI Agent",
+        "market_cap_rank": 45,
+        "volume_threshold": 80000000,
+        "volatility_target": 0.20,
+        "social_weight": 0.6,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "AGIXUSDT",
+        "name": "SingularityNET",
+        "category": "AI Platform",
+        "market_cap_rank": 50,
+        "volume_threshold": 60000000,
+        "volatility_target": 0.25,
+        "social_weight": 0.5,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "OCEANUSDT",
+        "name": "Ocean Protocol",
+        "category": "Data Market",
+        "market_cap_rank": 60,
+        "volume_threshold": 40000000,
+        "volatility_target": 0.30,
+        "social_weight": 0.4,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "RLCUSDT",
+        "name": "iExec RLC",
+        "category": "Cloud Computing",
+        "market_cap_rank": 85,
+        "volume_threshold": 20000000,
+        "volatility_target": 0.35,
+        "social_weight": 0.3,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "RENDERUSDT",
+        "name": "Render",
+        "category": "GPU Rendering",
+        "market_cap_rank": 42,
+        "volume_threshold": 90000000,
+        "volatility_target": 0.22,
+        "social_weight": 0.5,
+        "trading_enabled": false
+      }
+    ],
+    "gaming": [
+      {
+        "symbol": "AXSUSDT",
+        "name": "Axie Infinity",
+        "category": "Play-to-Earn",
+        "market_cap_rank": 70,
+        "volume_threshold": 50000000,
+        "volatility_target": 0.25,
+        "social_weight": 0.4,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "SANDUSDT",
+        "name": "The Sandbox",
+        "category": "Metaverse",
+        "market_cap_rank": 65,
+        "volume_threshold": 60000000,
+        "volatility_target": 0.20,
+        "social_weight": 0.5,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "MANAUSDT",
+        "name": "Decentraland",
+        "category": "Metaverse",
+        "market_cap_rank": 80,
+        "volume_threshold": 40000000,
+        "volatility_target": 0.30,
+        "social_weight": 0.4,
+        "trading_enabled": false
+      },
+      {
+        "symbol": "ENJUSDT",
+        "name": "Enjin Coin",
+        "category": "Gaming NFT",
+        "market_cap_rank": 90,
+        "volume_threshold": 30000000,
+        "volatility_target": 0.35,
+        "social_weight": 0.3,
+        "trading_enabled": false
+      }
+    ]
+  },
+  "watchlist_config": {
+    "price_alerts": {
+      "enabled": true,
+      "thresholds": {
+        "pump": 0.15,
+        "dump": -0.10,
+        "volume_spike": 3.0
+      }
+    },
+    "auto_trading": {
+      "enabled": false,
+      "max_position_size": 0.05,
+      "stop_loss": 0.08,
+      "take_profit": 0.15
+    },
+    "sentiment_monitoring": {
+      "enabled": true,
+      "sources": ["twitter", "reddit", "telegram"],
+      "update_interval": 300
+    },
+    "risk_management": {
+      "max_coins_trading": 5,
+      "max_total_exposure": 0.20,
+      "correlation_limit": 0.7
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "system": {
+    "name": "MoCoVe",
+    "version": "1.0.0",
+    "description": "Sistema Completo de Trading com IA e Monitoramento de Criptomoedas",
+    "port": 5000,
+    "debug": true,
+    "auto_start_components": true
+  },
+  "database": {
+    "file": "memecoin.db",
+    "backup_enabled": true,
+    "backup_interval_hours": 24,
+    "auto_cleanup_days": 30
+  },
+  "watchlist": {
+    "file": "coin_watchlist_expanded.json",
+    "update_interval_minutes": 5,
+    "price_alert_threshold": 10.0,
+    "volume_alert_threshold": 50.0,
+    "auto_add_trending": true,
+    "max_coins": 50
+  },
+  "binance": {
+    "testnet": true,
+    "timeout_seconds": 10,
+    "retry_attempts": 3,
+    "rate_limit_enabled": true,
+    "auto_reconnect": true
+  },
+  "ai_agent": {
+    "enabled": true,
+    "model_file": "memecoin_model.pkl",
+    "prediction_interval_minutes": 15,
+    "confidence_threshold": 0.7,
+    "auto_retrain": true,
+    "retrain_interval_hours": 24
+  },
+  "trading": {
+    "enabled": false,
+    "max_position_size": 0.1,
+    "stop_loss_percentage": 5.0,
+    "take_profit_percentage": 15.0,
+    "max_daily_trades": 10,
+    "risk_management": true
+  },
+  "alerts": {
+    "enabled": true,
+    "price_change_threshold": 5.0,
+    "volume_spike_threshold": 100.0,
+    "sentiment_threshold": 0.8,
+    "max_alerts_per_hour": 20,
+    "cleanup_after_hours": 72
+  },
+  "social_sentiment": {
+    "enabled": true,
+    "update_interval_minutes": 30,
+    "sources": ["twitter", "reddit", "telegram"],
+    "sentiment_weight": 0.3,
+    "min_mentions": 5
+  },
+  "market_data": {
+    "update_interval_minutes": 1,
+    "price_history_days": 30,
+    "technical_indicators": ["SMA", "EMA", "RSI", "MACD"],
+    "data_sources": ["binance", "coingecko"],
+    "cache_enabled": true
+  },
+  "frontend": {
+    "theme": "dark",
+    "auto_refresh_seconds": 5,
+    "charts_enabled": true,
+    "alerts_sound": true,
+    "compact_mode": false,
+    "language": "pt-BR"
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/mocove.log",
+    "max_file_size_mb": 50,
+    "backup_count": 5,
+    "console_output": true
+  },
+  "api": {
+    "cors_enabled": true,
+    "rate_limiting": true,
+    "requests_per_minute": 100,
+    "authentication": false,
+    "response_cache_seconds": 30
+  },
+  "backup": {
+    "enabled": true,
+    "automatic": true,
+    "interval_hours": 6,
+    "keep_backups": 7,
+    "compress": true,
+    "include_logs": false
+  },
+  "monitoring": {
+    "health_check_interval_seconds": 60,
+    "performance_logging": true,
+    "error_reporting": true,
+    "uptime_tracking": true,
+    "memory_usage_alert_mb": 500
+  },
+  "features": {
+    "portfolio_tracking": true,
+    "profit_loss_calculation": true,
+    "tax_reporting": false,
+    "paper_trading": true,
+    "backtesting": true,
+    "strategy_builder": false
+  },
+  "security": {
+    "api_key_encryption": true,
+    "secure_storage": true,
+    "session_timeout_minutes": 60,
+    "ip_whitelist": [],
+    "rate_limiting": true
+  },
+  "performance": {
+    "cache_size_mb": 100,
+    "max_concurrent_requests": 50,
+    "database_pool_size": 10,
+    "optimize_queries": true,
+    "preload_data": true
+  },
+  "notifications": {
+    "desktop_enabled": false,
+    "email_enabled": false,
+    "webhook_enabled": false,
+    "telegram_bot": false,
+    "sound_alerts": true
+  }
+}

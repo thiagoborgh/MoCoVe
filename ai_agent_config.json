@@ -1,0 +1,24 @@
+{
+  "trading_enabled": false,
+  "symbol": "DOGEUSDT",
+  "monitoring_interval": 30,
+  "min_confidence": 0.7,
+  "max_position_size": 50.0,
+  "max_daily_trades": 10,
+  "stop_loss_pct": 0.02,
+  "take_profit_pct": 0.03,
+  "min_trade_interval": 300,
+  "risk_level": "conservative",
+  "strategies_enabled": {
+    "moving_averages": true,
+    "rsi": true,
+    "bollinger_bands": true,
+    "trend_following": true,
+    "volatility_filter": true
+  },
+  "notifications": {
+    "trade_execution": true,
+    "high_confidence_signals": true,
+    "daily_summary": true
+  }
+}

@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 MoCoVe AI Trading System</title>
+    
+    <!-- React e Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Papa Parse para CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    
+    <style>
+        .animate-pulse-green {
+            animation: pulse-green 2s infinite;
+        }
+        
+        @keyframes pulse-green {
+            0%, 100% { 
+                background-color: rgb(34, 197, 94);
+                transform: scale(1);
+            }
+            50% { 
+                background-color: rgb(22, 163, 74);
+                transform: scale(1.05);
+            }
+        }
+        
+        .status-online { 
+            background-color: #10b981; 
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        .status-offline { 
+            background-color: #ef4444; 
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+        
+        .status-warning { 
+            background-color: #f59e0b; 
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Componente principal
+        function MoCoVeApp() {
+            // Estados principais
+            const [systemStatus, setSystemStatus] = useState(null);
+            const [watchlist, setWatchlist] = useState(null);
+            const [balances, setBalances] = useState([]);
+            const [sentiment, setSentiment] = useState(null);
+            const [topPerformers, setTopPerformers] = useState([]);
+            const [alerts, setAlerts] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState('');
+            const [notification, setNotification] = useState('');
+            
+            // Estados de controle
+            const [autoRefresh, setAutoRefresh] = useState(true);
+            const [refreshInterval, setRefreshInterval] = useState(30000);
+            const [selectedTier, setSelectedTier] = useState('all');
+            
+            // API Base URL
+            const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:5000' : '';
+
+            // Função para fazer requisições à API
+            const apiRequest = async (endpoint, options = {}) => {
+                try {
+                    const response = await fetch(`${API_BASE}/api${endpoint}`, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...options.headers,
+                        },
+                        ...options,
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    return await response.json();
+                } catch (err) {
+                    console.error(`Erro na API ${endpoint}:`, err);
+                    throw err;
+                }
+            };
+
+            // Carregar status do sistema
+            const loadSystemStatus = async () => {
+                try {
+                    const result = await apiRequest('/system/status');
+                    if (result.success) {
+                        setSystemStatus(result.status);
+                    }
+                } catch (err) {
+                    console.error('Erro ao carregar status:', err);
+                    setError('Erro ao carregar status do sistema');
+                }
+            };
+
+            // Carregar watchlist
+            const loadWatchlist = async () => {
+                try {
+                    const [watchlistData, alertsData, performersData] = await Promise.all([
+                        apiRequest('/watchlist/coins'),
+                        apiRequest('/watchlist/alerts?limit=10'),
+                        apiRequest('/watchlist/top-performers?limit=10')
+                    ]);
+                    
+                    if (watchlistData.success) setWatchlist(watchlistData.coins);
+                    if (alertsData.success) setAlerts(alertsData.alerts);
+                    if (performersData.success) setTopPerformers(performersData.top_performers);
+                    
+                } catch (err) {
+                    console.error('Erro ao carregar watchlist:', err);
+                }
+            };
+
+            // Carregar saldos
+            const loadBalances = async () => {
+                try {
+                    const result = await apiRequest('/system/balances');
+                    if (result.success) {
+                        setBalances(result.balances);
+                    }
+                } catch (err) {
+                    console.error('Erro ao carregar saldos:', err);
+                }
+            };
+
+            // Carregar sentimento
+            const loadSentiment = async () => {
+                try {
+                    const result = await apiRequest('/system/sentiment');
+                    if (result.success) {
+                        setSentiment(result.sentiment);
+                    }
+                } catch (err) {
+                    console.error('Erro ao carregar sentimento:', err);
+                }
+            };
+
+            // Carregar todos os dados
+            const loadAllData = async () => {
+                setLoading(true);
+                setError('');
+                
+                try {
+                    await Promise.all([
+                        loadSystemStatus(),
+                        loadWatchlist(),
+                        loadBalances(),
+                        loadSentiment()
+                    ]);
+                } catch (err) {
+                    setError(`Erro ao carregar dados: ${err.message}`);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            // Controles do sistema
+            const startAIAgent = async () => {
+                try {
+                    const result = await apiRequest('/system/start-ai-agent', { method: 'POST' });
+                    if (result.success) {
+                        setNotification('AI Agent iniciado com sucesso!');
+                        setTimeout(() => setNotification(''), 3000);
+                        loadSystemStatus();
+                    }
+                } catch (err) {
+                    setError(`Erro ao iniciar AI Agent: ${err.message}`);
+                }
+            };
+
+            const stopAIAgent = async () => {
+                try {
+                    const result = await apiRequest('/system/stop-ai-agent', { method: 'POST' });
+                    if (result.success) {
+                        setNotification('AI Agent parado com sucesso!');
+                        setTimeout(() => setNotification(''), 3000);
+                        loadSystemStatus();
+                    }
+                } catch (err) {
+                    setError(`Erro ao parar AI Agent: ${err.message}`);
+                }
+            };
+
+            const testBinance = async () => {
+                try {
+                    const result = await apiRequest('/system/test-binance', { method: 'POST' });
+                    if (result.success) {
+                        const status = result.binance.connected ? 'conectado' : 'desconectado';
+                        setNotification(`Binance ${status}!`);
+                        setTimeout(() => setNotification(''), 3000);
+                        loadSystemStatus();
+                    }
+                } catch (err) {
+                    setError(`Erro ao testar Binance: ${err.message}`);
+                }
+            };
+
+            const updateBalance = async () => {
+                try {
+                    const result = await apiRequest('/system/update-balance', { method: 'POST' });
+                    if (result.success) {
+                        setNotification(`Saldo atualizado: $${result.balance.total_usd?.toFixed(2) || '0.00'}`);
+                        setTimeout(() => setNotification(''), 3000);
+                        loadBalances();
+                    }
+                } catch (err) {
+                    setError(`Erro ao atualizar saldo: ${err.message}`);
+                }
+            };
+
+            const updateMarketData = async () => {
+                try {
+                    const result = await apiRequest('/system/update-market-data', { method: 'POST' });
+                    if (result.success) {
+                        setNotification('Dados de mercado atualizados!');
+                        setTimeout(() => setNotification(''), 3000);
+                        loadWatchlist();
+                    }
+                } catch (err) {
+                    setError(`Erro ao atualizar dados de mercado: ${err.message}`);
+                }
+            };
+
+            const updateSentiment = async () => {
+                try {
+                    const result = await apiRequest('/system/update-sentiment', { method: 'POST' });
+                    if (result.success) {
+                        setNotification('Sentimento social atualizado!');
+                        setTimeout(() => setNotification(''), 3000);
+                        loadSentiment();
+                    }
+                } catch (err) {
+                    setError(`Erro ao atualizar sentimento: ${err.message}`);
+                }
+            };
+
+            // Efeitos
+            useEffect(() => {
+                loadAllData();
+            }, []);
+
+            // Auto-refresh
+            useEffect(() => {
+                if (!autoRefresh) return;
+                
+                const interval = setInterval(() => {
+                    loadAllData();
+                }, refreshInterval);
+                
+                return () => clearInterval(interval);
+            }, [autoRefresh, refreshInterval]);
+
+            // Filtrar watchlist por tier
+            const getFilteredCoins = () => {
+                if (!watchlist) return [];
+                
+                if (selectedTier === 'all') {
+                    return Object.entries(watchlist).map(([symbol, coin]) => ({
+                        symbol,
+                        ...coin
+                    }));
+                }
+                
+                return Object.entries(watchlist)
+                    .filter(([symbol, coin]) => coin.tier === selectedTier)
+                    .map(([symbol, coin]) => ({ symbol, ...coin }));
+            };
+
+            if (loading) {
+                return (
+                    <div className="min-h-screen gradient-bg flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white mx-auto"></div>
+                            <p className="text-white text-xl mt-4">Carregando MoCoVe...</p>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    {/* Header */}
+                    <header className="gradient-bg text-white shadow-lg">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h1 className="text-3xl font-bold">🚀 MoCoVe AI Trading System</h1>
+                                    <p className="text-blue-100 mt-1">Sistema de Trading Inteligente com IA</p>
+                                </div>
+                                
+                                <div className="flex items-center space-x-4">
+                                    {/* Indicadores de Status */}
+                                    <div className="flex space-x-2">
+                                        <div className={`w-3 h-3 rounded-full ${systemStatus?.backend_running ? 'status-online' : 'status-offline'}`} 
+                                             title="Backend"></div>
+                                        <div className={`w-3 h-3 rounded-full ${systemStatus?.binance_connected ? 'status-online' : 'status-offline'}`} 
+                                             title="Binance"></div>
+                                        <div className={`w-3 h-3 rounded-full ${systemStatus?.ai_agent_active ? 'status-online' : 'status-offline'}`} 
+                                             title="AI Agent"></div>
+                                    </div>
+                                    
+                                    {/* Auto-refresh Toggle */}
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={autoRefresh}
+                                            onChange={(e) => setAutoRefresh(e.target.checked)}
+                                            className="mr-2"
+                                        />
+                                        <span className="text-sm">Auto-refresh</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                        
+                        {/* Notificações */}
+                        {error && (
+                            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                                {error}
+                                <button 
+                                    onClick={() => setError('')}
+                                    className="float-right text-red-500 hover:text-red-700"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        )}
+                        
+                        {notification && (
+                            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                                {notification}
+                            </div>
+                        )}
+
+                        {/* Controles do Sistema */}
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                            
+                            {/* Controles Principais */}
+                            <div className="card">
+                                <h3 className="text-lg font-semibold mb-4">🎛️ Controles do Sistema</h3>
+                                <div className="space-y-3">
+                                    <button 
+                                        onClick={testBinance}
+                                        className={`w-full btn-primary ${systemStatus?.binance_connected ? 'btn-success' : 'btn-warning'}`}
+                                    >
+                                        {systemStatus?.binance_connected ? '✅ Binance Conectado' : '⚠️ Testar Binance'}
+                                    </button>
+                                    
+                                    <div className="flex space-x-2">
+                                        <button 
+                                            onClick={startAIAgent}
+                                            className="flex-1 btn-primary btn-success"
+                                            disabled={systemStatus?.ai_agent_active}
+                                        >
+                                            {systemStatus?.ai_agent_active ? '✅ AI Ativo' : '🤖 Iniciar AI'}
+                                        </button>
+                                        <button 
+                                            onClick={stopAIAgent}
+                                            className="flex-1 btn-primary btn-danger"
+                                            disabled={!systemStatus?.ai_agent_active}
+                                        >
+                                            ⏹️ Parar AI
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Atualizações */}
+                            <div className="card">
+                                <h3 className="text-lg font-semibold mb-4">🔄 Atualizações</h3>
+                                <div className="space-y-3">
+                                    <button 
+                                        onClick={updateBalance}
+                                        className="w-full btn-primary"
+                                    >
+                                        💰 Atualizar Saldo
+                                    </button>
+                                    <button 
+                                        onClick={updateMarketData}
+                                        className="w-full btn-primary"
+                                    >
+                                        📊 Atualizar Mercado
+                                    </button>
+                                    <button 
+                                        onClick={updateSentiment}
+                                        className="w-full btn-primary"
+                                    >
+                                        📱 Atualizar Sentimento
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Status do Sistema */}
+                            <div className="card">
+                                <h3 className="text-lg font-semibold mb-4">📊 Status do Sistema</h3>
+                                <div className="space-y-2 text-sm">
+                                    <div className="flex justify-between">
+                                        <span>Backend:</span>
+                                        <span className={systemStatus?.backend_running ? 'text-green-600' : 'text-red-600'}>
+                                            {systemStatus?.backend_running ? '✅ Online' : '❌ Offline'}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span>Binance:</span>
+                                        <span className={systemStatus?.binance_connected ? 'text-green-600' : 'text-red-600'}>
+                                            {systemStatus?.binance_connected ? '✅ Conectado' : '❌ Desconectado'}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span>AI Agent:</span>
+                                        <span className={systemStatus?.ai_agent_active ? 'text-green-600' : 'text-gray-600'}>
+                                            {systemStatus?.ai_agent_active ? '🤖 Ativo' : '😴 Inativo'}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span>Watchlist:</span>
+                                        <span className={systemStatus?.watchlist_loaded ? 'text-green-600' : 'text-red-600'}>
+                                            {systemStatus?.watchlist_loaded ? '📋 Carregada' : '❌ Erro'}
+                                        </span>
+                                    </div>
+                                    {systemStatus?.warnings?.length > 0 && (
+                                        <div className="mt-2 p-2 bg-yellow-50 rounded">
+                                            <p className="text-yellow-700 text-xs">
+                                                ⚠️ {systemStatus.warnings.join(', ')}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            
+                            {/* Painel Principal */}
+                            <div className="lg:col-span-2 space-y-6">
+                                
+                                {/* Saldo da Conta */}
+                                {balances.length > 0 && (
+                                    <div className="card">
+                                        <h3 className="text-lg font-semibold mb-4">💰 Saldo da Conta</h3>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                            {balances.slice(0, 8).map((balance, index) => (
+                                                <div key={index} className="text-center">
+                                                    <p className="text-sm text-gray-500">{balance.asset}</p>
+                                                    <p className="text-lg font-bold text-blue-600">
+                                                        {balance.total?.toFixed(balance.asset === 'USDT' ? 2 : 8)}
+                                                    </p>
+                                                    {balance.usd_value > 0 && (
+                                                        <p className="text-xs text-gray-400">
+                                                            ${balance.usd_value.toFixed(2)}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="mt-4 pt-4 border-t">
+                                            <div className="text-center">
+                                                <p className="text-sm text-gray-500">Total em USD</p>
+                                                <p className="text-2xl font-bold text-green-600">
+                                                    ${balances.reduce((sum, b) => sum + (b.usd_value || 0), 0).toFixed(2)}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Watchlist */}
+                                <div className="card">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h3 className="text-lg font-semibold">📋 Watchlist</h3>
+                                        <select 
+                                            value={selectedTier}
+                                            onChange={(e) => setSelectedTier(e.target.value)}
+                                            className="border border-gray-300 rounded px-3 py-1"
+                                        >
+                                            <option value="all">Todas</option>
+                                            <option value="tier1">Tier 1</option>
+                                            <option value="tier2">Tier 2</option>
+                                            <option value="tier3">Tier 3</option>
+                                            <option value="trending">Trending</option>
+                                            <option value="alt_defi">DeFi</option>
+                                            <option value="alt_layer1">Layer 1</option>
+                                            <option value="alt_ai_tokens">AI Tokens</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full">
+                                            <thead>
+                                                <tr className="bg-gray-50">
+                                                    <th className="px-4 py-2 text-left">Moeda</th>
+                                                    <th className="px-4 py-2 text-left">Tier</th>
+                                                    <th className="px-4 py-2 text-right">Preço</th>
+                                                    <th className="px-4 py-2 text-right">24h %</th>
+                                                    <th className="px-4 py-2 text-center">Trading</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {getFilteredCoins().slice(0, 15).map((coin, index) => (
+                                                    <tr key={coin.symbol} className="border-b">
+                                                        <td className="px-4 py-2">
+                                                            <div>
+                                                                <div className="font-semibold">{coin.symbol}</div>
+                                                                <div className="text-sm text-gray-500">{coin.name}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-4 py-2">
+                                                            <span className={`px-2 py-1 rounded-full text-xs ${
+                                                                coin.tier?.includes('tier1') ? 'bg-green-100 text-green-800' :
+                                                                coin.tier?.includes('tier2') ? 'bg-blue-100 text-blue-800' :
+                                                                coin.tier?.includes('tier3') ? 'bg-yellow-100 text-yellow-800' :
+                                                                coin.tier?.includes('trending') ? 'bg-purple-100 text-purple-800' :
+                                                                'bg-gray-100 text-gray-800'
+                                                            }`}>
+                                                                {coin.tier || 'N/A'}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-4 py-2 text-right">
+                                                            ${coin.price ? coin.price.toFixed(8) : 'N/A'}
+                                                        </td>
+                                                        <td className="px-4 py-2 text-right">
+                                                            <span className={coin.change_24h >= 0 ? 'text-green-600' : 'text-red-600'}>
+                                                                {coin.change_24h ? `${(coin.change_24h * 100).toFixed(2)}%` : 'N/A'}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-4 py-2 text-center">
+                                                            {coin.trading_enabled ? '✅' : '❌'}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Top Performers */}
+                                {topPerformers.length > 0 && (
+                                    <div className="card">
+                                        <h3 className="text-lg font-semibold mb-4">🏆 Top Performers (24h)</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {topPerformers.slice(0, 6).map((coin, index) => (
+                                                <div key={coin.symbol} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                                                    <div>
+                                                        <div className="font-semibold">{coin.symbol}</div>
+                                                        <div className="text-sm text-gray-500">{coin.name}</div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <div className={`font-bold ${coin.change_24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                                            {coin.change_24h ? `${(coin.change_24h * 100).toFixed(2)}%` : 'N/A'}
+                                                        </div>
+                                                        <div className="text-sm text-gray-500">
+                                                            ${coin.price ? coin.price.toFixed(8) : 'N/A'}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Painel Lateral */}
+                            <div className="space-y-6">
+                                
+                                {/* Alertas */}
+                                {alerts.length > 0 && (
+                                    <div className="card">
+                                        <h3 className="text-lg font-semibold mb-4">🚨 Alertas Recentes</h3>
+                                        <div className="space-y-2">
+                                            {alerts.slice(0, 5).map((alert, index) => (
+                                                <div key={index} className="p-2 bg-yellow-50 rounded text-sm">
+                                                    <div className="font-semibold">{alert.symbol}</div>
+                                                    <div className="text-gray-600">{alert.message}</div>
+                                                    <div className="text-xs text-gray-400">
+                                                        {new Date(alert.timestamp).toLocaleTimeString()}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Sentimento Social */}
+                                {sentiment?.sentiments?.length > 0 && (
+                                    <div className="card">
+                                        <h3 className="text-lg font-semibold mb-4">📱 Sentimento Social</h3>
+                                        <div className="space-y-3">
+                                            {sentiment.sentiments.slice(0, 5).map((s, index) => (
+                                                <div key={index} className="flex items-center justify-between">
+                                                    <span className="font-medium">{s.symbol}</span>
+                                                    <div className="text-right">
+                                                        <div className={`font-bold ${s.avg_sentiment >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                                            {s.avg_sentiment?.toFixed(2) || 'N/A'}
+                                                        </div>
+                                                        <div className="text-xs text-gray-500">
+                                                            {s.total_mentions} menções
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Última Atualização */}
+                                <div className="card">
+                                    <h3 className="text-lg font-semibold mb-4">⏰ Última Atualização</h3>
+                                    <div className="space-y-2 text-sm">
+                                        <div className="flex justify-between">
+                                            <span>Sistema:</span>
+                                            <span>{systemStatus?.timestamp ? new Date(systemStatus.timestamp).toLocaleTimeString() : 'N/A'}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Saldo:</span>
+                                            <span>{systemStatus?.balance_updated !== 'Nunca' ? new Date(systemStatus?.balance_updated).toLocaleTimeString() : 'Nunca'}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Mercado:</span>
+                                            <span className={systemStatus?.market_data_fresh ? 'text-green-600' : 'text-red-600'}>
+                                                {systemStatus?.market_data_fresh ? 'Atualizado' : 'Desatualizado'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Renderizar aplicação
+        ReactDOM.render(<MoCoVeApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>

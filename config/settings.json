@@ -1,0 +1,49 @@
+{
+  "trading": {
+    "default_symbol": "DOGE/BUSD",
+    "default_amount": 100,
+    "volatility_threshold": 0.05,
+    "buy_threshold": 0.02,
+    "sell_threshold": -0.02,
+    "max_daily_trades": 10,
+    "risk_management": {
+      "stop_loss": 0.05,
+      "take_profit": 0.10,
+      "max_position_size": 1000
+    }
+  },
+  "supported_symbols": [
+    "DOGE/BUSD",
+    "SHIB/BUSD", 
+    "PEPE/BUSD",
+    "FLOKI/BUSD",
+    "DOGE/USDT",
+    "SHIB/USDT",
+    "PEPE/USDT",
+    "FLOKI/USDT"
+  ],
+  "data_sources": {
+    "primary": "binance",
+    "fallback": "coingecko",
+    "collection_interval": 60,
+    "historical_days": 30
+  },
+  "ai_model": {
+    "retrain_interval": 3600,
+    "min_data_points": 1000,
+    "feature_importance_threshold": 0.01,
+    "model_type": "random_forest",
+    "cross_validation_folds": 5
+  },
+  "alerts": {
+    "high_volatility": true,
+    "trade_execution": true,
+    "model_retrain": true,
+    "data_collection_errors": true
+  },
+  "api": {
+    "rate_limit": 100,
+    "timeout": 30,
+    "max_retries": 3
+  }
+}

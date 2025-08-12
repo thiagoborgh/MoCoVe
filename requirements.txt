@@ -1,0 +1,38 @@
+# MoCoVe Backend Dependencies
+
+# Core Framework
+flask==3.0.0
+flask-cors==4.0.0
+
+# Trading & Market Data
+ccxt==4.1.50
+python-binance==1.0.19
+
+# Data Science & AI
+pandas==2.1.4
+numpy==1.25.2
+scikit-learn==1.3.2
+joblib==1.3.2
+
+# API & Web
+requests==2.31.0
+uvicorn==0.24.0
+fastapi==0.104.1
+pydantic==2.5.0
+
+# Utilities
+python-dotenv==1.0.0
+schedule==1.2.0
+pytz==2023.3
+
+# Development & Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+black==23.11.0
+flake8==6.1.0
+
+# Optional (for advanced features)
+# tweepy==4.14.0  # Para análise de sentimento do Twitter
+# textblob==0.17.1  # Para processamento de texto
+# matplotlib==3.8.2  # Para gráficos avançados
+# plotly==5.17.0  # Para visualizações interativas

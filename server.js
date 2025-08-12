@@ -1,10 +1,29 @@
+const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
+const axios = require('axios');
+const Binance = require('node-binance-api');
+const app = express();
+const port = process.env.PORT || 5000; // Usar porta do .env
+
+// Middleware
+app.use(express.json());
+app.use(express.static('frontend'));
+
+// Configuração CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+});
+
 // Endpoint para decisão inteligente via modelo Python externo
 app.post('/ai-decision', async (req, res) => {
   // Espera receber features: { price, sma9, sma21, sma50, rsi, min24h, max24h, var24h, volume, sentiment, ... }
   const features = req.body;
   try {
     // Exemplo: URL do modelo Python (ajuste conforme necessário)
-    const modelUrl = process.env.AI_MODEL_URL || 'http://localhost:5000/predict';
+    const modelUrl = process.env.AI_MODEL_URL || 'http://localhost:5001/predict';
     const response = await axios.post(modelUrl, features);
     // Espera resposta: { decision: 'BUY' | 'SELL' | 'HOLD', probability: 0.92, ... }
     res.json(response.data);
@@ -48,14 +67,6 @@ app.get('/orders', (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(rows);
   });
-});
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const axios = require('axios');
-const Binance = require('node-binance-api');
-const app = express();
-const port = 3000;
-
 // Funções auxiliares para indicadores
 function calcSMA(data, period) {
   if (data.length < period) return null;

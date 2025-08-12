@@ -1,16 +1,80 @@
 {
-  "name": "memecoin-bot",
-  "version": "1.0.0",
-  "description": "Bot para monitoramento e trading de memecoins",
-  "main": "server.js",
+  "name": "mocove",
+  "version": "2.0.0",
+  "description": "MoCoVe - Sistema de Trading Automatizado de Memecoins com IA",
+  "main": "backend/app.py",
   "scripts": {
-    "start": "node server.js"
+    "start": "node quick-start.js",
+    "dev": "node quick-start.js",
+    "config": "node quick-start.js --config",
+    "deploy": "node deploy-surge.js",
+    "ai-config": "python ai_agent_config.py",
+    "ai-monitor": "python ai_agent_monitor.py",
+    "ai-start": "python ai_trading_agent.py",
+    "backend": "python server.js",
+    "frontend": "node quick-start.js --frontend-only",
+    "ai": "cd ai && uvicorn ai_model:app --host 0.0.0.0 --port 5000",
+    "collect": "cd scripts && python data_collector.py",
+    "train": "cd ai && python train_model.py",
+    "setup": "pip install -r requirements.txt && npm install",
+    "test": "cd tests && python -m pytest",
+    "lint": "eslint *.js",
+    "docs": "echo 'Documentação disponível em DOCUMENTATION.md'",
+    "backup": "python backup_system.py --full",
+    "restore": "python backup_system.py --restore",
+    "logs": "tail -f logs/ai_agent.log",
+    "status": "python ai_agent_monitor.py --status",
+    "install-deps": "pip install -r requirements.txt && npm install",
+    "clean": "rm -rf logs/*.log dist/ node_modules/.cache",
+    "build": "node deploy-surge.js --build-only",
+    "serve": "cd frontend && python -m http.server 3000",
+    "tunnel": "ngrok http 5000",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
   },
   "dependencies": {
     "express": "^4.18.2",
     "sqlite3": "^5.1.6",
     "axios": "^1.6.8",
     "node-binance-api": "^0.13.1",
-    "prompt-sync": "^4.2.0"
-  }
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.2",
+    "eslint": "^8.50.0",
+    "surge": "^0.23.1",
+    "ngrok": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thiagoborgh/MoCoVe.git"
+  },
+  "keywords": [
+    "trading",
+    "memecoins",
+    "cryptocurrency",
+    "ai",
+    "machine-learning",
+    "binance",
+    "automated-trading",
+    "sentiment-analysis",
+    "technical-analysis",
+    "react",
+    "flask",
+    "real-time"
+  ],
+  "author": "Thiago Borgh",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "python": ">=3.9.0"
+  },
+  "bin": {
+    "mocove": "./quick-start.js"
+  },
+  "homepage": "https://mocove-ai-trading.surge.sh"
 }

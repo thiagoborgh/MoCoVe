@@ -1,0 +1,8 @@
+{
+  "trade_amount": 1,
+  "max_daily_trades": 20,
+  "min_confidence": 40,
+  "stop_loss_percent": 5,
+  "take_profit_percent": 10,
+  "trading_mode": "balanced"
+}
