@@ -1,6 +1,6 @@
 """
-MoCoVe Backend - Sistema de Trading Automatizado de Memecoins (LIMPO)
-Backend Flask simplificado com endpoints essenciais
+MoCoVe Backend - Sistema de Trading Automatizado de Memecoins (FINAL)
+Backend Flask com endpoints essenciais + botão trading real
 """
 
 import os
@@ -14,6 +14,10 @@ import pandas as pd
 import numpy as np
 from typing import Dict, List, Optional
 import logging
+from dotenv import load_dotenv
+
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv()
 
 # Configuração de logging
 logging.basicConfig(level=logging.INFO)
@@ -23,45 +27,9 @@ logger = logging.getLogger(__name__)
 import pathlib
 PROJECT_ROOT = pathlib.Path(__file__).parent.parent.resolve()
 DB_PATH = os.getenv('DB_PATH', str(PROJECT_ROOT / 'memecoin.db'))
-CONFIG_FILE = PROJECT_ROOT / 'config' / 'trading_config.json'
-
-# Carregar configuração
-def load_config():
-    """Carrega configuração do arquivo JSON"""
-    try:
-        if CONFIG_FILE.exists():
-            with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-                config = json.load(f)
-                return config
-        else:
-            # Configuração padrão
-            return {
-                "trading_mode": "testnet",
-                "use_testnet": True,
-                "binance_api_key": "",
-                "binance_api_secret": ""
-            }
-    except Exception as e:
-        logger.error(f"Erro ao carregar configuração: {e}")
-        return {"trading_mode": "testnet", "use_testnet": True}
-
-def save_config(config):
-    """Salva configuração no arquivo JSON"""
-    try:
-        CONFIG_FILE.parent.mkdir(exist_ok=True)
-        config['last_updated'] = datetime.now().isoformat()
-        with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
-            json.dump(config, f, indent=2, ensure_ascii=False)
-        return True
-    except Exception as e:
-        logger.error(f"Erro ao salvar configuração: {e}")
-        return False
-
-# Carregar configuração inicial
-config = load_config()
-BINANCE_API_KEY = os.getenv('BINANCE_API_KEY', config.get('binance_api_key', ''))
-BINANCE_API_SECRET = os.getenv('BINANCE_API_SECRET', config.get('binance_api_secret', ''))
-USE_TESTNET = config.get('use_testnet', True)
+BINANCE_API_KEY = os.getenv('BINANCE_API_KEY', '')
+BINANCE_API_SECRET = os.getenv('BINANCE_API_SECRET', '')
+USE_TESTNET = os.getenv('USE_TESTNET', 'true').lower() == 'true'
 
 app = Flask(__name__)
 CORS(app)
@@ -387,6 +355,7 @@ def get_system_metrics():
 @app.route('/api/trading/mode', methods=['GET', 'POST'])
 def trading_mode():
     """Gerenciar modo de trading (testnet/real)"""
+    global exchange, USE_TESTNET
     config_file = os.path.join(PROJECT_ROOT, 'trading_config.json')
     
     if request.method == 'GET':
@@ -435,8 +404,7 @@ def trading_mode():
             with open(config_file, 'w') as f:
                 json.dump(config, f, indent=2)
             
-            # Atualizar exchange global
-            global exchange, USE_TESTNET
+            # Atualizar exchange
             USE_TESTNET = new_testnet_mode
             exchange = ccxt.binance({
                 'apiKey': BINANCE_API_KEY,
@@ -458,164 +426,6 @@ def trading_mode():
         except Exception as e:
             logger.error(f"Erro ao alterar modo de trading: {str(e)}")
             return jsonify({'success': False, 'error': str(e)}), 500
-
-# Servir arquivos estáticos do frontend
-@app.route('/')
-def serve_frontend():
-    """Serve a página principal do frontend"""
-    return send_from_directory('../frontend', 'dashboard_pro.html')
-
-@app.route('/<path:filename>')
-def serve_static(filename):
-    """Serve arquivos estáticos do frontend"""
-    return send_from_directory('../frontend', filename)
-
-# Inicialização
-if __name__ == '__main__':
-    init_database()
-    port = int(os.getenv('PORT', 5000))
-    debug = os.getenv('DEBUG', 'false').lower() == 'true'
-    
-    logger.info(f"Iniciando MoCoVe Backend na porta {port}")
-    logger.info(f"Modo testnet: {USE_TESTNET}")
-    
-    app.run(host='0.0.0.0', port=port, debug=debug)
-
-@app.route('/api/trading/mode', methods=['GET', 'POST'])
-def manage_trading_mode():
-    """Gerencia o modo de trading (testnet/real)"""
-    try:
-        config_file = os.path.join(PROJECT_ROOT, 'trading_config.json')
-        
-        if request.method == 'GET':
-            # Carregar configuração atual
-            try:
-                with open(config_file, 'r') as f:
-                    config = json.load(f)
-            except FileNotFoundError:
-                config = {
-                    'use_testnet': True,
-                    'binance_api_key': '',
-                    'binance_secret_key': '',
-                    'last_updated': datetime.now().isoformat()
-                }
-            
-            return jsonify({
-                'success': True,
-                'config': config,
-                'current_mode': 'testnet' if config.get('use_testnet', True) else 'real',
-                'timestamp': datetime.now().isoformat()
-            })
-            
-        elif request.method == 'POST':
-            # Atualizar configuração
-            data = request.get_json()
-            use_testnet = data.get('use_testnet', True)
-            api_key = data.get('binance_api_key', '')
-            secret_key = data.get('binance_secret_key', '')
-            
-            # Validar credenciais se for trading real
-            if not use_testnet:
-                if not api_key or not secret_key:
-                    return jsonify({
-                        'success': False,
-                        'error': 'API Key e Secret Key são obrigatórios para trading real'
-                    }), 400
-                
-                # Testar conexão com credenciais reais
-                try:
-                    test_exchange = ccxt.binance({
-                        'apiKey': api_key,
-                        'secret': secret_key,
-                        'sandbox': False,
-                        'enableRateLimit': True,
-                    })
-                    test_exchange.fetch_balance()
-                except Exception as e:
-                    return jsonify({
-                        'success': False,
-                        'error': f'Erro ao conectar com Binance: {str(e)}'
-                    }), 400
-            
-            # Salvar configuração
-            config = {
-                'use_testnet': use_testnet,
-                'binance_api_key': api_key,
-                'binance_secret_key': secret_key,
-                'last_updated': datetime.now().isoformat()
-            }
-            
-            with open(config_file, 'w') as f:
-                json.dump(config, f, indent=2)
-            
-            # Atualizar variáveis globais
-            global USE_TESTNET, BINANCE_API_KEY, BINANCE_API_SECRET, exchange
-            USE_TESTNET = use_testnet
-            BINANCE_API_KEY = api_key
-            BINANCE_API_SECRET = secret_key
-            
-            # Recriar objeto exchange
-            exchange = ccxt.binance({
-                'apiKey': BINANCE_API_KEY,
-                'secret': BINANCE_API_SECRET,
-                'sandbox': USE_TESTNET,
-                'enableRateLimit': True,
-            })
-            
-            return jsonify({
-                'success': True,
-                'message': f'Modo alterado para: {"testnet" if use_testnet else "real"}',
-                'config': {
-                    'use_testnet': use_testnet,
-                    'current_mode': 'testnet' if use_testnet else 'real'
-                },
-                'timestamp': datetime.now().isoformat()
-            })
-            
-    except Exception as e:
-        logger.error(f"Erro ao gerenciar modo de trading: {str(e)}")
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-@app.route('/api/trading/test-connection', methods=['POST'])
-def test_binance_connection():
-    """Testa a conexão com a Binance usando credenciais fornecidas"""
-    try:
-        data = request.get_json()
-        api_key = data.get('api_key', '')
-        secret_key = data.get('secret_key', '')
-        use_testnet = data.get('use_testnet', True)
-        
-        if not api_key or not secret_key:
-            return jsonify({
-                'success': False,
-                'error': 'API Key e Secret Key são obrigatórios'
-            }), 400
-        
-        # Testar conexão
-        test_exchange = ccxt.binance({
-            'apiKey': api_key,
-            'secret': secret_key,
-            'sandbox': use_testnet,
-            'enableRateLimit': True,
-        })
-        
-        # Testar com fetch_balance
-        balance = test_exchange.fetch_balance()
-        
-        return jsonify({
-            'success': True,
-            'message': f'Conexão {'testnet' if use_testnet else 'real'} bem-sucedida!',
-            'account_type': 'testnet' if use_testnet else 'real',
-            'balances_found': len([k for k, v in balance.items() if isinstance(v, dict) and v.get('total', 0) > 0]),
-            'timestamp': datetime.now().isoformat()
-        })
-        
-    except Exception as e:
-        logger.error(f"Erro ao testar conexão Binance: {str(e)}")
-        return jsonify({
-            'success': False,
-            'error': f'Falha na conexão: {str(e)}'
-        }), 400
 
 # Servir arquivos estáticos do frontend
 @app.route('/')

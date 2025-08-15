@@ -14,6 +14,10 @@ import pandas as pd
 import numpy as np
 from typing import Dict, List, Optional
 import logging
+from dotenv import load_dotenv
+
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv()
 
 # Configuração de logging
 logging.basicConfig(level=logging.INFO)
@@ -968,6 +972,204 @@ def get_system_metrics():
         
     except Exception as e:
         logger.error(f"Erro ao obter métricas do sistema: {str(e)}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/ai-trading/toggle', methods=['POST'])
+def toggle_ai_trading():
+    """Liga/desliga o AI Trading Agent"""
+    try:
+        data = request.get_json()
+        enable = data.get('enable', True)
+        
+        if enable:
+            # Iniciar AI Agent
+            import subprocess
+            import sys
+            
+            agent_path = os.path.join(PROJECT_ROOT, 'ai_trading_agent_robust.py')
+            
+            if os.path.exists(agent_path):
+                # Verificar se já está rodando
+                log_file = os.path.join(PROJECT_ROOT, 'ai_trading_agent_robust.log')
+                is_running = False
+                
+                if os.path.exists(log_file):
+                    stat = os.stat(log_file)
+                    last_modified = datetime.fromtimestamp(stat.st_mtime)
+                    time_diff = (datetime.now() - last_modified).total_seconds()
+                    is_running = time_diff < 120  # Ativo se modificado nos últimos 2 minutos
+                
+                if is_running:
+                    return jsonify({
+                        'success': True,
+                        'message': 'AI Trading Agent já está ativo',
+                        'status': 'running'
+                    })
+                
+                # Iniciar o agent em background
+                try:
+                    subprocess.Popen([
+                        sys.executable, agent_path
+                    ], cwd=PROJECT_ROOT, 
+                       stdout=subprocess.DEVNULL, 
+                       stderr=subprocess.DEVNULL)
+                    
+                    logger.info("AI Trading Agent iniciado com sucesso")
+                    return jsonify({
+                        'success': True,
+                        'message': 'AI Trading Agent iniciado com sucesso',
+                        'status': 'starting'
+                    })
+                    
+                except Exception as e:
+                    logger.error(f"Erro ao iniciar AI Agent: {str(e)}")
+                    return jsonify({
+                        'success': False,
+                        'error': f'Erro ao iniciar AI Agent: {str(e)}'
+                    }), 500
+            else:
+                return jsonify({
+                    'success': False,
+                    'error': 'Arquivo do AI Agent não encontrado'
+                }), 404
+        else:
+            # Parar AI Agent (isso é mais complexo, por agora apenas informamos)
+            return jsonify({
+                'success': True,
+                'message': 'Para parar o AI Agent, feche o processo manualmente',
+                'status': 'stop_requested'
+            })
+            
+    except Exception as e:
+        logger.error(f"Erro ao controlar AI trading: {str(e)}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/ai-trading/status', methods=['GET'])
+def get_ai_trading_status():
+    """Retorna o status atual do AI Trading Agent"""
+    try:
+        log_file = os.path.join(PROJECT_ROOT, 'ai_trading_agent_robust.log')
+        
+        status = {
+            'is_running': False,
+            'last_activity': None,
+            'uptime_minutes': 0,
+            'message': 'AI Agent inativo'
+        }
+        
+        if os.path.exists(log_file):
+            stat = os.stat(log_file)
+            last_modified = datetime.fromtimestamp(stat.st_mtime)
+            time_diff = (datetime.now() - last_modified).total_seconds()
+            
+            status['last_activity'] = last_modified.isoformat()
+            status['uptime_minutes'] = int(time_diff / 60)
+            
+            if time_diff < 120:  # Ativo se modificado nos últimos 2 minutos
+                status['is_running'] = True
+                status['message'] = f'AI Agent ativo - última atividade há {int(time_diff)}s'
+            else:
+                status['message'] = f'AI Agent inativo - última atividade há {int(time_diff / 60)} minutos'
+        
+        return jsonify({
+            'success': True,
+            'status': status
+        })
+        
+    except Exception as e:
+        logger.error(f"Erro ao verificar status do AI trading: {str(e)}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/trading/mode', methods=['GET', 'POST'])
+def trading_mode():
+    """GET: Retorna modo atual / POST: Altera modo de trading"""
+    global USE_TESTNET, exchange  # Declarar no início da função
+    
+    try:
+        if request.method == 'GET':
+            # Retorna o modo atual baseado nas variáveis de ambiente
+            return jsonify({
+                'success': True,
+                'config': {
+                    'testnet_mode': USE_TESTNET,
+                    'current_mode': 'testnet' if USE_TESTNET else 'real',
+                    'has_credentials': bool(BINANCE_API_KEY and BINANCE_API_SECRET)
+                },
+                'timestamp': datetime.now().isoformat()
+            })
+            
+        elif request.method == 'POST':
+            data = request.get_json()
+            new_testnet_mode = data.get('testnet_mode', True)
+            
+            # Verificar se tem credenciais para modo real
+            if not new_testnet_mode and not (BINANCE_API_KEY and BINANCE_API_SECRET):
+                return jsonify({
+                    'success': False,
+                    'error': 'Credenciais Binance não configuradas. Configure as variáveis BINANCE_API_KEY e BINANCE_API_SECRET.'
+                }), 400
+            
+            # Alterar o modo de trading dinamicamente
+            try:
+                # Atualizar variável global
+                USE_TESTNET = new_testnet_mode
+                
+                # Reconfigurar o exchange com o novo modo
+                exchange = ccxt.binance({
+                    'apiKey': BINANCE_API_KEY,
+                    'secret': BINANCE_API_SECRET,
+                    'sandbox': USE_TESTNET,
+                    'enableRateLimit': True,
+                })
+                
+                # Atualizar arquivo .env para persistir a mudança
+                env_path = os.path.join(PROJECT_ROOT, '.env')
+                if os.path.exists(env_path):
+                    # Ler o arquivo .env atual
+                    with open(env_path, 'r', encoding='utf-8') as f:
+                        lines = f.readlines()
+                    
+                    # Atualizar a linha USE_TESTNET
+                    updated_lines = []
+                    found_testnet = False
+                    
+                    for line in lines:
+                        if line.startswith('USE_TESTNET='):
+                            updated_lines.append(f'USE_TESTNET={"true" if new_testnet_mode else "false"}\n')
+                            found_testnet = True
+                        else:
+                            updated_lines.append(line)
+                    
+                    # Se não encontrou a linha, adicionar
+                    if not found_testnet:
+                        updated_lines.append(f'USE_TESTNET={"true" if new_testnet_mode else "false"}\n')
+                    
+                    # Escrever de volta
+                    with open(env_path, 'w', encoding='utf-8') as f:
+                        f.writelines(updated_lines)
+                
+                mode_text = 'testnet' if new_testnet_mode else 'real'
+                logger.info(f"Modo de trading alterado para: {mode_text}")
+                
+                return jsonify({
+                    'success': True,
+                    'message': f'Modo alterado para {mode_text} com sucesso!',
+                    'config': {
+                        'testnet_mode': new_testnet_mode,
+                        'current_mode': mode_text,
+                        'has_credentials': bool(BINANCE_API_KEY and BINANCE_API_SECRET)
+                    }
+                })
+                
+            except Exception as e:
+                logger.error(f"Erro ao alterar modo de trading: {str(e)}")
+                return jsonify({
+                    'success': False,
+                    'error': f'Erro ao alterar modo: {str(e)}'
+                }), 500
+            
+    except Exception as e:
+        logger.error(f"Erro no endpoint trading/mode: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 # Servir arquivos estáticos do frontend

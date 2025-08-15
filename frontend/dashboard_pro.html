@@ -3,7 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 MoCoVe AI Trading - Dashboard Pro</title>
+    <title>🚀 MoCoVe A                <!-- AI Trading Toggle -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-medium">Trading Automático</span>
+                        <div id="aiTradingStatus" class="text-sm font-bold status-offline">Inativo</div>
+                    </div>
+                    <button id="toggleTradingBtn" onclick="toggleAITrading()" 
+                            class="w-full btn-primary py-3 rounded-lg font-medium mb-3">
+                        🚀 Ativar Trading IA
+                    </button>
+                </div>
+                
+                <!-- Trading Mode Toggle -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-medium">Modo de Trading</span>
+                        <div id="tradingMode" class="text-sm font-bold text-yellow-400">Testnet</div>
+                    </div>
+                    <button id="toggleModeBtn" onclick="toggleTradingMode()" 
+                            class="w-full py-3 rounded-lg font-medium bg-yellow-600 hover:bg-yellow-700 text-white">
+                        ⚡ Alternar para Real
+                    </button>
+                    <div class="text-xs text-gray-400 mt-1 text-center">
+                        <span id="modeWarning">Modo seguro ativo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <title>MoCoVe - Dashboard Pro</title>
     
     <!-- CSS Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -49,6 +79,18 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
         }
         
         .metric-card {
@@ -158,6 +200,18 @@
                     Controle de Trading
                 </h2>
                 
+                <!-- Trading Mode Toggle -->
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-medium">Modo de Trading</span>
+                        <div id="tradingMode" class="text-sm font-bold text-yellow-400">Testnet</div>
+                    </div>
+                    <button id="toggleModeBtn" onclick="toggleTradingMode()" 
+                            class="w-full mb-3 py-2 rounded-lg font-medium bg-yellow-600 hover:bg-yellow-700 text-white transition-all">
+                        ⚠️ Ativar Trading Real
+                    </button>
+                </div>
+                
                 <!-- AI Trading Toggle -->
                 <div class="mb-6">
                     <div class="flex items-center justify-between mb-2">
@@ -165,7 +219,7 @@
                         <div id="aiTradingStatus" class="text-sm font-bold status-offline">Inativo</div>
                     </div>
                     <button id="toggleTradingBtn" onclick="toggleAITrading()" 
-                            class="w-full btn-primary py-3 rounded-lg font-medium">
+                            class="w-full btn-primary py-3 rounded-lg font-medium mb-3">
                         🚀 Ativar Trading IA
                     </button>
                 </div>
@@ -291,6 +345,8 @@
         // Global Variables
         const API_BASE = 'http://localhost:5000/api';
         let isAITradingActive = false;
+        let isTestnetMode = true;
+        let hasCredentials = false;
         let priceChart = null;
         let refreshInterval = null;
 
@@ -305,6 +361,7 @@
             try {
                 await Promise.all([
                     updateSystemStatus(),
+                    updateTradingMode(),
                     updatePortfolio(),
                     updateAIAnalysis(),
                     updateAILogs(),
@@ -314,6 +371,20 @@
             } catch (error) {
                 console.error('Erro ao inicializar dashboard:', error);
                 showNotification('Erro ao carregar dashboard', 'error');
+            }
+        }
+
+        async function updateTradingMode() {
+            try {
+                const response = await axios.get(`${API_BASE}/trading/mode`);
+                if (response.data.success) {
+                    const config = response.data.config;
+                    isTestnetMode = config.testnet_mode;
+                    hasCredentials = config.has_credentials;
+                    updateTradingModeButton();
+                }
+            } catch (error) {
+                console.error('Erro ao obter modo de trading:', error);
             }
         }
 
@@ -349,6 +420,10 @@
                     // Update AI Trading status
                     isAITradingActive = status.ai_agent_active;
                     updateAITradingButton();
+                    
+                    // Update trading mode
+                    isTestnetMode = status.testnet_mode;
+                    updateTradingModeButton();
                 }
             } catch (error) {
                 console.error('Erro ao atualizar status:', error);
@@ -373,36 +448,223 @@
             
             if (isAITradingActive) {
                 button.textContent = '⏹️ Desativar Trading IA';
-                button.className = 'w-full py-3 rounded-lg font-medium bg-red-600 hover:bg-red-700 text-white';
+                button.className = 'w-full py-3 rounded-lg font-medium bg-red-600 hover:bg-red-700 text-white mb-3';
                 status.textContent = 'Ativo';
                 status.className = 'text-sm font-bold status-online';
             } else {
                 button.textContent = '🚀 Ativar Trading IA';
-                button.className = 'w-full btn-primary py-3 rounded-lg font-medium';
+                button.className = 'w-full btn-primary py-3 rounded-lg font-medium mb-3';
                 status.textContent = 'Inativo';
                 status.className = 'text-sm font-bold status-offline';
             }
         }
 
-        async function toggleAITrading() {
-            const button = document.getElementById('toggleTradingBtn');
+        function updateTradingModeButton() {
+            const button = document.getElementById('toggleModeBtn');
+            const modeDisplay = document.getElementById('tradingMode');
+            const warning = document.getElementById('modeWarning');
+            
+            if (isTestnetMode) {
+                button.textContent = '⚡ Alternar para Real';
+                button.className = 'w-full py-3 rounded-lg font-medium bg-yellow-600 hover:bg-yellow-700 text-white';
+                modeDisplay.textContent = 'Testnet';
+                modeDisplay.className = 'text-sm font-bold text-yellow-400';
+                warning.textContent = 'Modo seguro ativo';
+            } else {
+                button.textContent = '🛡️ Voltar para Testnet';
+                button.className = 'w-full py-3 rounded-lg font-medium bg-red-600 hover:bg-red-700 text-white';
+                modeDisplay.textContent = 'Real Trading';
+                modeDisplay.className = 'text-sm font-bold text-red-400';
+                warning.textContent = '⚠️ Trading com dinheiro real!';
+            }
+            
+            if (!hasCredentials && !isTestnetMode) {
+                button.disabled = true;
+                button.textContent = '❌ Credenciais necessárias';
+                warning.textContent = 'Configure API Keys primeiro';
+            }
+        }
+
+        async function toggleTradingMode() {
+            const button = document.getElementById('toggleModeBtn');
+            const originalText = button.textContent;
             button.disabled = true;
             button.textContent = '⏳ Processando...';
             
             try {
-                // This would typically call an API to start/stop the AI agent
-                // For now, we'll just simulate the toggle
-                showNotification('Funcionalidade em desenvolvimento', 'warning');
+                // Confirm if switching to real trading
+                if (isTestnetMode) {
+                    const confirmed = confirm(
+                        '⚠️ ATENÇÃO: Você está prestes a ativar o TRADING REAL!\n\n' +
+                        'Isso usará dinheiro real da sua conta Binance.\n' +
+                        'Certifique-se de que suas API keys estão configuradas corretamente.\n\n' +
+                        'Deseja continuar?'
+                    );
+                    
+                    if (!confirmed) {
+                        button.disabled = false;
+                        button.textContent = originalText;
+                        return;
+                    }
+                }
                 
-                setTimeout(() => {
-                    button.disabled = false;
-                    updateAITradingButton();
-                }, 2000);
+                const response = await axios.post(`${API_BASE}/trading/mode`, {
+                    testnet_mode: !isTestnetMode
+                });
+                
+                if (response.data.success) {
+                    isTestnetMode = !isTestnetMode;
+                    updateTradingModeButton();
+                    
+                    const mode = isTestnetMode ? 'TESTNET' : 'REAL';
+                    showNotification(`Modo alterado para: ${mode}`, 'success');
+                    
+                    // Refresh system status
+                    await updateSystemStatus();
+                } else {
+                    showNotification('Erro ao alterar modo de trading', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Erro ao alternar modo de trading:', error);
+                
+                // Mensagens de erro mais específicas
+                let errorMsg = 'Erro de conexão';
+                if (error.response) {
+                    if (error.response.status === 404) {
+                        errorMsg = 'Endpoint não encontrado - Verifique se o backend está rodando';
+                    } else if (error.response.status === 405) {
+                        errorMsg = 'Método não permitido - Problema no servidor';
+                    } else if (error.response.data?.error) {
+                        errorMsg = error.response.data.error;
+                    }
+                } else if (error.code === 'ECONNREFUSED' || error.message.includes('Network Error')) {
+                    errorMsg = 'Backend offline - Execute: python backend/app.py';
+                }
+                
+                showNotification(`❌ ${errorMsg}`, 'error');
+            } finally {
+                button.disabled = false;
+            }
+        }
+        
+        function updateTradingModeButton() {
+            const button = document.getElementById('toggleModeBtn');
+            const modeDisplay = document.getElementById('tradingMode');
+            
+            if (!isTestnetMode) {
+                button.textContent = '🔒 Voltar para Testnet';
+                button.className = 'w-full mb-3 py-2 rounded-lg font-medium bg-red-600 hover:bg-red-700 text-white transition-all';
+                modeDisplay.textContent = 'REAL';
+                modeDisplay.className = 'text-sm font-bold text-red-400';
+            } else {
+                button.textContent = '⚠️ Ativar Trading Real';
+                button.className = 'w-full mb-3 py-2 rounded-lg font-medium bg-yellow-600 hover:bg-yellow-700 text-white transition-all';
+                modeDisplay.textContent = 'Testnet';
+                modeDisplay.className = 'text-sm font-bold text-yellow-400';
+            }
+        }
+
+        async function toggleAITrading() {
+            const button = document.getElementById('toggleTradingBtn');
+            const statusElement = document.getElementById('aiTradingStatus');
+            const originalText = button.textContent;
+            
+            button.disabled = true;
+            button.textContent = '⏳ Processando...';
+            
+            try {
+                // Primeiro, verificar o status atual
+                const statusResponse = await axios.get(`${API_BASE}/ai-trading/status`);
+                const isCurrentlyRunning = statusResponse.data.status?.is_running || false;
+                
+                // Alternar o estado
+                const response = await axios.post(`${API_BASE}/ai-trading/toggle`, {
+                    enable: !isCurrentlyRunning
+                });
+                
+                if (response.data.success) {
+                    const newStatus = response.data.status;
+                    
+                    if (newStatus === 'starting' || newStatus === 'running') {
+                        showNotification('🚀 AI Trading Agent iniciado com sucesso!', 'success');
+                        statusElement.textContent = 'Ativo';
+                        statusElement.className = 'text-sm font-bold status-online';
+                        button.textContent = '⏹️ Parar Trading IA';
+                        button.className = 'w-full btn-danger py-3 rounded-lg font-medium mb-3';
+                    } else {
+                        showNotification('⏹️ AI Trading Agent parado', 'info');
+                        statusElement.textContent = 'Inativo';
+                        statusElement.className = 'text-sm font-bold status-offline';
+                        button.textContent = '🚀 Ativar Trading IA';
+                        button.className = 'w-full btn-primary py-3 rounded-lg font-medium mb-3';
+                    }
+                    
+                    // Atualizar status após um breve delay
+                    setTimeout(async () => {
+                        await updateAIStatus();
+                    }, 2000);
+                    
+                } else {
+                    throw new Error(response.data.error || 'Erro desconhecido');
+                }
+                
             } catch (error) {
                 console.error('Erro ao alternar trading IA:', error);
-                showNotification('Erro ao alternar trading IA', 'error');
+                
+                let errorMsg = 'Erro ao controlar AI Trading';
+                if (error.response?.data?.error) {
+                    errorMsg = error.response.data.error;
+                } else if (error.message) {
+                    errorMsg = error.message;
+                }
+                
+                showNotification(`❌ ${errorMsg}`, 'error');
+            } finally {
                 button.disabled = false;
-                updateAITradingButton();
+                if (button.textContent === '⏳ Processando...') {
+                    button.textContent = originalText;
+                }
+            }
+        }
+
+        async function updateAIStatus() {
+            try {
+                const response = await axios.get(`${API_BASE}/ai-trading/status`);
+                
+                if (response.data.success) {
+                    const status = response.data.status;
+                    const statusElement = document.getElementById('aiTradingStatus');
+                    const button = document.getElementById('toggleTradingBtn');
+                    
+                    if (status.is_running) {
+                        statusElement.textContent = 'Ativo';
+                        statusElement.className = 'text-sm font-bold status-online';
+                        button.textContent = '⏹️ Parar Trading IA';
+                        button.className = 'w-full btn-danger py-3 rounded-lg font-medium mb-3';
+                    } else {
+                        statusElement.textContent = 'Inativo';
+                        statusElement.className = 'text-sm font-bold status-offline';
+                        button.textContent = '🚀 Ativar Trading IA';
+                        button.className = 'w-full btn-primary py-3 rounded-lg font-medium mb-3';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar status do AI:', error);
+            }
+        }
+
+        async function updateTradingMode() {
+            try {
+                const response = await axios.get(`${API_BASE}/trading/mode`);
+                if (response.data.success) {
+                    const config = response.data.config;
+                    isTestnetMode = config.testnet_mode;
+                    hasCredentials = config.has_credentials;
+                    updateTradingModeButton();
+                }
+            } catch (error) {
+                console.error('Erro ao obter modo de trading:', error);
             }
         }
 
@@ -586,7 +848,8 @@
                     updateSystemStatus(),
                     updatePortfolio(),
                     updateAIAnalysis(),
-                    updateAILogs()
+                    updateAILogs(),
+                    updateAIStatus()
                 ]);
             }, 15000);
         }

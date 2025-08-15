@@ -1,0 +1,17 @@
+{
+  "trading_mode": "testnet",
+  "binance_api_key": "",
+  "binance_api_secret": "",
+  "use_testnet": true,
+  "risk_management": {
+    "max_trade_amount": 100.0,
+    "stop_loss_percentage": 2.0,
+    "take_profit_percentage": 3.0
+  },
+  "ai_config": {
+    "enabled": false,
+    "check_interval": 60,
+    "confidence_threshold": 0.7
+  },
+  "last_updated": "2025-08-15T17:00:00.000000"
+}
