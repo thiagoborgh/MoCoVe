@@ -206,11 +206,29 @@
                 <div>
                     <label class="block text-sm font-semibold mb-2">Moeda</label>
                     <select id="tradingSymbol" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600">
-                        <option value="DOGEUSDT">DOGE/USDT</option>
-                        <option value="SHIBUSDT">SHIB/USDT</option>
-                        <option value="PEPEUSDT">PEPE/USDT</option>
-                        <option value="FLOKIUSDT">FLOKI/USDT</option>
-                        <option value="WIFUSDT">WIF/USDT</option>
+                        <option>Carregando símbolos...</option>
+        // Carregar símbolos disponíveis da Binance e popular o select
+        async function loadAvailableSymbols() {
+            const select = document.getElementById('tradingSymbol');
+            select.innerHTML = '<option>Carregando símbolos...</option>';
+            try {
+                const data = await apiCall('/binance/symbols');
+                if (data.success && Array.isArray(data.symbols)) {
+                    select.innerHTML = '';
+                    data.symbols.forEach(symbol => {
+                        const option = document.createElement('option');
+                        option.value = symbol;
+                        option.textContent = symbol;
+                        select.appendChild(option);
+                    });
+                    updateCurrentPrice();
+                } else {
+                    select.innerHTML = '<option>Erro ao carregar símbolos</option>';
+                }
+            } catch (error) {
+                select.innerHTML = '<option>Erro de conexão</option>';
+            }
+        }
                     </select>
                 </div>
                 <div>
@@ -228,118 +246,33 @@
             </div>
         </div>
         
-        <!-- Controles Essenciais -->
-        <div class="card">
-            <h2 class="text-2xl font-bold mb-6">🎛️ Status dos Componentes</h2>
-            
-            <!-- Status dos Componentes (apenas visualização) -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div class="p-3 bg-gray-700 rounded text-center">
-                    <div class="text-lg">🖥️ Backend</div>
-                    <div id="backend-status" class="text-sm text-yellow-400">Verificando...</div>
+
+        <!-- Status do Trading IA Centralizado -->
+        <div class="card mb-6">
+            <h2 class="text-2xl font-bold mb-4">🤖 Status do Trading IA</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                <div class="p-4 bg-gray-700 rounded">
+                    <div class="text-sm text-gray-400 mb-1">Status do Sistema</div>
+                    <div id="tradingStatus" class="text-yellow-400 font-bold text-lg">Verificando...</div>
                 </div>
-                <div class="p-3 bg-gray-700 rounded text-center">
-                    <div class="text-lg">🔗 Binance</div>
-                    <div id="binance-status" class="text-sm text-yellow-400">Verificando...</div>
+                <div class="p-4 bg-gray-700 rounded">
+                    <div class="text-sm text-gray-400 mb-1">Última Análise</div>
+                    <div id="lastAnalysis" class="text-blue-400 font-bold">Carregando...</div>
                 </div>
-                <div class="p-3 bg-gray-700 rounded text-center">
-                    <div class="text-lg">🤖 AI Agent</div>
-                    <div id="ai-status" class="text-sm text-yellow-400">Verificando...</div>
+                <div class="p-4 bg-gray-700 rounded">
+                    <div class="text-sm text-gray-400 mb-1">Pensamento da IA</div>
+                    <div id="aiThoughts" class="text-gray-400">Carregando...</div>
                 </div>
-                <div class="p-3 bg-gray-700 rounded text-center">
-                    <div class="text-lg">📋 Watchlist</div>
-                    <div id="watchlist-status" class="text-sm text-yellow-400">Verificando...</div>
+                <div class="p-4 bg-gray-700 rounded">
+                    <div class="text-sm text-gray-400 mb-1">Controle</div>
+                    <div id="aiTradingControl" class="text-gray-400">Carregando...</div>
                 </div>
             </div>
-            
-            <!-- Apenas controle essencial -->
-            <div class="text-center">
-                <button onclick="refreshAll()" class="btn-success">
-                    🔄 Atualizar Dashboard Completo
-                </button>
+            <div class="flex gap-4">
+                <button id="toggleTradingBtn" class="btn-primary flex-1" onclick="toggleAutoTrading()">🔄 Verificando...</button>
+                <button class="btn-secondary" onclick="checkAITradingStatus()">🔍 Verificar Status</button>
             </div>
         </div>
-
-        <!-- Dashboard Principal -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Saldo da Conta -->
-            <div class="card">
-                <h3 class="text-xl font-bold mb-4">� Saldo da Conta</h3>
-                <div id="balanceInfo" class="space-y-2">
-                    <div class="loading">Carregando saldo...</div>
-                </div>
-            </div>
-            
-            <!-- Watchlist Resumo -->
-            <div class="card">
-                <h3 class="text-xl font-bold mb-4">� Watchlist Ativa</h3>
-                <div id="watchlistSummary" class="space-y-2">
-                    <div class="loading">Carregando watchlist...</div>
-                </div>
-            </div>
-
-            <!-- Performance Hoje -->
-            <div class="card">
-                <h3 class="text-xl font-bold mb-4">� Performance Hoje</h3>
-                <div id="dailyPerformance" class="space-y-2">
-                    <div class="loading">Carregando performance...</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Trading Dashboard -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-            <!-- Histórico de Trades -->
-            <div class="card">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold">📈 Registro de Operações</h3>
-                    <button onclick="loadTradesHistory()" class="btn-primary text-sm">🔄 Atualizar</button>
-                </div>
-                <div id="tradesHistory" class="space-y-2 max-h-80 overflow-y-auto">
-                    <div class="loading">Carregando trades...</div>
-                </div>
-                <div class="mt-3 p-2 bg-gray-800 rounded text-xs text-gray-400">
-                    💡 Histórico completo de compras e vendas executadas
-                </div>
-            </div>
-            
-            <!-- Posições Atuais -->
-            <div class="card">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold">💼 Posições Atuais</h3>
-                    <button onclick="loadCurrentPositions()" class="btn-primary text-sm">🔄 Atualizar</button>
-                </div>
-                <div id="currentPositions" class="space-y-2 max-h-80 overflow-y-auto">
-                    <div class="loading">Carregando posições...</div>
-                </div>
-                <div class="mt-3 p-2 bg-gray-800 rounded text-xs text-gray-400">
-                    💰 Saldos atuais de todas as moedas
-                </div>
-            </div>
-        </div>
-
-        <!-- Pensamento da IA em Tempo Real -->
-        <div class="card mt-6">
-            <h3 class="text-xl font-bold mb-4">🧠 Pensamento da IA Trading</h3>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Análise Técnica -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-3 text-blue-400">📊 Análise Técnica</h4>
-                    <div id="technicalAnalysis" class="space-y-2 max-h-60 overflow-y-auto">
-                        <div class="loading">Analisando mercado...</div>
-                    </div>
-                </div>
-                
-                <!-- Decisões da IA -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-3 text-purple-400">🤖 Decisões da IA</h4>
-                    <div id="aiDecisions" class="space-y-2 max-h-60 overflow-y-auto">
-                        <div class="loading">Carregando decisões...</div>
-                    </div>
-                </div>
-                
-                <!-- Log de Atividades -->
-                <div>
                     <h4 class="text-lg font-semibold mb-3 text-green-400">⚡ Atividades Recentes</h4>
                     <div id="aiActivityLog" class="space-y-2 max-h-60 overflow-y-auto">
                         <div class="loading">Carregando atividades...</div>
@@ -366,62 +299,51 @@
                 </div>
             </div>
             
-            <!-- Sentimento Social -->
-            <div class="card">
-                <h3 class="text-xl font-bold mb-4">📱 Sentimento Social</h3>
-                <div id="sentimentData" class="space-y-2">
-                    <div class="loading">Carregando sentimento...</div>
+
+
+
+            <!-- Grid de Cards Analíticos Único e Limpo -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                <!-- Próximos Movimentos -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-purple-300 flex items-center gap-2">🎯 Próximos Movimentos</h3>
+                    <div id="nextMoves" class="text-sm flex-1">
+                        <div class="loading">Calculando estratégia...</div>
+                    </div>
+                </div>
+                <!-- Pensamento da IA -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4">🧠 Pensamento da IA Trading</h3>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-2 text-blue-400">📊 Análise Técnica</h4>
+                        <div id="technicalAnalysis" class="space-y-2 max-h-32 overflow-y-auto mb-2">
+                            <div class="loading">Analisando mercado...</div>
+                        </div>
+                        <h4 class="text-lg font-semibold mb-2 text-purple-400">🤖 Decisões da IA</h4>
+                        <div id="aiDecisions" class="space-y-2 max-h-32 overflow-y-auto mb-2">
+                            <div class="loading">Carregando decisões...</div>
+                        </div>
+                        <h4 class="text-lg font-semibold mb-2 text-green-400">⚡ Atividades Recentes</h4>
+                        <div id="aiActivityLog" class="space-y-2 max-h-32 overflow-y-auto">
+                            <div class="loading">Carregando atividades...</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top Performers -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-yellow-300 flex items-center gap-2">🏆 Top Performers</h3>
+                    <div id="topPerformers" class="space-y-2 flex-1">
+                        <div class="loading">Carregando performers...</div>
+                    </div>
+                </div>
+                <!-- Sentimento Social -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-pink-300 flex items-center gap-2">📱 Sentimento Social</h3>
+                    <div id="sentimentData" class="space-y-2 flex-1">
+                        <div class="loading">Carregando sentimento...</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <script>
-        // Estado do trading IA
-        let iaTradingActive = false;
-
-        // Função para ativar/desativar trading automático
-        async function toggleAutoTrading() {
-            const btn = document.getElementById('toggleTradingBtn');
-            const status = document.getElementById('tradingStatus');
-            const control = document.getElementById('aiTradingControl');
-            
-            btn.disabled = true;
-            btn.textContent = '⏳ Processando...';
-            
-            try {
-                if (iaTradingActive) {
-                    // Desativar Trading IA
-                    showNotification('Parando AI Trading Agent...', 'info');
-                    const response = await apiCall('/system/stop-ai-agent', { method: 'POST' });
-                    
-                    if (response.success) {
-                        iaTradingActive = false;
-                        btn.textContent = '🚀 Ativar Trading IA';
-                        btn.className = 'btn-primary flex-1';
-                        status.textContent = 'Inativo';
-                        status.className = 'text-red-400 font-bold';
-                        control.textContent = 'Parado';
-                        showNotification('Trading IA desativado!', 'success');
-                    } else {
-                        throw new Error(response.message || 'Erro ao parar AI Agent');
-                    }
-                } else {
-                    // Ativar Trading IA
-                    showNotification('Iniciando AI Trading Agent...', 'info');
-                    const response = await apiCall('/system/start-ai-agent', { method: 'POST' });
-                    
-                    if (response.success) {
-                        iaTradingActive = true;
-                        btn.textContent = '⏹️ Desativar Trading IA';
-                        btn.className = 'btn-danger flex-1';
-                        status.textContent = 'Ativo';
-                        status.className = 'text-green-400 font-bold';
-                        control.textContent = 'Rodando';
-                        showNotification('Trading IA ativado!', 'success');
-                        
-                        // Aguardar um pouco e verificar status
-                        setTimeout(() => {
                             checkAITradingStatus();
                         }, 3000);
                     } else {
@@ -600,20 +522,13 @@
 
         async function updateCurrentPrice() {
             const symbol = document.getElementById('tradingSymbol').value;
-            
             try {
-                // Simular preço até termos endpoint real de preços
-                const prices = {
-                    'DOGEUSDT': 0.082,
-                    'SHIBUSDT': 0.0000095,
-                    'PEPEUSDT': 0.0000014,
-                    'FLOKIUSDT': 0.000028,
-                    'WIFUSDT': 2.45
-                };
-                
-                const price = prices[symbol] || 0;
-                document.getElementById('currentPrice').textContent = `$${price.toFixed(8)}`;
-                
+                const data = await apiCall(`/market_data?symbol=${symbol}`);
+                if (data && data.price) {
+                    document.getElementById('currentPrice').textContent = `$${data.price.toFixed(8)}`;
+                } else {
+                    document.getElementById('currentPrice').textContent = 'Erro';
+                }
             } catch (error) {
                 document.getElementById('currentPrice').textContent = 'Erro';
             }
@@ -639,6 +554,75 @@
             }
         }
 
+
+        // Carregar dados principais ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            updateButtonsStatus();
+            loadBalanceInfo();
+            loadWatchlistSummary();
+            loadDailyPerformance();
+            loadTradesHistory();
+            loadCurrentPositions();
+            loadTechnicalAnalysis();
+            loadAIDecisions();
+            loadAIActivityLog();
+            loadNextMoves();
+            loadTopPerformers();
+            loadSentimentData();
+            setInterval(() => {
+                updateButtonsStatus();
+                loadBalanceInfo();
+                loadWatchlistSummary();
+                loadDailyPerformance();
+                loadTradesHistory();
+                loadCurrentPositions();
+                loadTechnicalAnalysis();
+                loadAIDecisions();
+                loadAIActivityLog();
+                loadNextMoves();
+                loadTopPerformers();
+                loadSentimentData();
+            }, 30000); // Atualiza a cada 30 segundos
+        });
+        // Carregar Top Performers
+        async function loadTopPerformers() {
+            try {
+                const data = await apiCall('/market_data/top_performers');
+                if (data && data.success && Array.isArray(data.performers)) {
+                    const html = data.performers.map(p => `
+                        <div class="flex justify-between">
+                            <span>${p.symbol}</span>
+                            <span class="${p.change > 0 ? 'text-green-400' : 'text-red-400'} font-bold">${p.change > 0 ? '+' : ''}${p.change.toFixed(2)}%</span>
+                        </div>
+                    `).join('');
+                    document.getElementById('topPerformers').innerHTML = html;
+                } else {
+                    document.getElementById('topPerformers').innerHTML = '<div class="text-gray-400">Nenhum performer encontrado</div>';
+                }
+            } catch (error) {
+                document.getElementById('topPerformers').innerHTML = '<div class="text-red-400">Erro ao carregar performers</div>';
+            }
+        }
+
+        // Carregar Sentimento Social
+        async function loadSentimentData() {
+            try {
+                const data = await apiCall('/sentiment/summary');
+                if (data && data.success && Array.isArray(data.sentiments)) {
+                    const html = data.sentiments.map(s => `
+                        <div class="flex justify-between">
+                            <span>${s.symbol}</span>
+                            <span class="${s.score > 0 ? 'text-green-400' : 'text-red-400'} font-bold">${s.score > 0 ? '+' : ''}${s.score.toFixed(2)}</span>
+                        </div>
+                    `).join('');
+                    document.getElementById('sentimentData').innerHTML = html;
+                } else {
+                    document.getElementById('sentimentData').innerHTML = '<div class="text-gray-400">Nenhum dado de sentimento</div>';
+                }
+            } catch (error) {
+                document.getElementById('sentimentData').innerHTML = '<div class="text-red-400">Erro ao carregar sentimento</div>';
+            }
+        }
         // Sistema de notificações
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
@@ -961,391 +945,50 @@
             }
         }
 
-        // Carregar histórico de trades
+        // Carregar histórico de trades (ampliado)
         async function loadTradesHistory() {
             try {
-                const data = await apiCall('/trades?limit=15');
-                
+                const data = await apiCall('/trades?limit=100');
                 if (data && Array.isArray(data) && data.length > 0) {
                     const trades = data;
-                    
-                    const html = trades.map(trade => {
-                        const side = trade.side || trade.type || 'N/A';
-                        const symbol = trade.symbol || 'N/A';
-                        const quantity = trade.quantity || trade.amount || 0;
-                        const price = trade.price || 0;
-                        const amount_usdt = trade.amount_usdt || trade.total || 0;
-                        const timestamp = trade.timestamp || Date.now();
-                        const status = trade.status || 'COMPLETED';
-                        
-                        const sideColor = side === 'BUY' ? 'text-green-400' : side === 'SELL' ? 'text-red-400' : 'text-yellow-400';
-                        const statusColor = status === 'COMPLETED' ? 'text-green-400' : status === 'FAILED' ? 'text-red-400' : 'text-yellow-400';
-                        
-                        return `
-                            <div class="p-3 bg-gray-700 rounded mb-2">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <div class="font-bold text-blue-300">${symbol}</div>
-                                        <div class="text-sm text-gray-400">${new Date(timestamp).toLocaleString()}</div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="${sideColor} font-bold">${side}</div>
-                                        <div class="text-xs ${statusColor}">${status}</div>
-                                    </div>
-                                </div>
-                                <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
-                                    <div>Qtd: <span class="text-yellow-300">${parseFloat(quantity).toFixed(8)}</span></div>
-                                    <div>Preço: <span class="text-green-300">$${parseFloat(price).toFixed(8)}</span></div>
-                                    <div>Total: <span class="text-blue-300">$${parseFloat(amount_usdt).toFixed(2)}</span></div>
-                                    <div>ID: <span class="text-gray-400">#${trade.order_id || 'N/A'}</span></div>
-                                </div>
+                    const html = trades.map(trade => `
+                        <div class="flex justify-between items-center border-b border-gray-700 py-2">
+                            <div>
+                                <span class="font-bold ${trade.type === 'buy' ? 'text-green-400' : 'text-red-400'}">${trade.type.toUpperCase()}</span>
+                                <span class="ml-2 text-gray-300">${trade.symbol}</span>
                             </div>
-                        `;
-                    }).join('');
-                    
+                            <div class="text-right">
+                                <div class="text-sm">${parseFloat(trade.amount).toFixed(2)} USDT</div>
+                                <div class="text-xs text-gray-400">${parseFloat(trade.price).toFixed(6)} | ${trade.date ? new Date(trade.date).toLocaleString() : (trade.timestamp ? new Date(trade.timestamp).toLocaleString() : '')}</div>
+                            </div>
+                        </div>
+                    `).join('');
                     document.getElementById('tradesHistory').innerHTML = html;
                 } else {
-                    document.getElementById('tradesHistory').innerHTML = `
-                        <div class="text-center p-6 text-gray-400">
-                            <div class="text-2xl mb-2">📭</div>
-                            <div>Nenhuma operação encontrada</div>
-                            <div class="text-sm mt-1">Comece a negociar para ver o histórico!</div>
-                        </div>
-                    `;
+                    document.getElementById('tradesHistory').innerHTML = `<div class="text-gray-400">Nenhuma transação encontrada.</div>`;
                 }
             } catch (error) {
-                console.error('Erro ao carregar trades:', error);
                 document.getElementById('tradesHistory').innerHTML = '<div class="text-red-400">Erro ao carregar histórico de trades</div>';
             }
         }
 
-        // Carregar posições atuais
-        async function loadCurrentPositions() {
-            try {
-                const data = await apiCall('/trading/positions');
-                
-                if (data && data.success && Array.isArray(data.positions) && data.positions.length > 0) {
-                    const positions = data.positions;
-                    const totalValue = data.total_value || 0;
-                    
-                    const html = positions.map(position => {
-                        const currency = position.currency;
-                        const quantity = position.quantity || 0;
-                        const value_usdt = position.value_usdt || 0;
-                        const free = position.free || 0;
-                        const used = position.used || 0;
-                        
-                        let currencyIcon = '💰';
-                        if (currency === 'USDT') currencyIcon = '💵';
-                        if (currency === 'DOGE') currencyIcon = '🐕';
-                        if (currency === 'SHIB') currencyIcon = '🦊';
-                        if (currency === 'PEPE') currencyIcon = '🐸';
-                        
-                        return `
-                            <div class="p-3 bg-gray-700 rounded mb-2">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <div class="font-bold text-blue-300">${currencyIcon} ${currency}</div>
-                                        <div class="text-sm text-gray-400">Posição atual</div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-green-400 font-bold">$${value_usdt.toFixed(2)}</div>
-                                        <div class="text-xs text-gray-400">Valor USDT</div>
-                                    </div>
-                                </div>
-                                <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
-                                    <div>Total: <span class="text-yellow-300">${quantity.toFixed(8)}</span></div>
-                                    <div>Livre: <span class="text-green-300">${free.toFixed(8)}</span></div>
-                                    <div>Em uso: <span class="text-orange-300">${used.toFixed(8)}</span></div>
-                                    <div>%: <span class="text-blue-300">${((value_usdt / totalValue) * 100).toFixed(1)}%</span></div>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                    
-                    const summary = `
-                        <div class="p-3 bg-gradient-to-r from-green-600/20 to-blue-600/20 rounded mb-3 border border-green-500/30">
-                            <div class="text-center">
-                                <div class="text-lg font-bold text-green-400">$${totalValue.toFixed(2)}</div>
-                                <div class="text-sm text-gray-300">Valor Total da Carteira</div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    document.getElementById('currentPositions').innerHTML = summary + html;
-                } else {
-                    document.getElementById('currentPositions').innerHTML = `
-                        <div class="text-center p-6 text-gray-400">
-                            <div class="text-2xl mb-2">💼</div>
-                            <div>Nenhuma posição encontrada</div>
-                            <div class="text-sm mt-1">Configure a Binance para ver suas posições</div>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Erro ao carregar posições:', error);
-                document.getElementById('currentPositions').innerHTML = '<div class="text-red-400">Erro ao carregar posições</div>';
-            }
-        }
-
-        // Carregar decisões da IA
-        async function loadAIDecisions() {
-            try {
-                // Simular decisões da IA baseadas na watchlist
-                const watchlistData = await apiCall('/watchlist/summary');
-                
-                if (watchlistData.success && watchlistData.summary) {
-                    // Gerar decisões simuladas para demonstração
-                    const coins = ['DOGEUSDT', 'SHIBUSDT', 'PEPEUSDT', 'WIFUSDT', 'FLOKIUSDT'];
-                    const decisions = ['BUY', 'SELL', 'HOLD'];
-                    
-                    const aiDecisions = coins.map(coin => {
-                        const decision = decisions[Math.floor(Math.random() * decisions.length)];
-                        const confidence = 0.6 + Math.random() * 0.4;
-                        const reasons = [
-                            'RSI oversold, tendência de alta',
-                            'Volume alto, momento favorável',
-                            'Resistência próxima, aguardar',
-                            'Suporte forte, oportunidade',
-                            'Volatilidade alta, cautela'
-                        ];
-                        
-                        return {
-                            symbol: coin,
-                            decision: decision,
-                            confidence: confidence,
-                            reasoning: reasons[Math.floor(Math.random() * reasons.length)]
-                        };
-                    });
-                    
-                    const html = aiDecisions.map(decision => {
-                        const decisionColor = decision.decision === 'BUY' ? 'text-green-400' : 
-                                            decision.decision === 'SELL' ? 'text-red-400' : 'text-yellow-400';
-                        const decisionIcon = decision.decision === 'BUY' ? '📈' : 
-                                           decision.decision === 'SELL' ? '📉' : '➡️';
-                        
-                        return `
-                            <div class="flex justify-between items-center p-3 bg-gray-700 rounded">
-                                <div>
-                                    <div class="font-bold">${decision.symbol}</div>
-                                    <div class="text-sm text-gray-400">${decision.reasoning}</div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="${decisionColor} font-bold">${decisionIcon} ${decision.decision}</div>
-                                    <div class="text-sm text-gray-400">Confiança: ${(decision.confidence * 100).toFixed(0)}%</div>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                    
-                    document.getElementById('aiDecisions').innerHTML = html;
-                } else {
-                    document.getElementById('aiDecisions').innerHTML = '<div class="text-gray-400">IA offline - ative o AI Agent</div>';
-                }
-            } catch (error) {
-                document.getElementById('aiDecisions').innerHTML = '<div class="text-red-400">Erro ao carregar decisões da IA</div>';
-            }
-        }
-
-        // Carregar top performers
-        async function loadTopPerformers() {
-            try {
-                const data = await apiCall('/watchlist/top-performers?limit=5');
-                
-                if (data.success && data.performers) {
-                    const performers = data.performers;
-                    
-                    if (performers.length > 0) {
-                        const html = performers.map(coin => {
-                            const change = coin.change_24h || 0;
-                            const changeColor = change > 0 ? 'text-green-400' : 'text-red-400';
-                            const changeIcon = change > 0 ? '📈' : '📉';
-                            
-                            return `
-                                <div class="flex justify-between items-center">
-                                    <span>${changeIcon} ${coin.symbol}</span>
-                                    <div class="text-right">
-                                        <div class="${changeColor} font-bold">${change > 0 ? '+' : ''}${change.toFixed(2)}%</div>
-                                        <div class="text-xs text-gray-400">$${coin.price}</div>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('');
-                        
-                        document.getElementById('topPerformers').innerHTML = html;
-                    } else {
-                        document.getElementById('topPerformers').innerHTML = '<div class="text-gray-400">Nenhum dado disponível</div>';
-                    }
-                }
-            } catch (error) {
-                document.getElementById('topPerformers').innerHTML = '<div class="text-red-400">Erro ao carregar performers</div>';
-            }
-        }
-
-        // Carregar análise técnica da IA
-        async function loadTechnicalAnalysis() {
-            try {
-                // Simular análise técnica até termos endpoint real
-                const analysis = [
-                    {
-                        symbol: 'DOGEUSDT',
-                        rsi: 45.2,
-                        sma20: 0.082,
-                        sma50: 0.085,
-                        volume: 'Alto',
-                        trend: 'Lateral',
-                        recommendation: 'HOLD'
-                    },
-                    {
-                        symbol: 'SHIBUSDT',
-                        rsi: 72.8,
-                        sma20: 0.0000095,
-                        sma50: 0.0000092,
-                        volume: 'Médio',
-                        trend: 'Alta',
-                        recommendation: 'SELL'
-                    },
-                    {
-                        symbol: 'PEPEUSDT',
-                        rsi: 28.5,
-                        sma20: 0.0000014,
-                        sma50: 0.0000016,
-                        volume: 'Baixo',
-                        trend: 'Baixa',
-                        recommendation: 'BUY'
-                    }
-                ];
-
-                const html = analysis.map(coin => {
-                    const rsiColor = coin.rsi > 70 ? 'text-red-400' : coin.rsi < 30 ? 'text-green-400' : 'text-yellow-400';
-                    const trendColor = coin.trend === 'Alta' ? 'text-green-400' : coin.trend === 'Baixa' ? 'text-red-400' : 'text-yellow-400';
-                    const recColor = coin.recommendation === 'BUY' ? 'text-green-400' : coin.recommendation === 'SELL' ? 'text-red-400' : 'text-yellow-400';
-                    
-                    return `
-                        <div class="p-3 bg-gray-700 rounded mb-2">
-                            <div class="font-semibold text-blue-300">${coin.symbol}</div>
-                            <div class="text-sm grid grid-cols-2 gap-2 mt-1">
-                                <span>RSI: <span class="${rsiColor}">${coin.rsi}</span></span>
-                                <span>Volume: ${coin.volume}</span>
-                                <span>Trend: <span class="${trendColor}">${coin.trend}</span></span>
-                                <span>Rec: <span class="${recColor}">${coin.recommendation}</span></span>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                document.getElementById('technicalAnalysis').innerHTML = html;
-            } catch (error) {
-                document.getElementById('technicalAnalysis').innerHTML = '<div class="text-red-400">Erro ao carregar análise técnica</div>';
-            }
-        }
-
-        // Carregar log de atividades da IA
-        async function loadAIActivityLog() {
-            try {
-                // Simular atividades até termos endpoint real
-                const activities = [
-                    {
-                        time: new Date(Date.now() - 2000),
-                        action: 'Analisando',
-                        symbol: 'DOGEUSDT',
-                        details: 'RSI neutro, aguardando confirmação'
-                    },
-                    {
-                        time: new Date(Date.now() - 15000),
-                        action: 'Decisão',
-                        symbol: 'PEPEUSDT',
-                        details: 'RSI oversold detectado, recomendando BUY'
-                    },
-                    {
-                        time: new Date(Date.now() - 30000),
-                        action: 'Monitorando',
-                        symbol: 'SHIBUSDT',
-                        details: 'Volume alto, possível reversão'
-                    },
-                    {
-                        time: new Date(Date.now() - 45000),
-                        action: 'Trade',
-                        symbol: 'DOGEUSDT',
-                        details: 'Ordem de compra executada - $10 USDT'
-                    },
-                    {
-                        time: new Date(Date.now() - 60000),
-                        action: 'Alerta',
-                        symbol: 'FLOKIUSDT',
-                        details: 'Suporte quebrado, stop loss ativado'
-                    }
-                ];
-
-                const html = activities.map(activity => {
-                    const actionColor = activity.action === 'Trade' ? 'text-green-400' : 
-                                       activity.action === 'Alerta' ? 'text-red-400' : 
-                                       activity.action === 'Decisão' ? 'text-blue-400' : 'text-gray-400';
-                    
-                    return `
-                        <div class="p-2 bg-gray-800 rounded mb-1">
-                            <div class="flex justify-between items-start">
-                                <span class="${actionColor} font-semibold text-sm">${activity.action}</span>
-                                <span class="text-xs text-gray-500">${activity.time.toLocaleTimeString()}</span>
-                            </div>
-                            <div class="text-sm text-yellow-300">${activity.symbol}</div>
-                            <div class="text-xs text-gray-300 mt-1">${activity.details}</div>
-                        </div>
-                    `;
-                }).join('');
-                
-                document.getElementById('aiActivityLog').innerHTML = html;
-            } catch (error) {
-                document.getElementById('aiActivityLog').innerHTML = '<div class="text-red-400">Erro ao carregar atividades</div>';
-            }
-        }
-
-        // Carregar próximos movimentos da IA
-        async function loadNextMoves() {
-            try {
-                const nextMoves = [
-                    "🎯 Aguardando RSI do DOGE cair abaixo de 30 para entrada",
-                    "⏳ Monitorando volume do SHIB para possível saída",
-                    "📈 PEPE com setup de compra confirmado - aguardando confirmação",
-                    "🛡️ Stop loss configurado em 2% para todas as posições ativas"
-                ];
-
-                const html = nextMoves.map(move => `
-                    <div class="text-sm text-gray-300 mb-1">• ${move}</div>
-                `).join('');
-                
-                document.getElementById('nextMoves').innerHTML = html;
-            } catch (error) {
-                document.getElementById('nextMoves').innerHTML = '<div class="text-red-400">Erro ao carregar próximos movimentos</div>';
-            }
-        }
+        // Carregar sentimento social ampliado
         async function loadSentimentData() {
             try {
                 const data = await apiCall('/system/sentiment');
-                
                 if (data.success && data.sentiment) {
                     const sentiments = data.sentiment.sentiments || [];
-                    
                     if (sentiments.length > 0) {
-                        const html = sentiments.slice(0, 5).map(s => {
-                            const sentiment = s.avg_sentiment || 0;
-                            const emoji = sentiment > 0.3 ? '😊' : sentiment > -0.3 ? '😐' : '😞';
-                            const colorClass = sentiment > 0.3 ? 'text-green-400' : sentiment > -0.3 ? 'text-yellow-400' : 'text-red-400';
-                            
-                            return `
-                                <div class="flex justify-between items-center">
-                                    <span>${emoji} ${s.symbol}</span>
-                                    <div class="text-right">
-                                        <div class="${colorClass} font-bold">${sentiment.toFixed(2)}</div>
-                                        <div class="text-xs text-gray-400">${s.total_mentions} menções</div>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('');
-                        
+                        const html = sentiments.map(s => `
+                            <div class="flex justify-between items-center border-b border-gray-700 py-2">
+                                <div class="font-bold">${s.symbol}</div>
+                                <div class="text-sm">${(s.overall * 100).toFixed(1)}%</div>
+                                <div class="text-xs text-gray-400">Twitter: ${(s.twitter.score * 100).toFixed(0)}% | Reddit: ${(s.reddit.score * 100).toFixed(0)}% | Telegram: ${(s.telegram.score * 100).toFixed(0)}%</div>
+                            </div>
+                        `).join('');
                         document.getElementById('sentimentData').innerHTML = html;
                     } else {
-                        document.getElementById('sentimentData').innerHTML = '<div class="text-gray-400">Nenhum dado disponível</div>';
+                        document.getElementById('sentimentData').innerHTML = '<div class="text-gray-400">Sentimento offline</div>';
                     }
                 } else {
                     document.getElementById('sentimentData').innerHTML = '<div class="text-gray-400">Sentimento offline</div>';

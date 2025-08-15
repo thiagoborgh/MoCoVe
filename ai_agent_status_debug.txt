@@ -1,0 +1,2 @@
+DEBUG: Este arquivo é para testar se o Python tem permissão de escrita na pasta do projeto.
+Se você está lendo isso, a escrita está funcionando.

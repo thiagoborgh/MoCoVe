@@ -1,8 +1,18 @@
 {
-  "trade_amount": 1,
-  "max_daily_trades": 20,
-  "min_confidence": 40,
-  "stop_loss_percent": 5,
-  "take_profit_percent": 10,
-  "trading_mode": "balanced"
+  "config": {
+    "max_daily_trades": 100,
+    "min_confidence": 40,
+    "stop_loss_percent": 5,
+    "take_profit_percent": 10,
+    "trade_amount": 5,
+    "trading_mode": "balanced",
+    "trading_enabled": true,
+    "symbol": "",
+    "monitoring_interval": 30,
+    "max_position_size": 50,
+    "stop_loss_pct": 0.02,
+    "take_profit_pct": 0.03,
+    "min_trade_interval": 300,
+    "risk_level": "conservative"
+  }
 }

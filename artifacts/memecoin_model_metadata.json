@@ -1,0 +1,64 @@
+{
+  "n_samples": 14496,
+  "n_coins": 2,
+  "label_method": "threshold",
+  "future_window": 15,
+  "features": [
+    "price",
+    "sma9",
+    "sma21",
+    "sma50",
+    "ema12",
+    "ema26",
+    "rsi",
+    "bb_pos",
+    "macd",
+    "macd_signal",
+    "volatility",
+    "atr",
+    "volume_z",
+    "min24",
+    "max24",
+    "var24"
+  ],
+  "has_future_ret": true,
+  "test_size_frac": 0.2,
+  "model": "RandomForestClassifier",
+  "params": {
+    "n_estimators": 300,
+    "max_depth": null,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "class_weight": "balanced",
+    "random_state": 42
+  },
+  "report": "              precision    recall  f1-score   support\n\n          -1      0.000     0.000     0.000        16\n           0      0.994     0.999     0.997      2884\n\n    accuracy                          0.993      2900\n   macro avg      0.497     0.499     0.498      2900\nweighted avg      0.989     0.993     0.991      2900\n",
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      2880,
+      4
+    ],
+    [
+      0,
+      16,
+      0
+    ]
+  ],
+  "backtest": {
+    "signals": 4,
+    "win_rate": 0.0,
+    "avg_return_net": -7.786403521339711e-06,
+    "sum_return_net": -0.022580570211885163
+  },
+  "training_date": "2025-08-15T16:39:19.658596",
+  "thresholds": {
+    "buy_p": 0.3,
+    "sell_p": 0.3
+  }
+}

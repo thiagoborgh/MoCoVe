@@ -239,8 +239,25 @@ def run_comprehensive_test():
         ("Dados de Mercado", test_market_data_update),
         ("Sentimento Social", test_sentiment_update),
         ("Controle AI Agent", test_ai_agent_control),
+        ("Log do Agente Robusto IA", test_robust_ai_log),
         ("Sistema de Alertas", test_alerts),
     ]
+
+
+# Novo teste: Verificar log do agente robusto de IA
+def test_robust_ai_log():
+    """Testar endpoint de log do agente robusto de IA"""
+    print_header("TESTE DO LOG DO AGENTE ROBUSTO IA")
+    result = make_request("/ai-robust-log")
+    if result and 'log' in result:
+        log_lines = result['log'].split('\n')
+        print(f"🧠 Últimas linhas do log do agente robusto:")
+        for line in log_lines[-5:]:
+            print(f"   {line}")
+        return True
+    else:
+        print("❌ Não foi possível obter o log do agente robusto.")
+        return False
     
     results = {}
     

@@ -1,0 +1,23 @@
+Teste de Mercado - 2025-08-14 08:31:19.201398
+===============================
+✅ DOGEUSDT atualizado com sucesso.
+✅ SHIBUSDT atualizado com sucesso.
+✅ PEPEUSDT atualizado com sucesso.
+✅ FLOKIUSDT atualizado com sucesso.
+✅ WIFUSDT atualizado com sucesso.
+❌ Erro ao atualizar BONKUSDT: Erro simulado na moeda BONKUSDT
+✅ MEMEUSDT atualizado com sucesso.
+✅ SAFEUSDT atualizado com sucesso.
+❌ Erro ao atualizar BRETTUSDT: Erro simulado na moeda BRETTUSDT
+✅ POPCATUSDT atualizado com sucesso.
+✅ MEWUSDT atualizado com sucesso.
+✅ UNIUSDT atualizado com sucesso.
+✅ AAVEUSDT atualizado com sucesso.
+✅ COMPUSDT atualizado com sucesso.
+✅ SOLUSDT atualizado com sucesso.
+✅ ADAUSDT atualizado com sucesso.
+✅ AVAXUSDT atualizado com sucesso.
+✅ FETUSDT atualizado com sucesso.
+
+Resumo: 16 ok, 2 erros.
+Moedas com erro: BONKUSDT, BRETTUSDT

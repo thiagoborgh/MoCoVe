@@ -60,8 +60,8 @@ services:
               time.sleep(60)
           except Exception as e:
               print(f'Erro na coleta: {e}')
-              time.sleep(30)
-    "]
+              time.sleep(30)"
+    ]
     depends_on:
       - backend
     restart: unless-stopped

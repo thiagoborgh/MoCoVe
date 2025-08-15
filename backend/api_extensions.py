@@ -47,7 +47,16 @@ class AgentConfigManager:
                 "high_confidence_signals": True,
                 "daily_summary": True
             },
-            "watchlist": ["DOGEUSDT", "SHIBUSDT", "PEPEUSDT", "FLOKIUSDT"],
+            "watchlist": [
+                "BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "ADAUSDT", "XRPUSDT", "DOGEUSDT", "SHIBUSDT",
+                "AVAXUSDT", "DOTUSDT", "MATICUSDT", "LINKUSDT", "LTCUSDT", "BCHUSDT", "UNIUSDT", "PEPEUSDT",
+                "FLOKIUSDT", "WIFUSDT", "BONKUSDT", "MEMEUSDT", "SAFEUSDT", "BRETTUSDT", "POPCATUSDT",
+                "MEWUSDT", "AAVEUSDT", "COMPUSDT", "FETUSDT", "OPUSDT", "ARBUSDT", "SUIUSDT", "TIAUSDT",
+                "SEIUSDT", "JUPUSDT", "PYTHUSDT", "RNDRUSDT", "INJUSDT", "STXUSDT", "ETCUSDT", "FILUSDT",
+                "TRXUSDT", "NEARUSDT", "ATOMUSDT", "VETUSDT", "XLMUSDT", "ALGOUSDT", "GRTUSDT", "MKRUSDT",
+                "SNXUSDT", "DYDXUSDT", "LDOUSDT", "APTUSDT", "IMXUSDT", "SANDUSDT", "AXSUSDT", "GMTUSDT",
+                "ENJUSDT", "CHZUSDT", "CRVUSDT", "1INCHUSDT", "CAKEUSDT", "RUNEUSDT", "ZILUSDT", "XEMUSDT"
+            ],
             "social_sentiment_weight": 0.2
         }
     
@@ -183,8 +192,14 @@ class MemecoinTracker:
     
     def __init__(self):
         self.popular_memecoins = [
-            'DOGEUSDT', 'SHIBUSDT', 'PEPEUSDT', 'FLOKIUSDT', 
-            'BONKUSDT', 'WIFUSDT', 'BOMEUSDT'
+            "BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "ADAUSDT", "XRPUSDT", "DOGEUSDT", "SHIBUSDT",
+            "AVAXUSDT", "DOTUSDT", "MATICUSDT", "LINKUSDT", "LTCUSDT", "BCHUSDT", "UNIUSDT", "PEPEUSDT",
+            "FLOKIUSDT", "WIFUSDT", "BONKUSDT", "MEMEUSDT", "SAFEUSDT", "BRETTUSDT", "POPCATUSDT",
+            "MEWUSDT", "AAVEUSDT", "COMPUSDT", "FETUSDT", "OPUSDT", "ARBUSDT", "SUIUSDT", "TIAUSDT",
+            "SEIUSDT", "JUPUSDT", "PYTHUSDT", "RNDRUSDT", "INJUSDT", "STXUSDT", "ETCUSDT", "FILUSDT",
+            "TRXUSDT", "NEARUSDT", "ATOMUSDT", "VETUSDT", "XLMUSDT", "ALGOUSDT", "GRTUSDT", "MKRUSDT",
+            "SNXUSDT", "DYDXUSDT", "LDOUSDT", "APTUSDT", "IMXUSDT", "SANDUSDT", "AXSUSDT", "GMTUSDT",
+            "ENJUSDT", "CHZUSDT", "CRVUSDT", "1INCHUSDT", "CAKEUSDT", "RUNEUSDT", "ZILUSDT", "XEMUSDT"
         ]
     
     def get_memecoin_data(self, symbol):

@@ -15,6 +15,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend'))
 from app import app, init_database
 
 class TestMoCoVeBackend(unittest.TestCase):
+    def test_ai_robust_log_endpoint(self):
+        """Testa o endpoint do log do agente robusto de IA"""
+        response = self.app.get('/api/ai-robust-log')
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.data)
+        self.assertIn('log', data)
+        # O log pode estar vazio, mas a chave deve existir
     
     def setUp(self):
         """Configuração para cada teste"""

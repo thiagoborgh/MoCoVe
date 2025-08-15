@@ -52,6 +52,62 @@ MoCoVe/
 - NumPy para computação numérica
 - FastAPI para serviço de predição
 
+
+## 🚀 Scripts Principais
+
+### 1. auto_trainer.py
+Script autônomo para coleta de dados da Binance, feature engineering, labeling, treino e salvamento do modelo pronto para o Agente Pro. Agendamento diário automático às 05:00 UTC.
+
+```python
+# auto_trainer.py (resumo)
+#!/usr/bin/env python3
+"""
+Auto Trainer MoCoVe: coleta histórico Binance, engenharia de features, labeling, treino, salva modelo e thresholds para uso direto pelo Agente Pro.
+- Coleta candles 1m, 5m, 15m das memecoins (lista editável)
+- Salva no memecoin.db
+- Feature engineering completa
+- Labeling triple-barrier
+- Treina (XGBoost se disponível, senão RandomForest)
+- Salva artefatos em ./runtime/model/
+- Agendamento diário automático (05:00 UTC)
+"""
+# ...veja o script completo em auto_trainer.py
+```
+
+### 2. ai/train_model.py
+Script robusto de treinamento, com extração de dados do SQLite, engenharia de features técnicas, labeling threshold/triple-barrier, otimização de thresholds, avaliação e salvamento de artefatos.
+
+```python
+# ai/train_model.py (resumo)
+"""
+MoCoVe Model Training – Versão Pro
+Treinamento robusto para predição de sinais (BUY/SELL/HOLD) em memecoins, com:
+- Extração de dados do SQLite (tabela `prices`)
+- Engenharia de features técnicas otimizadas (SMA/EMA/RSI/Bollinger/MACD/ATR/Vol/Z-Volume)
+- Rotulagem threshold ou triple_barrier
+- Split temporal, cross-validation, otimização de thresholds
+- Backtest simples e salvamento de artefatos
+"""
+# ...veja o script completo em ai/train_model.py
+```
+
+### 3. ai_trading_agent.py
+Agente Pro assíncrono, robusto, que integra modelo treinado automaticamente, faz trading com gestão de risco, fallback para lógica tradicional e logging completo.
+
+```python
+# ai_trading_agent.py (resumo)
+"""
+MoCoVe AI Trading Agent – Versão Pro
+- Integração automática com modelos/thresholds salvos
+- Arquitetura assíncrona (aiohttp)
+- Gestão de risco avançada, SL/TP, trailing, sizing, limites diários
+- Fallback para lógica tradicional se não houver modelo
+"""
+# ...veja o script completo em ai_trading_agent.py
+```
+
+---
+
 ## 🚀 Instalação Rápida
 
 ### Pré-requisitos

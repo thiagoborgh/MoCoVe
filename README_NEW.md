@@ -1,4 +1,4 @@
-# 🤖 MoCoVe AI Trading System
+ 🤖 MoCoVe AI Trading System
 
 > **Sistema Completo de Trading Automatizado com Inteligência Artificial para Criptomoedas**
 

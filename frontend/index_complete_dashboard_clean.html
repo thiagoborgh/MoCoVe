@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 MoCoVe - Sistema de Trading</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Axios para HTTP requests -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #e2e8f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .card {
+            background: linear-gradient(145deg, #2d3748 0%, #1a202c 100%);
+            border: 1px solid #4a5568;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .notification.error {
+            background: #ef4444;
+        }
+        
+        .notification.info {
+            background: #3b82f6;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .loading {
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+            color: #9ca3af;
+        }
+        
+        .section-title {
+            border-bottom: 2px solid #4f46e5;
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 lg:p-6">
+    <div class="container mx-auto max-w-7xl">
+        <!-- Seção: Configurações da IA -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 section-title">⚙️ Configurações da IA</h2>
+            <div class="card">
+                <form id="aiConfigForm" onsubmit="return saveAIConfig(event)">
+                    <div id="aiConfigFields" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    <div class="mt-4 flex gap-2">
+                        <button type="submit" class="btn-success">💾 Salvar Configurações</button>
+                        <button type="button" class="btn-secondary" onclick="loadAIConfig()">🔄 Recarregar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl lg:text-4xl font-bold mb-2">🚀 MoCoVe - Sistema de Trading</h1>
+            <p class="text-lg lg:text-xl text-gray-300 mb-4">Monitoramento, Compra e Venda automatizada de memecoins com IA</p>
+            <div class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-lg border border-green-500/30">
+                <span class="text-green-400 font-semibold mr-2">Status:</span>
+                <span id="systemStatusText" class="font-medium">Carregando...</span>
+            </div>
+        </header>
+
+        <!-- Seção: Controle do Sistema -->
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 section-title">🎛️ Controle do Sistema</h2>
+            <!-- Status do Trading IA -->
+            <div class="card mb-6">
+                <h3 class="text-xl font-bold mb-4">🤖 Status do Trading IA</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="p-4 bg-gray-700/50 rounded-lg text-center">
+                        <div class="text-sm text-gray-400 mb-1">Status do Sistema</div>
+                        <div id="tradingStatus" class="text-yellow-400 font-bold text-lg">Verificando...</div>
+                    </div>
+                    <div class="p-4 bg-gray-700/50 rounded-lg text-center">
+                        <div class="text-sm text-gray-400 mb-1">Última Análise</div>
+                        <div id="lastAnalysis" class="text-blue-400 font-bold">Carregando...</div>
+                    </div>
+                    <div class="p-4 bg-gray-700/50 rounded-lg text-center">
+                        <div class="text-sm text-gray-400 mb-1">Trades Hoje</div>
+                        <div id="todayTrades" class="text-purple-400 font-bold">0</div>
+                    </div>
+                    <div class="p-4 bg-gray-700/50 rounded-lg text-center">
+                        <div class="text-sm text-gray-400 mb-1">Controle</div>
+                        <div id="aiTradingControl" class="text-gray-400 font-bold">Carregando...</div>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button id="toggleTradingBtn" class="btn-primary flex-1" onclick="toggleAutoTrading()">🔄 Verificando...</button>
+                    <button class="btn-secondary" onclick="checkAITradingStatus()">🔍 Verificar Status</button>
+                </div>
+            </div>
+
+            <!-- Seção: Configurações da IA -->
+            <div class="card mb-6">
+                <h3 class="text-xl font-bold mb-4">⚙️ Configurações da IA</h3>
+                <form id="aiConfigForm" onsubmit="return saveAIConfig(event)">
+                    <div id="aiConfigFields" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    <div class="mt-4 flex gap-2">
+                        <button type="submit" class="btn-success">💾 Salvar Configurações</button>
+                        <button type="button" class="btn-secondary" onclick="loadAIConfig()">🔄 Recarregar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Status dos Componentes -->
+            <div class="card">
+                <h3 class="text-xl font-bold mb-4">📡 Status dos Componentes</h3>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="p-3 bg-gray-700/50 rounded-lg text-center">
+                        <div class="text-lg mb-1">🖥️ Backend</div>
+                        <div id="backend-status" class="text-sm text-yellow-400">Verificando...</div>
+                    </div>
+                    <div class="p-3 bg-gray-700/50 rounded-lg text-center">
+                        <div class="text-lg mb-1">🔗 Binance</div>
+                        <div id="binance-status" class="text-sm text-yellow-400">Verificando...</div>
+                    </div>
+                    <div class="p-3 bg-gray-700/50 rounded-lg text-center">
+                        <div class="text-lg mb-1">🤖 AI Agent</div>
+                        <div id="ai-status" class="text-sm text-yellow-400">Verificando...</div>
+                    </div>
+                    <div class="p-3 bg-gray-700/50 rounded-lg text-center">
+                        <div class="text-lg mb-1">📋 Watchlist</div>
+                        <div id="watchlist-status" class="text-sm text-yellow-400">Verificando...</div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button onclick="refreshAll()" class="btn-success">🔄 Atualizar Dashboard Completo</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Dashboard Principal -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 section-title">📊 Dashboard Principal</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Saldo da Conta -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-green-300">💰 Saldo da Conta</h3>
+                    <div id="balanceInfo" class="flex-1">
+                        <div class="loading">Carregando saldo...</div>
+                    </div>
+                </div>
+                
+                <!-- Watchlist Ativa -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-blue-300">📋 Watchlist Ativa</h3>
+                    <div id="watchlistSummary" class="flex-1">
+                        <div class="loading">Carregando watchlist...</div>
+                    </div>
+                </div>
+
+                <!-- Performance Hoje -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-purple-300">📈 Performance Hoje</h3>
+                    <div id="dailyPerformance" class="flex-1">
+                        <div class="loading">Carregando performance...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Trading Dashboard -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 section-title">📈 Trading Dashboard</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Histórico de Trades -->
+                <div class="card flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">📊 Registro de Operações</h3>
+                        <button onclick="loadTradesHistory()" class="btn-primary text-sm px-3 py-1">🔄 Atualizar</button>
+                    </div>
+                    <div id="tradesHistory" class="flex-1 max-h-80 overflow-y-auto">
+                        <div class="loading">Carregando trades...</div>
+                    </div>
+                    <div class="mt-3 p-2 bg-gray-800/50 rounded text-xs text-gray-400">
+                        💡 Histórico completo de compras e vendas executadas
+                    </div>
+                </div>
+                
+                <!-- Posições Atuais -->
+                <div class="card flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">💼 Posições Atuais</h3>
+                        <button onclick="loadCurrentPositions()" class="btn-primary text-sm px-3 py-1">🔄 Atualizar</button>
+                    </div>
+                    <div id="currentPositions" class="flex-1 max-h-80 overflow-y-auto">
+                        <div class="loading">Carregando posições...</div>
+                    </div>
+                    <div class="mt-3 p-2 bg-gray-800/50 rounded text-xs text-gray-400">
+                        💰 Saldos atuais de todas as moedas
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Análise e Market Data -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 section-title">🧠 Análise e Market Data</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Próximos Movimentos -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-purple-300 flex items-center gap-2">
+                        🎯 Próximos Movimentos
+                    </h3>
+                    <div id="nextMoves" class="text-sm flex-1">
+                        <div class="loading">Calculando estratégia...</div>
+                    </div>
+                </div>
+
+                <!-- Pensamento da IA -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-cyan-300">🧠 Pensamento da IA</h3>
+                    <div class="space-y-3 flex-1">
+                        <div>
+                            <h4 class="text-sm font-semibold mb-1 text-blue-400">📊 Análise Técnica</h4>
+                            <div id="technicalAnalysis" class="text-xs max-h-20 overflow-y-auto">
+                                <div class="loading">Analisando mercado...</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-semibold mb-1 text-purple-400">🤖 Decisões da IA</h4>
+                            <div id="aiDecisions" class="text-xs max-h-20 overflow-y-auto">
+                                <div class="loading">Carregando decisões...</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-semibold mb-1 text-green-400">⚡ Atividades</h4>
+                            <div id="aiActivityLog" class="text-xs max-h-20 overflow-y-auto">
+                                <div class="loading">Carregando atividades...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Performers -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-yellow-300 flex items-center gap-2">
+                        🏆 Top Performers
+                    </h3>
+                    <div id="topPerformers" class="flex-1">
+                        <div class="loading">Carregando performers...</div>
+                    </div>
+                </div>
+
+                <!-- Sentimento Social -->
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-pink-300 flex items-center gap-2">
+                        📱 Sentimento Social
+                    </h3>
+                    <div id="sentimentData" class="flex-1">
+                        <div class="loading">Carregando sentimento...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Carregar e exibir configurações da IA
+        let aiConfigCache = null;
+        async function loadAIConfig() {
+            const fields = document.getElementById('aiConfigFields');
+            fields.innerHTML = '<div class="loading">Carregando configurações...</div>';
+            try {
+                const resp = await axios.get(API_BASE + '/ai-config');
+                if (resp.data && resp.data.success && resp.data.config) {
+                    aiConfigCache = resp.data.config;
+                    renderAIConfigFields(aiConfigCache);
+                } else {
+                    fields.innerHTML = '<div class="text-red-400">Erro ao carregar configurações</div>';
+                }
+            } catch (e) {
+                fields.innerHTML = '<div class="text-red-400">Erro ao carregar configurações</div>';
+            }
+        }
+
+        function renderAIConfigFields(config) {
+            const fields = document.getElementById('aiConfigFields');
+            if (!config) return;
+            let html = '';
+            // Campos principais
+            html += `<label class='block'>
+                <span class='text-gray-300'>Trading Ativo</span>
+                <select name='trading_enabled' class='w-full rounded p-2'>
+                    <option value='true' ${config.trading_enabled ? 'selected' : ''}>Ativo</option>
+                    <option value='false' ${!config.trading_enabled ? 'selected' : ''}>Inativo</option>
+                </select>
+            </label>`;
+            html += `<label class='block'>
+                <span class='text-gray-300'>Par de Trading</span>
+                <input name='symbol' class='w-full rounded p-2' value='${config.symbol || ''}' />
+            </label>`;
+            html += `<label class='block'>
+                <span class='text-gray-300'>Intervalo Monitoramento (s)</span>
+                <input name='monitoring_interval' type='number' class='w-full rounded p-2' value='${config.monitoring_interval || 30}' />
+            </label>`;
+            html += `<label class='block'>
+                <span class='text-gray-300'>Confiança Mínima</span>
+                <input name='min_confidence' type='number' step='0.01' class='w-full rounded p-2' value='${config.min_confidence || 0.7}' />
+            </label>`;
+            html += `<label class='block'>
+                <span class='text-gray-300'>Tamanho Máx. Posição (USDT)</span>
+                <input name='max_position_size' type='number' step='0.01' class='w-full rounded p-2' value='${config.max_position_size || 50}' />
+            </label>`;
+            html += `<label class='block'>
+                <span class='text-gray-300'>Máx. Trades por Dia</span>
+                <input name='max_daily_trades' type='number' class='w-full rounded p-2' value='${config.max_daily_trades || 10}' />
+            </label>`;
+            html += `<label class='block'>
+                <span class='text-gray-300'>Stop Loss (%)</span>
+                <input name='stop_loss_pct' type='number' step='0.0001' class='w-full rounded p-2' value='${config.stop_loss_pct || 0.02}' />
+            </label>`;
+            html += `<label class='block'>
+                <span class='text-gray-300'>Take Profit (%)</span>
+                <input name='take_profit_pct' type='number' step='0.0001' class='w-full rounded p-2' value='${config.take_profit_pct || 0.03}' />
+            </label>`;
+            html += `<label class='block'>
+                <span class='text-gray-300'>Intervalo Mín. entre Trades (s)</span>
+                <input name='min_trade_interval' type='number' class='w-full rounded p-2' value='${config.min_trade_interval || 300}' />
+            </label>`;
+            html += `<label class='block'>
+                <span class='text-gray-300'>Nível de Risco</span>
+                <select name='risk_level' class='w-full rounded p-2'>
+                    <option value='conservative' ${config.risk_level === 'conservative' ? 'selected' : ''}>Conservador</option>
+                    <option value='moderate' ${config.risk_level === 'moderate' ? 'selected' : ''}>Moderado</option>
+                    <option value='aggressive' ${config.risk_level === 'aggressive' ? 'selected' : ''}>Agressivo</option>
+                </select>
+            </label>`;
+
+            // Estratégias habilitadas
+            if (config.strategies_enabled) {
+                html += `<fieldset class='col-span-2 border-t border-gray-600 mt-4 pt-3'>
+                    <legend class='text-gray-400 font-semibold mb-2'>Estratégias Ativadas</legend>`;
+                Object.entries(config.strategies_enabled).forEach(([key, val]) => {
+                    html += `<label class='inline-flex items-center mr-4 mb-2'>
+                        <input type='checkbox' name='strategies_enabled.${key}' ${val ? 'checked' : ''} />
+                        <span class='ml-2'>${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
+                    </label>`;
+                });
+                html += `</fieldset>`;
+            }
+
+            // Notificações
+            if (config.notifications) {
+                html += `<fieldset class='col-span-2 border-t border-gray-600 mt-4 pt-3'>
+                    <legend class='text-gray-400 font-semibold mb-2'>Notificações</legend>`;
+                Object.entries(config.notifications).forEach(([key, val]) => {
+                    html += `<label class='inline-flex items-center mr-4 mb-2'>
+                        <input type='checkbox' name='notifications.${key}' ${val ? 'checked' : ''} />
+                        <span class='ml-2'>${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
+                    </label>`;
+                });
+                html += `</fieldset>`;
+            }
+
+            fields.innerHTML = html;
+        }
+
+        async function saveAIConfig(event) {
+            event.preventDefault();
+            const form = document.getElementById('aiConfigForm');
+            const data = new FormData(form);
+            let config = Object.assign({}, aiConfigCache);
+            for (let [key, value] of data.entries()) {
+                if (key.startsWith('strategies_enabled.')) {
+                    const k = key.split('.')[1];
+                    if (!config.strategies_enabled) config.strategies_enabled = {};
+                    config.strategies_enabled[k] = true;
+                } else if (key.startsWith('notifications.')) {
+                    const k = key.split('.')[1];
+                    if (!config.notifications) config.notifications = {};
+                    config.notifications[k] = true;
+                } else if (key === 'trading_enabled') config[key] = (value === 'true');
+                else if ([
+                    'monitoring_interval', 'max_position_size', 'max_daily_trades', 'min_trade_interval'
+                ].includes(key)) config[key] = parseInt(value);
+                else if ([
+                    'min_confidence', 'stop_loss_pct', 'take_profit_pct'
+                ].includes(key)) config[key] = parseFloat(value);
+                else config[key] = value;
+            }
+            // Desmarcados (checkboxes não enviados)
+            if (config.strategies_enabled) {
+                Object.keys(config.strategies_enabled).forEach(k => {
+                    if (!data.has(`strategies_enabled.${k}`)) config.strategies_enabled[k] = false;
+                });
+            }
+            if (config.notifications) {
+                Object.keys(config.notifications).forEach(k => {
+                    if (!data.has(`notifications.${k}`)) config.notifications[k] = false;
+                });
+            }
+            try {
+                await axios.post(API_BASE + '/ai-config', { config });
+                showNotification('Configurações salvas!', 'success');
+                aiConfigCache = config;
+            } catch (e) {
+                showNotification('Erro ao salvar configurações', 'error');
+            }
+            return false;
+        }
+
+        // Carregar configs ao iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            // ...existente...
+            loadAIConfig();
+        });
+        // Configuração da API
+        const API_BASE = 'http://localhost:5000/api';
+        let iaTradingActive = false;
+        let autoRefresh = true;
+        const refreshInterval = 30000; // 30 segundos
+
+        // Função para fazer chamadas à API
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await axios({
+                    url: API_BASE + endpoint,
+                    method: options.method || 'GET',
+                    data: options.data,
+                    timeout: 10000
+                });
+                return response.data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // Sistema de notificações
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Função para alternar trading automático
+        async function toggleAutoTrading() {
+            const btn = document.getElementById('toggleTradingBtn');
+            const status = document.getElementById('tradingStatus');
+            const control = document.getElementById('aiTradingControl');
+            
+            btn.disabled = true;
+            btn.textContent = '⏳ Processando...';
+            
+            try {
+                if (iaTradingActive) {
+                    showNotification('Parando AI Trading Agent...', 'info');
+                    const response = await apiCall('/system/stop-ai-agent', { method: 'POST' });
+                    
+                    if (response.success) {
+                        iaTradingActive = false;
+                        btn.textContent = '🚀 Ativar Trading IA';
+                        btn.className = 'btn-primary flex-1';
+                        status.textContent = 'Inativo';
+                        status.className = 'text-red-400 font-bold text-lg';
+                        control.textContent = 'Parado';
+                        control.className = 'text-red-400 font-bold';
+                        showNotification('Trading IA desativado!', 'success');
+                    } else {
+                        throw new Error(response.message || 'Erro ao parar AI Agent');
+                    }
+                } else {
+                    showNotification('Iniciando AI Trading Agent...', 'info');
+                    const response = await apiCall('/system/start-ai-agent', { method: 'POST' });
+                    
+                    if (response.success) {
+                        iaTradingActive = true;
+                        btn.textContent = '⏹️ Desativar Trading IA';
+                        btn.className = 'btn-danger flex-1';
+                        status.textContent = 'Ativo';
+                        status.className = 'text-green-400 font-bold text-lg';
+                        control.textContent = 'Rodando';
+                        control.className = 'text-green-400 font-bold';
+                        showNotification('Trading IA ativado!', 'success');
+                        
+                        setTimeout(() => {
+                            checkAITradingStatus();
+                        }, 3000);
+                    } else {
+                        throw new Error(response.message || 'Erro ao iniciar AI Agent');
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao alternar Trading IA:', error);
+                showNotification('Erro: ' + error.message, 'error');
+                
+                btn.textContent = iaTradingActive ? '⏹️ Desativar Trading IA' : '🚀 Ativar Trading IA';
+                btn.className = iaTradingActive ? 'btn-danger flex-1' : 'btn-primary flex-1';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // Verificar status da IA Trading
+        async function checkAITradingStatus() {
+            try {
+                const data = await apiCall('/system/status');
+                // Suporte a ambos formatos de backend
+                let aiActive = false;
+                if (data && data.success && data.status && typeof data.status.ai_agent_active !== 'undefined') {
+                    aiActive = data.status.ai_agent_active;
+                } else if (data && typeof data.ai_agent_active !== 'undefined') {
+                    aiActive = data.ai_agent_active;
+                }
+                const statusElement = document.getElementById('tradingStatus');
+                const btn = document.getElementById('toggleTradingBtn');
+                const control = document.getElementById('aiTradingControl');
+                if (typeof aiActive === 'boolean') {
+                    if (aiActive) {
+                        iaTradingActive = true;
+                        statusElement.textContent = 'Ativo';
+                        statusElement.className = 'text-green-400 font-bold text-lg';
+                        btn.textContent = '⏹️ Desativar Trading IA';
+                        btn.className = 'btn-danger flex-1';
+                        control.textContent = 'Rodando';
+                        control.className = 'text-green-400 font-bold';
+                    } else {
+                        iaTradingActive = false;
+                        statusElement.textContent = 'Inativo';
+                        statusElement.className = 'text-red-400 font-bold text-lg';
+                        btn.textContent = '🚀 Ativar Trading IA';
+                        btn.className = 'btn-primary flex-1';
+                        control.textContent = 'Parado';
+                        control.className = 'text-red-400 font-bold';
+                    }
+                    btn.disabled = false;
+                } else {
+                    statusElement.textContent = 'Erro de conexão';
+                    statusElement.className = 'text-yellow-400 font-bold text-lg';
+                    btn.textContent = '❌ Erro de conexão';
+                    btn.className = 'btn-secondary flex-1';
+                    btn.disabled = true;
+                    control.textContent = 'Desconhecido';
+                    control.className = 'text-yellow-400 font-bold';
+                }
+            } catch (error) {
+                console.error('Erro ao verificar status da IA:', error);
+            }
+        }
+
+        // Atualizar status dos componentes
+        async function updateButtonsStatus() {
+            try {
+                const data = await apiCall('/system/status');
+                
+                if (data && (data.success || data.status)) {
+                    const status = data.status || data;
+                    
+                    // Backend Status - sempre online se conseguimos fazer a chamada
+                    const backendStatus = document.getElementById('backend-status');
+                    if (backendStatus) {
+                        backendStatus.textContent = 'Online';
+                        backendStatus.className = 'text-sm font-bold text-green-400';
+                    }
+                    
+                    // Binance Status
+                    const binanceStatus = document.getElementById('binance-status');
+                    if (binanceStatus) {
+                        const connected = status.binance_connection !== false && status.exchange_connected !== false;
+                        binanceStatus.textContent = connected ? 'Conectado' : 'Desconectado';
+                        binanceStatus.className = `text-sm font-bold ${connected ? 'text-green-400' : 'text-red-400'}`;
+                    }
+                    
+                    // AI Agent Status
+                    const aiStatus = document.getElementById('ai-status');
+                    if (aiStatus) {
+                        const active = status.ai_agent_active === true;
+                        aiStatus.textContent = active ? 'Ativo' : 'Inativo';
+                        aiStatus.className = `text-sm font-bold ${active ? 'text-green-400' : 'text-red-400'}`;
+                    }
+                    
+                    // Watchlist Status
+                    const watchlistStatus = document.getElementById('watchlist-status');
+                    if (watchlistStatus) {
+                        // Assumir carregado se temos dados
+                        watchlistStatus.textContent = 'Carregado';
+                        watchlistStatus.className = 'text-sm font-bold text-green-400';
+                    }
+                    
+                    // Última análise da IA
+                    const lastAnalysis = document.getElementById('lastAnalysis');
+                    if (lastAnalysis) {
+                        const now = new Date();
+                        lastAnalysis.textContent = now.toLocaleTimeString();
+                    }
+                    
+                    // Atualizar texto do header
+                    const allOnline = true; // Se chegou até aqui, conexão está OK
+                    
+                    const systemStatusText = document.getElementById('systemStatusText');
+                    if (systemStatusText) {
+                        systemStatusText.textContent = allOnline ? '🟢 Sistema Operacional' : '🔴 Alguns componentes offline';
+                    }
+                } else {
+                    // Se falhou, marcar tudo como offline
+                    const elements = [
+                        {id: 'backend-status', text: 'Offline', class: 'text-red-400'},
+                        {id: 'binance-status', text: 'Desconectado', class: 'text-red-400'},
+                        {id: 'ai-status', text: 'Inativo', class: 'text-red-400'},
+                        {id: 'watchlist-status', text: 'Não carregado', class: 'text-yellow-400'}
+                    ];
+                    
+                    elements.forEach(el => {
+                        const element = document.getElementById(el.id);
+                        if (element) {
+                            element.textContent = el.text;
+                            element.className = `text-sm font-bold ${el.class}`;
+                        }
+                    });
+                    
+                    const systemStatusText = document.getElementById('systemStatusText');
+                    if (systemStatusText) {
+                        systemStatusText.textContent = '� Sistema Offline';
+                    }
+                }
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar status dos componentes:', error);
+            }
+        }
+
+        // Carregar saldo da conta
+        async function loadBalanceInfo() {
+            try {
+                const data = await apiCall('/balance');
+                
+                if (data && (data.success || data.USDT || data.balance)) {
+                    const balance = data.balance || data;
+                    const lastUpdate = balance.last_update || balance['last_update'] || 'Nunca';
+                    const mainCoins = ['USDT', 'DOGE', 'SHIB', 'PEPE'];
+                    const raw = data.raw_balances || balance.raw_balances || {};
+                    let coinsHtml = '';
+                    
+                    Object.entries(raw).forEach(([symbol, info]) => {
+                        if (info.total > 0.001) {
+                            let color = 'text-gray-300';
+                            if (symbol === 'USDT') color = 'text-green-400';
+                            if (symbol === 'DOGE') color = 'text-yellow-400';
+                            if (symbol === 'SHIB') color = 'text-orange-400';
+                            if (symbol === 'PEPE') color = 'text-green-400';
+                            coinsHtml += `<div class="flex justify-between py-1">
+                                <span>${symbol}:</span>
+                                <span class="${color} font-bold">${parseFloat(info.total).toFixed(6)}</span>
+                            </div>`;
+                        }
+                    });
+                    
+                    if (!coinsHtml) {
+                        coinsHtml = mainCoins.map(symbol => {
+                            let color = 'text-gray-300';
+                            if (symbol === 'USDT') color = 'text-green-400';
+                            if (symbol === 'DOGE') color = 'text-yellow-400';
+                            if (symbol === 'SHIB') color = 'text-orange-400';
+                            if (symbol === 'PEPE') color = 'text-green-400';
+                            const value = balance[symbol] || balance[symbol.toLowerCase()] || '0';
+                            return `<div class="flex justify-between py-1">
+                                <span>${symbol}:</span>
+                                <span class="${color} font-bold">${value}</span>
+                            </div>`;
+                        }).join('');
+                    }
+                    
+                    const html = `
+                        <div class="space-y-2">
+                            ${coinsHtml}
+                            <div class="text-xs text-gray-400 mt-3 pt-2 border-t border-gray-600">
+                                Última atualização: ${lastUpdate}
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('balanceInfo').innerHTML = html;
+                } else {
+                    const errorMsg = data?.error || 'Erro desconhecido';
+                    document.getElementById('balanceInfo').innerHTML = `
+                        <div class="space-y-2">
+                            <div class="text-red-400 text-sm mb-2">${errorMsg}</div>
+                            <div class="text-gray-400 text-sm">
+                                ⚠️ Configure API Binance para ver saldo real
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar saldo:', error);
+                document.getElementById('balanceInfo').innerHTML = `
+                    <div class="text-red-400 text-sm">
+                        Erro de conexão. Verifique se o backend está rodando.
+                    </div>
+                `;
+            }
+        }
+
+        // Carregar resumo da watchlist
+        async function loadWatchlistSummary() {
+            try {
+                const data = await apiCall('/watchlist/summary');
+                
+                if (data && (data.success || data.summary)) {
+                    const summary = data.summary || data;
+                    const total_coins = summary.total_coins || summary['total_coins'] || 0;
+                    const trading_enabled = summary.trading_enabled || summary['trading_enabled'] || 0;
+                    const positive = (summary.price_stats && summary.price_stats.positive_performers) || summary.positive_performers || 0;
+                    const negative = (summary.price_stats && summary.price_stats.negative_performers) || summary.negative_performers || 0;
+                    const lastUpdate = summary.last_updated || summary['last_updated'] || '';
+
+                    const html = `
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>📊 Total de Moedas:</span>
+                                <span class="text-blue-400 font-bold">${total_coins}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>📈 Trading Ativo:</span>
+                                <span class="text-green-400 font-bold">${trading_enabled}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>🏆 Positivos:</span>
+                                <span class="text-green-400 font-bold">${positive}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>📉 Negativos:</span>
+                                <span class="text-red-400 font-bold">${negative}</span>
+                            </div>
+                            <div class="text-xs text-gray-400 mt-3 pt-2 border-t border-gray-600">
+                                Atualizado: ${lastUpdate ? new Date(lastUpdate).toLocaleTimeString() : 'N/A'}
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('watchlistSummary').innerHTML = html;
+                } else {
+                    document.getElementById('watchlistSummary').innerHTML = '<div class="text-gray-400">Ative a watchlist para ver dados</div>';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar watchlist:', error);
+                document.getElementById('watchlistSummary').innerHTML = '<div class="text-red-400">Erro ao carregar watchlist</div>';
+            }
+        }
+
+        // Carregar performance diária
+        async function loadDailyPerformance() {
+            try {
+                const data = await apiCall('/trades/daily-performance');
+                
+                if (data.success && data.performance) {
+                    const perf = data.performance;
+                    const totalProfitColor = perf.total_profit > 0 ? 'text-green-400' : 'text-red-400';
+                    const winRateColor = perf.win_rate > 50 ? 'text-green-400' : 'text-red-400';
+                    
+                    const html = `
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>💰 P&L Total:</span>
+                                <span class="${totalProfitColor} font-bold">${perf.total_profit > 0 ? '+' : ''}$${perf.total_profit.toFixed(2)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>📊 Trades Hoje:</span>
+                                <span class="text-blue-400 font-bold">${perf.total_trades}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>🎯 Taxa de Acerto:</span>
+                                <span class="${winRateColor} font-bold">${perf.win_rate.toFixed(1)}%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>🌟 Melhor Trade:</span>
+                                <span class="text-green-400 font-bold">+$${perf.best_trade.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('dailyPerformance').innerHTML = html;
+                    
+                    // Atualizar contador de trades no status
+                    const todayTradesElement = document.getElementById('todayTrades');
+                    if (todayTradesElement) {
+                        todayTradesElement.textContent = perf.total_trades;
+                    }
+                } else {
+                    document.getElementById('dailyPerformance').innerHTML = '<div class="text-gray-400">Nenhum trade hoje ainda</div>';
+                }
+            } catch (error) {
+                document.getElementById('dailyPerformance').innerHTML = '<div class="text-red-400">Erro ao carregar performance</div>';
+            }
+        }
+
+        // Carregar histórico de trades
+        async function loadTradesHistory() {
+            try {
+                const data = await apiCall('/trades?limit=50');
+                if (data && Array.isArray(data) && data.length > 0) {
+                    const trades = data;
+                    const html = trades.map(trade => `
+                        <div class="flex justify-between items-center border-b border-gray-700 py-2 last:border-b-0">
+                            <div>
+                                <span class="font-bold ${trade.type === 'buy' ? 'text-green-400' : 'text-red-400'}">${trade.type.toUpperCase()}</span>
+                                <span class="ml-2 text-gray-300">${trade.symbol}</span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm font-medium">${parseFloat(trade.amount).toFixed(2)} USDT</div>
+                                <div class="text-xs text-gray-400">${parseFloat(trade.price).toFixed(6)}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    document.getElementById('tradesHistory').innerHTML = html;
+                } else {
+                    document.getElementById('tradesHistory').innerHTML = `<div class="text-gray-400 text-center py-4">Nenhuma transação encontrada</div>`;
+                }
+            } catch (error) {
+                document.getElementById('tradesHistory').innerHTML = '<div class="text-red-400">Erro ao carregar trades</div>';
+            }
+        }
+
+        // Carregar posições atuais
+        async function loadCurrentPositions() {
+            try {
+                const data = await apiCall('/trading/positions');
+                if (data && data.success && Array.isArray(data.positions) && data.positions.length > 0) {
+                    const positions = data.positions;
+                    const html = positions.map(pos => `
+                        <div class="flex justify-between items-center border-b border-gray-700 py-2 last:border-b-0">
+                            <div>
+                                <span class="font-bold text-gray-300">${pos.currency}</span>
+                                <div class="text-xs text-gray-400">Quantidade</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm font-medium">${parseFloat(pos.quantity).toFixed(6)}</div>
+                                <div class="text-xs text-gray-400">~$${(pos.value || 0).toFixed(2)}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    document.getElementById('currentPositions').innerHTML = html;
+                } else {
+                    document.getElementById('currentPositions').innerHTML = `<div class="text-gray-400 text-center py-4">Nenhuma posição encontrada</div>`;
+                }
+            } catch (error) {
+                document.getElementById('currentPositions').innerHTML = '<div class="text-red-400">Erro ao carregar posições</div>';
+            }
+        }
+
+        // Carregar Top Performers
+        async function loadTopPerformers() {
+            try {
+                const data = await apiCall('/market_data/top_performers');
+                if (data && data.success && Array.isArray(data.performers)) {
+                    const html = data.performers.map(p => `
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-sm font-medium">${p.symbol}</span>
+                            <span class="${p.change > 0 ? 'text-green-400' : 'text-red-400'} font-bold text-sm">${p.change > 0 ? '+' : ''}${p.change.toFixed(2)}%</span>
+                        </div>
+                    `).join('');
+                    document.getElementById('topPerformers').innerHTML = html;
+                } else {
+                    document.getElementById('topPerformers').innerHTML = '<div class="text-gray-400 text-center">Nenhum performer encontrado</div>';
+                }
+            } catch (error) {
+                document.getElementById('topPerformers').innerHTML = '<div class="text-red-400">Erro ao carregar performers</div>';
+            }
+        }
+
+        // Carregar Sentimento Social
+        async function loadSentimentData() {
+            try {
+                const data = await apiCall('/sentiment/summary');
+                if (data && data.success && Array.isArray(data.sentiments)) {
+                    const html = data.sentiments.map(s => `
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-sm font-medium">${s.symbol}</span>
+                            <span class="${s.score > 0 ? 'text-green-400' : 'text-red-400'} font-bold text-sm">${s.score > 0 ? '+' : ''}${s.score.toFixed(1)}</span>
+                        </div>
+                    `).join('');
+                    document.getElementById('sentimentData').innerHTML = html;
+                } else {
+                    document.getElementById('sentimentData').innerHTML = '<div class="text-gray-400 text-center">Nenhum dado de sentimento</div>';
+                }
+            } catch (error) {
+                document.getElementById('sentimentData').innerHTML = '<div class="text-red-400">Erro ao carregar sentimento</div>';
+            }
+        }
+
+        // Carregar dados da IA
+        async function loadTechnicalAnalysis() {
+            document.getElementById('technicalAnalysis').innerHTML = '<div class="text-xs text-gray-400">Mercado em análise...</div>';
+        }
+
+        async function loadAIDecisions() {
+            document.getElementById('aiDecisions').innerHTML = '<div class="text-xs text-gray-400">Aguardando decisões...</div>';
+        }
+
+        async function loadAIActivityLog() {
+            const logContainer = document.getElementById('aiActivityLog');
+            logContainer.innerHTML = '<div class="text-xs text-gray-400">Carregando log da IA robusta...</div>';
+            try {
+                const response = await axios.get(API_BASE + '/ai-robust-log');
+                if (response.data && response.data.log) {
+                    // Exibe o log formatado, linhas mais recentes no final
+                    const logLines = response.data.log.split('\n').filter(line => line.trim() !== '');
+                    if (logLines.length === 0) {
+                        logContainer.innerHTML = '<div class="text-xs text-gray-400">Nenhuma atividade recente da IA robusta.</div>';
+                    } else {
+                        logContainer.innerHTML = '<pre class="text-xs text-gray-200 max-h-32 overflow-y-auto whitespace-pre-wrap">' + logLines.map(line => line.replace(/</g, '&lt;').replace(/>/g, '&gt;')).join('\n') + '</pre>';
+                    }
+                } else {
+                    logContainer.innerHTML = '<div class="text-xs text-gray-400">Log da IA robusta indisponível.</div>';
+                }
+            } catch (error) {
+                logContainer.innerHTML = '<div class="text-xs text-red-400">Erro ao carregar log da IA robusta.</div>';
+            }
+        }
+
+        async function loadNextMoves() {
+            document.getElementById('nextMoves').innerHTML = '<div class="text-sm text-gray-400">Estratégia sendo calculada...</div>';
+        }
+
+        // Função para atualizar tudo
+        async function refreshAll() {
+            showNotification('Atualizando dashboard...', 'info');
+            
+            try {
+                await Promise.all([
+                    updateButtonsStatus(),
+                    loadBalanceInfo(),
+                    loadWatchlistSummary(),
+                    loadDailyPerformance(),
+                    loadTradesHistory(),
+                    loadCurrentPositions(),
+                    loadTechnicalAnalysis(),
+                    loadAIDecisions(),
+                    loadAIActivityLog(),
+                    loadNextMoves(),
+                    loadTopPerformers(),
+                    loadSentimentData(),
+                    checkAITradingStatus()
+                ]);
+                
+                showNotification('Dashboard atualizado!', 'success');
+            } catch (error) {
+                showNotification('Erro na atualização', 'error');
+            }
+        }
+
+        // Inicialização do dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Inicializando MoCoVe Dashboard');
+            
+            // Carregar dados iniciais
+            refreshAll();
+            
+            // Auto-refresh a cada 30 segundos
+            setInterval(() => {
+                if (autoRefresh) {
+                    updateButtonsStatus();
+                    loadBalanceInfo();
+                    loadWatchlistSummary();
+                    loadDailyPerformance();
+                    loadTopPerformers();
+                    loadSentimentData();
+                }
+            }, refreshInterval);
+            
+            // Refresh mais frequente para dados da IA
+            setInterval(() => {
+                loadTechnicalAnalysis();
+                loadAIDecisions();
+                loadAIActivityLog();
+                loadNextMoves();
+                loadTradesHistory();
+                checkAITradingStatus();
+            }, 60000); // 1 minuto
+        });
+    </script>
+</body>
+</html>

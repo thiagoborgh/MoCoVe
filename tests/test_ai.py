@@ -207,3 +207,26 @@ class TestModelPerformance(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+# Teste extra: Execução do agente robusto de IA (verificação básica)
+import subprocess
+import time
+import os
+
+def test_robust_agent_execution():
+    """Testa se o agente robusto de IA executa e gera log"""
+    log_path = os.path.join(os.path.dirname(__file__), '..', 'ai_trading_agent_robust.log')
+    # Remove log antigo se existir
+    if os.path.exists(log_path):
+        os.remove(log_path)
+    # Executa o agente por alguns segundos
+    proc = subprocess.Popen(['python', '../ai_trading_agent_robust.py'])
+    time.sleep(5)
+    proc.terminate()
+    proc.wait()
+    # Verifica se o log foi criado
+    assert os.path.exists(log_path), 'Log do agente robusto não foi criado.'
+    with open(log_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+        assert len(lines) > 0, 'Log do agente robusto está vazio.'

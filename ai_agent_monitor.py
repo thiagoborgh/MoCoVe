@@ -1,34 +1,143 @@
 #!/usr/bin/env python3
 """
-Dashboard de Monitoramento do AI Trading Agent
-Interface para monitorar o agente em tempo real
+AI Agent Monitor - Mantém o AI Trading Agent ativo
+Monitora e reinicia o agente se ele parar
 """
 
-import time
 import os
-import json
+import sys
+import time
+import subprocess
+import logging
 import requests
-from datetime import datetime, timedelta
-import threading
-from typing import Dict, List
+from datetime import datetime
 
-class AgentMonitor:
-    """Monitor em tempo real do agente de IA"""
-    
+# Setup de logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler("ai_agent_monitor.log", encoding="utf-8"),
+    ],
+)
+
+logger = logging.getLogger("AIAgentMonitor")
+
+class AIAgentMonitor:
     def __init__(self):
+        self.agent_script = "ai_trading_agent_robust.py"
+        self.agent_process = None
         self.api_base = "http://localhost:5000"
-        self.log_file = "ai_trading_agent.log"
-        self.is_monitoring = False
+        self.restart_count = 0
+        self.max_restarts = 10
+        self.check_interval = 30  # segundos
         
-        # Estatísticas
-        self.stats = {
-            'trades_today': 0,
-            'total_profit': 0.0,
-            'win_rate': 0.0,
-            'last_signal': None,
-            'current_position': None,
-            'system_status': 'Unknown'
-        }
+    def is_backend_available(self):
+        """Verifica se o backend está disponível"""
+        try:
+            response = requests.get(f"{self.api_base}/api/health", timeout=5)
+            return response.status_code == 200
+        except:
+            return False
+    
+    def is_agent_running(self):
+        """Verifica se o agente está rodando"""
+        if self.agent_process is None:
+            return False
+        return self.agent_process.poll() is None
+    
+    def start_agent(self):
+        """Inicia o agente"""
+        try:
+            if not os.path.exists(self.agent_script):
+                logger.error(f"Script {self.agent_script} não encontrado!")
+                return False
+            
+            logger.info(f"Iniciando {self.agent_script}...")
+            self.agent_process = subprocess.Popen(
+                [sys.executable, self.agent_script],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            
+            # Aguardar um pouco para verificar se iniciou corretamente
+            time.sleep(3)
+            
+            if self.is_agent_running():
+                logger.info(f"Agente iniciado com PID: {self.agent_process.pid}")
+                self.restart_count += 1
+                return True
+            else:
+                logger.error("Agente falhou ao iniciar")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Erro ao iniciar agente: {e}")
+            return False
+    
+    def stop_agent(self):
+        """Para o agente"""
+        if self.agent_process and self.is_agent_running():
+            try:
+                self.agent_process.terminate()
+                self.agent_process.wait(timeout=10)
+                logger.info("Agente parado")
+            except subprocess.TimeoutExpired:
+                self.agent_process.kill()
+                self.agent_process.wait()
+                logger.info("Agente forçadamente parado")
+            except Exception as e:
+                logger.error(f"Erro ao parar agente: {e}")
+    
+    def run(self):
+        """Loop principal do monitor"""
+        logger.info("=== AI AGENT MONITOR INICIADO ===")
+        logger.info(f"Verificando a cada {self.check_interval} segundos")
+        logger.info(f"Máximo de reinicializações: {self.max_restarts}")
+        
+        try:
+            while True:
+                # Verificar se o backend está disponível
+                if not self.is_backend_available():
+                    logger.warning("Backend não disponível, aguardando...")
+                    time.sleep(self.check_interval)
+                    continue
+                
+                # Verificar se o agente está rodando
+                if not self.is_agent_running():
+                    if self.restart_count >= self.max_restarts:
+                        logger.error(f"Máximo de reinicializações atingido ({self.max_restarts})")
+                        break
+                    
+                    logger.warning("Agente não está rodando, tentando reiniciar...")
+                    if self.start_agent():
+                        logger.info(f"Agente reiniciado (tentativa {self.restart_count}/{self.max_restarts})")
+                    else:
+                        logger.error("Falha ao reiniciar agente")
+                        time.sleep(self.check_interval * 2)
+                        continue
+                
+                # Status a cada 10 verificações  
+                if self.restart_count > 0 and self.restart_count % 10 == 0:
+                    logger.info(f"Monitor ativo - Agente rodando (PID: {self.agent_process.pid if self.agent_process else 'N/A'})")
+                
+                time.sleep(self.check_interval)
+                
+        except KeyboardInterrupt:
+            logger.info("Monitor interrompido pelo usuário")
+        except Exception as e:
+            logger.error(f"Erro no monitor: {e}")
+        finally:
+            self.stop_agent()
+            logger.info("=== AI AGENT MONITOR FINALIZADO ===")
+
+def main():
+    monitor = AIAgentMonitor()
+    monitor.run()
+
+if __name__ == "__main__":
+    main()
         
     def clear_screen(self):
         """Limpa a tela"""

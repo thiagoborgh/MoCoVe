@@ -45,15 +45,36 @@ class SystemStatusUpdater:
             return False
     
     def check_ai_agent_activity(self) -> bool:
-        """Verificar atividade do AI Agent através dos logs"""
+        """Verificar atividade do AI Agent através do arquivo de status ou logs"""
         try:
+            status_file = "ai_agent_status.txt"
+            if os.path.exists(status_file):
+                with open(status_file, "r", encoding="utf-8") as f:
+                    content = f.read().strip()
+                # Espera-se formato: 'ACTIVE - 2025-08-14 12:34:56' ou similar
+                if content.startswith("ACTIVE"):
+                    # Extrair timestamp se disponível
+                    parts = content.split("-", 1)
+                    if len(parts) == 2:
+                        ts_str = parts[1].strip()
+                        try:
+                            ts = datetime.strptime(ts_str, "%Y-%m-%d %H:%M:%S")
+                            # Considera ativo se atualizado nos últimos 2 minutos
+                            if (datetime.now() - ts).total_seconds() < 120:
+                                return True
+                        except Exception:
+                            # Se não conseguir parsear timestamp, assume ativo
+                            return True
+                    else:
+                        return True
+            # Fallback: checar log file
             log_file = "ai_trading_agent.log"
             if os.path.exists(log_file):
                 stat = os.stat(log_file)
                 # Log foi modificado nos últimos 2 minutos
                 return (time.time() - stat.st_mtime) < 120
             return False
-        except:
+        except Exception:
             return False
     
     def update_status_in_db(self, status_data):

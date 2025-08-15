@@ -50,6 +50,16 @@ def check_dependencies():
         if not check_file_exists(file):
             all_files_exist = False
     
+    # Verificar arquivo .env
+    if not os.path.exists('.env'):
+        print("⚠️ Arquivo .env não encontrado. Criando exemplo...")
+        if os.path.exists('.env.example'):
+            import shutil
+            shutil.copy('.env.example', '.env')
+            print("✅ Arquivo .env criado a partir do exemplo")
+        else:
+            print("❌ Configure manualmente as variáveis de ambiente")
+    
     # Verificar database
     if os.path.exists(DATABASE_FILE):
         print(f"✅ {DATABASE_FILE} - Database encontrado")
@@ -231,59 +241,38 @@ def start_backend():
 
 def start_ai_trading_agent():
     """Iniciar AI Trading Agent"""
-    print_header("INICIANDO AI TRADING AGENT")
-    
+    print_header("INICIANDO AI TRADING AGENT ROBUSTO")
     try:
-        print("🤖 Iniciando AI Trading Agent...")
-        print("📂 Executando: python ai_trading_agent.py")
-        print("💰 MODO REAL - Trades reais serão executados!")
-        print("⚠️ Certifique-se de que suas configurações estão corretas")
-        
+        print("🤖 Iniciando AI Trading Agent Robusto...")
+        print("📂 Executando: python ai_trading_agent_robust.py")
+        print("� MODO ROBUSTO - Logs em: ai_trading_agent_robust.log")
+
         # Verificar se arquivo existe
-        if not os.path.exists("ai_trading_agent.py"):
-            print("❌ Arquivo ai_trading_agent.py não encontrado!")
+        if not os.path.exists("ai_trading_agent_robust.py"):
+            print("❌ Arquivo ai_trading_agent_robust.py não encontrado!")
             return None
-        
-        # Mostrar aviso de segurança
-        print("\n🚨 AVISO DE SEGURANÇA:")
-        print("💰 O AI Agent executará trades REAIS na Binance")
-        print("🔧 Configurações atuais:")
-        
-        try:
-            from ai_trading_config import TEST_MODE, MAX_POSITION_SIZE, MAX_DAILY_TRADES
-            print(f"   🧪 Modo Teste: {'ATIVO' if TEST_MODE else 'DESATIVO (MODO REAL)'}")
-            print(f"   💰 Valor máximo por trade: ${MAX_POSITION_SIZE}")
-            print(f"   📈 Trades máximos por dia: {MAX_DAILY_TRADES}")
-        except:
-            print("   ⚠️ Não foi possível ler configurações")
-        
-        # Aguardar confirmação
-        print("\n❓ Confirma inicialização do AI Trading Agent? (digite 'SIM' para confirmar)")
-        confirmacao = input("Confirmação: ").strip().upper()
-        
-        if confirmacao != 'SIM':
-            print("❌ Inicialização cancelada pelo usuário")
-            return None
-        
+
+        print("✅ Inicialização automática do AI Trading Agent Robusto!")
+
         # Iniciar processo em background
-        process = subprocess.Popen([sys.executable, "ai_trading_agent.py"])
-        
+        process = subprocess.Popen([sys.executable, "ai_trading_agent_robust.py"])
+
         # Aguardar um pouco para o agente inicializar
-        print("⏳ Aguardando AI Agent inicializar...")
+        print("⏳ Aguardando AI Agent Robusto inicializar...")
         time.sleep(5)
-        
+
         # Verificar se processo ainda está rodando
         if process.poll() is None:
-            print("✅ AI Trading Agent iniciado com sucesso!")
+            print("✅ AI Trading Agent Robusto iniciado com sucesso!")
             print(f"🆔 Process ID: {process.pid}")
-            print("📊 Monitore os logs em: ai_trading_agent.log")
+            print("📊 Monitore os logs em: ai_trading_agent_robust.log")
             return process
         else:
-            print("❌ AI Trading Agent falhou ao iniciar")
+            print("❌ AI Trading Agent Robusto falhou ao iniciar")
             return None
-            
+
     except Exception as e:
-        print(f"❌ Erro ao iniciar AI Trading Agent: {e}")
+        print(f"❌ Erro ao iniciar AI Trading Agent Robusto: {e}")
         return None
 
 def start_status_updater():
@@ -320,35 +309,6 @@ def start_status_updater():
         print(f"❌ Erro ao iniciar atualizador de status: {e}")
         return None
 
-def start_ai_trading_agent():
-    """Iniciar IA Trading Agent"""
-    print_header("INICIANDO IA TRADING AGENT")
-    
-    try:
-        print("🤖 Iniciando IA Trading Agent...")
-        print("📂 Executando: python ai_trading_agent_optimized.py")
-        print("⚠️ MODO REAL - Trading ativo na Binance!")
-        print("⏹️ Para parar: Ctrl+C")
-        
-        # Iniciar processo em background
-        process = subprocess.Popen([sys.executable, "ai_trading_agent_optimized.py"])
-        
-        # Aguardar um pouco para o agente inicializar
-        print("⏳ Aguardando IA Agent inicializar...")
-        time.sleep(5)
-        
-        # Verificar se processo ainda está rodando
-        if process.poll() is None:
-            print("✅ IA Trading Agent iniciado com sucesso!")
-            print(f"🆔 Process ID: {process.pid}")
-            return process
-        else:
-            print("❌ IA Trading Agent falhou ao iniciar")
-            return None
-            
-    except Exception as e:
-        print(f"❌ Erro ao iniciar IA Trading Agent: {e}")
-        return None
 
 def validate_system():
     """Validar sistema após inicialização"""
