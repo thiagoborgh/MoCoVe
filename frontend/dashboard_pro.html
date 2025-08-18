@@ -261,10 +261,15 @@
         <div class="lg:col-span-2">
             <!-- Price Chart -->
             <div class="glass-card rounded-xl p-6 mb-6">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <i class="fas fa-chart-line mr-2 text-yellow-400"></i>
-                    Gráfico de Preços - DOGE/USDT
-                </h2>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-chart-line mr-2 text-yellow-400"></i>
+                        Gráfico de Preços - Portfolio
+                    </h2>
+                    <select id="coinSelector" class="bg-gray-700 text-white rounded px-3 py-1 text-sm">
+                        <option value="">Carregando moedas...</option>
+                    </select>
+                </div>
                 <div class="chart-container">
                     <canvas id="priceChart"></canvas>
                 </div>
@@ -349,6 +354,9 @@
         let hasCredentials = false;
         let priceChart = null;
         let refreshInterval = null;
+        let portfolioCoins = [];
+        let currentSelectedCoin = '';
+        let priceData = {};
 
         // Initialize Dashboard
         document.addEventListener('DOMContentLoaded', function() {
@@ -365,6 +373,7 @@
                     updatePortfolio(),
                     updateAIAnalysis(),
                     updateAILogs(),
+                    loadPortfolioCoins(),
                     initializePriceChart()
                 ]);
                 showNotification('Dashboard carregado com sucesso!', 'success');
@@ -672,43 +681,30 @@
             try {
                 const response = await axios.get(`${API_BASE}/balance`);
                 const data = response.data;
-                
-                if (data.success && data.balance) {
-                    const balance = data.balance;
+                if (data.success && data.balances) {
+                    const balances = data.balances;
                     let html = '';
-                    
-                    // Show main balances
-                    if (balance.USDT) {
-                        html += `
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-400">USDT:</span>
-                                <span class="text-green-400 font-medium">$${balance.USDT.free?.toFixed(2) || '0.00'}</span>
-                            </div>
-                        `;
+                    // Mostrar todas as moedas com saldo > 0
+                    const coins = Object.keys(balances).filter(c => balances[c] > 0 && c !== 'timestamp');
+                    if (coins.length === 0) {
+                        html = '<div class="text-gray-400">Nenhuma moeda em carteira</div>';
+                    } else {
+                        coins.forEach(coin => {
+                            html += `
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-400">${coin}:</span>
+                                    <span class="text-green-400 font-medium">${typeof balances[coin] === 'number' ? balances[coin].toFixed(6) : balances[coin]}</span>
+                                </div>
+                            `;
+                        });
                     }
-                    
-                    if (balance.DOGE) {
-                        html += `
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-400">DOGE:</span>
-                                <span class="text-yellow-400 font-medium">${balance.DOGE.free?.toFixed(0) || '0'}</span>
-                            </div>
-                        `;
-                    }
-                    
-                    if (!html) {
-                        html = '<div class="text-gray-400">Dados de saldo indisponíveis</div>';
-                    }
-                    
                     document.getElementById('portfolioData').innerHTML = html;
                 } else {
-                    document.getElementById('portfolioData').innerHTML = 
-                        '<div class="text-gray-400">Erro ao carregar portfolio</div>';
+                    document.getElementById('portfolioData').innerHTML = '<div class="text-gray-400">Erro ao carregar portfolio</div>';
                 }
             } catch (error) {
                 console.error('Erro ao atualizar portfolio:', error);
-                document.getElementById('portfolioData').innerHTML = 
-                    '<div class="text-gray-400">Erro de conexão</div>';
+                document.getElementById('portfolioData').innerHTML = '<div class="text-gray-400">Erro de conexão</div>';
             }
         }
 
@@ -716,32 +712,38 @@
             try {
                 // Update last analysis time
                 const now = new Date();
-                document.getElementById('lastAnalysis').textContent = now.toLocaleTimeString();
-                
+                if (document.getElementById('lastAnalysis')) {
+                    document.getElementById('lastAnalysis').textContent = now.toLocaleTimeString();
+                }
                 // Get AI logs to extract latest analysis
                 const response = await axios.get(`${API_BASE}/ai-robust-log`);
                 if (response.data && response.data.log) {
                     const logLines = response.data.log.split('\n').filter(line => line.trim());
-                    const latestLine = logLines[logLines.length - 1];
-                    
-                    if (latestLine && latestLine.includes('Ação:')) {
-                        const actionMatch = latestLine.match(/Ação: (\w+)/);
-                        const confidenceMatch = latestLine.match(/Confiança: ([\d.]+)/);
-                        const reasonMatch = latestLine.match(/Razão: (.+)$/);
-                        
-                        if (actionMatch) {
-                            document.getElementById('nextAction').textContent = actionMatch[1];
-                            document.getElementById('currentAnalysis').textContent = actionMatch[1];
+                    // Procurar a última linha de análise de moeda
+                    let found = false;
+                    for (let i = logLines.length - 1; i >= 0; i--) {
+                        const line = logLines[i];
+                        // Exemplo: PEPEUSDT: $0.00001078 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+                        const regex = /^(\w+): \$([\d.eE+-]+) \| ([+\-]?[\d.]+)% \| (\w+) \((\d+\.\d+)\) - (.+)$/;
+                        const match = line.match(regex);
+                        if (match) {
+                            const symbol = match[1];
+                            const price = match[2];
+                            const change = match[3];
+                            const action = match[4];
+                            const confidence = match[5];
+                            const reason = match[6];
+                            document.getElementById('currentAnalysis').textContent = `${action} (${symbol})`;
+                            document.getElementById('confidence').textContent = `${Math.round(parseFloat(confidence) * 100)}%`;
+                            document.getElementById('analysisReason').textContent = reason;
+                            found = true;
+                            break;
                         }
-                        
-                        if (confidenceMatch) {
-                            const conf = Math.round(parseFloat(confidenceMatch[1]) * 100);
-                            document.getElementById('confidence').textContent = `${conf}%`;
-                        }
-                        
-                        if (reasonMatch) {
-                            document.getElementById('analysisReason').textContent = reasonMatch[1];
-                        }
+                    }
+                    if (!found) {
+                        document.getElementById('currentAnalysis').textContent = '--';
+                        document.getElementById('confidence').textContent = '--';
+                        document.getElementById('analysisReason').textContent = 'Aguardando dados...';
                     }
                 }
             } catch (error) {
@@ -784,30 +786,12 @@
         async function initializePriceChart() {
             const ctx = document.getElementById('priceChart').getContext('2d');
             
-            // Sample data - in a real app, this would come from the API
-            const labels = [];
-            const prices = [];
-            const now = new Date();
-            
-            for (let i = 20; i >= 0; i--) {
-                const time = new Date(now.getTime() - i * 60000); // Every minute
-                labels.push(time.toLocaleTimeString());
-                prices.push(0.225 + (Math.random() - 0.5) * 0.01); // Simulated price around $0.225
-            }
-            
+            // Initialize empty chart
             priceChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'DOGE/USDT',
-                        data: prices,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
+                    labels: [],
+                    datasets: []
                 },
                 options: {
                     responsive: true,
@@ -841,6 +825,139 @@
             });
         }
 
+        async function loadPortfolioCoins() {
+            try {
+                const response = await axios.get(`${API_BASE}/balance`);
+                if (response.data.success) {
+                    const balances = response.data.balances;
+                    
+                    // Filtrar apenas moedas com saldo positivo
+                    portfolioCoins = Object.keys(balances).filter(coin => {
+                        const balance = parseFloat(balances[coin]);
+                        return balance > 0 && coin !== 'USDT'; // Excluir USDT
+                    });
+
+                    // Atualizar seletor de moedas
+                    updateCoinSelector();
+
+                    // Se há moedas no portfolio, selecionar a primeira automaticamente
+                    if (portfolioCoins.length > 0) {
+                        currentSelectedCoin = portfolioCoins[0];
+                        document.getElementById('coinSelector').value = currentSelectedCoin;
+                        await updateChartForCoin(currentSelectedCoin);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar moedas do portfolio:', error);
+                // Se não conseguir carregar, usar lista padrão
+                portfolioCoins = ['BTC', 'ETH', 'DOGE', 'SOL'];
+                updateCoinSelector();
+                currentSelectedCoin = portfolioCoins[0];
+                document.getElementById('coinSelector').value = currentSelectedCoin;
+                await updateChartForCoin(currentSelectedCoin);
+            }
+        }
+
+        function updateCoinSelector() {
+            const selector = document.getElementById('coinSelector');
+            selector.innerHTML = '';
+
+            if (portfolioCoins.length === 0) {
+                selector.innerHTML = '<option value="">Nenhuma moeda em carteira</option>';
+                return;
+            }
+
+            portfolioCoins.forEach(coin => {
+                const option = document.createElement('option');
+                option.value = coin;
+                option.textContent = `${coin}/USDT`;
+                selector.appendChild(option);
+            });
+
+            // Adicionar event listener para mudança de seleção
+            selector.addEventListener('change', async (e) => {
+                if (e.target.value) {
+                    currentSelectedCoin = e.target.value;
+                    await updateChartForCoin(currentSelectedCoin);
+                }
+            });
+        }
+
+        async function updateChartForCoin(coinSymbol) {
+            try {
+                // Simular dados históricos - em produção, fazer call para API real
+                const labels = [];
+                const prices = [];
+                const now = new Date();
+
+                // Gerar dados simulados para a moeda selecionada
+                const basePrice = getBasePriceForCoin(coinSymbol);
+                
+                for (let i = 20; i >= 0; i--) {
+                    const time = new Date(now.getTime() - i * 60000);
+                    labels.push(time.toLocaleTimeString());
+                    
+                    // Simular variação de preço
+                    const variation = (Math.random() - 0.5) * 0.02; // ±2%
+                    const price = basePrice * (1 + variation);
+                    prices.push(price);
+                }
+
+                // Atualizar dados do gráfico
+                priceChart.data.labels = labels;
+                priceChart.data.datasets = [{
+                    label: `${coinSymbol}/USDT`,
+                    data: prices,
+                    borderColor: getColorForCoin(coinSymbol),
+                    backgroundColor: getColorForCoin(coinSymbol, 0.1),
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }];
+
+                priceChart.update();
+
+            } catch (error) {
+                console.error('Erro ao atualizar gráfico:', error);
+            }
+        }
+
+        function getBasePriceForCoin(coin) {
+            const basePrices = {
+                'BTC': 65000,
+                'ETH': 3500,
+                'DOGE': 0.225,
+                'SOL': 150,
+                'ADA': 0.45,
+                'MATIC': 0.85,
+                'DOT': 6.5,
+                'LINK': 14.5,
+                'UNI': 8.2,
+                'AVAX': 35,
+                'SHIB': 0.000024,
+                'PEPE': 0.00000125
+            };
+            return basePrices[coin] || 1.0;
+        }
+
+        function getColorForCoin(coin, alpha = 1) {
+            const colors = {
+                'BTC': `rgba(247, 147, 26, ${alpha})`,
+                'ETH': `rgba(98, 126, 234, ${alpha})`,
+                'DOGE': `rgba(198, 147, 39, ${alpha})`,
+                'SOL': `rgba(220, 31, 255, ${alpha})`,
+                'ADA': `rgba(0, 51, 173, ${alpha})`,
+                'MATIC': `rgba(130, 71, 229, ${alpha})`,
+                'DOT': `rgba(230, 1, 122, ${alpha})`,
+                'LINK': `rgba(43, 108, 176, ${alpha})`,
+                'UNI': `rgba(255, 0, 122, ${alpha})`,
+                'AVAX': `rgba(232, 65, 66, ${alpha})`,
+                'SHIB': `rgba(250, 150, 50, ${alpha})`,
+                'PEPE': `rgba(50, 205, 50, ${alpha})`
+            };
+            return colors[coin] || `rgba(59, 130, 246, ${alpha})`;
+        }
+
         function startAutoRefresh() {
             // Refresh every 15 seconds
             refreshInterval = setInterval(async () => {
@@ -851,6 +968,11 @@
                     updateAILogs(),
                     updateAIStatus()
                 ]);
+                
+                // Atualizar gráfico se há moeda selecionada
+                if (currentSelectedCoin) {
+                    await updateChartForCoin(currentSelectedCoin);
+                }
             }, 15000);
         }
 

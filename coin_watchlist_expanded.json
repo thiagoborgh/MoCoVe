@@ -81,7 +81,7 @@
         "volume_threshold": 25000000,
         "volatility_target": 0.25,
         "social_weight": 0.4,
-        "trading_enabled": false
+  "trading_enabled": true
       },
       {
         "symbol": "JUPUSDT",
@@ -91,7 +91,7 @@
         "volume_threshold": 20000000,
         "volatility_target": 0.22,
         "social_weight": 0.3,
-        "trading_enabled": false
+        "trading_enabled": true
       },
       {
         "symbol": "MYRO",
@@ -281,6 +281,36 @@
         "social_weight": 0.3,
         "trading_enabled": false
       }
+            ,
+            { "symbol": "BIOUSDT", "name": "Bio", "category": "Outros", "trading_enabled": true },
+            { "symbol": "EPICUSDT", "name": "Epic", "category": "Outros", "trading_enabled": true },
+            { "symbol": "MEMEUSDT", "name": "Meme", "category": "Outros", "trading_enabled": true },
+            { "symbol": "API3USDT", "name": "API3", "category": "Outros", "trading_enabled": true },
+            { "symbol": "FIOUSDT", "name": "FIO", "category": "Outros", "trading_enabled": true },
+            { "symbol": "LINKUSDT", "name": "Chainlink", "category": "Outros", "trading_enabled": true },
+            { "symbol": "FUNUSDT", "name": "FunFair", "category": "Outros", "trading_enabled": true },
+            { "symbol": "SKLUSDT", "name": "SKALE", "category": "Outros", "trading_enabled": true },
+            { "symbol": "POLUSDT", "name": "Polkastarter", "category": "Outros", "trading_enabled": true },
+            { "symbol": "TSTUSDT", "name": "TST", "category": "Outros", "trading_enabled": true },
+            { "symbol": "SPELLUSDT", "name": "Spell Token", "category": "Outros", "trading_enabled": true },
+            { "symbol": "GLMUSDT", "name": "Golem", "category": "Outros", "trading_enabled": true },
+            { "symbol": "AEURUSDT", "name": "AEUR", "category": "Outros", "trading_enabled": true },
+            { "symbol": "RESOLVUSDT", "name": "Resolv", "category": "Outros", "trading_enabled": true },
+            { "symbol": "PAXGUSDT", "name": "PAX Gold", "category": "Outros", "trading_enabled": true },
+            { "symbol": "FORMUSDT", "name": "Formation Fi", "category": "Outros", "trading_enabled": true },
+            { "symbol": "USDPUSDT", "name": "Pax Dollar", "category": "Outros", "trading_enabled": true },
+            { "symbol": "USD1USDT", "name": "USD1", "category": "Outros", "trading_enabled": true },
+            { "symbol": "FDUSDUSDT", "name": "First Digital USD", "category": "Outros", "trading_enabled": true },
+            { "symbol": "USDTUSDT", "name": "Tether", "category": "Outros", "trading_enabled": true },
+            { "symbol": "USDCUSDT", "name": "USD Coin", "category": "Outros", "trading_enabled": true },
+            { "symbol": "XUSDUSDT", "name": "XUSD", "category": "Outros", "trading_enabled": true },
+            { "symbol": "TUSDUSDT", "name": "TrueUSD", "category": "Outros", "trading_enabled": true },
+            { "symbol": "MDTUSDT", "name": "Measurable Data", "category": "Outros", "trading_enabled": true },
+            { "symbol": "HIFIUSDT", "name": "Hifi Finance", "category": "Outros", "trading_enabled": true },
+            { "symbol": "EURIUSDT", "name": "Eurium", "category": "Outros", "trading_enabled": true },
+            { "symbol": "TOWNSUSDT", "name": "Towns", "category": "Outros", "trading_enabled": true },
+            { "symbol": "MAGICUSDT", "name": "Magic", "category": "Outros", "trading_enabled": true },
+            { "symbol": "FISUSDT", "name": "Stafi", "category": "Outros", "trading_enabled": true }
     ],
     "layer1": [
       {

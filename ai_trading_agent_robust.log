@@ -11748,3 +11748,844 @@ LD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
 2025-08-15 16:53:40,249 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=DOGEUSDT
 2025-08-15 16:53:40,254 - WARNING - Falha ao obter dados de mercado
 2025-08-15 16:53:40,257 - INFO - Aguardando 20 segundos...
+2025-08-15 16:53:46,093 - INFO - === CICLO 4 ===
+2025-08-15 16:53:49,314 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=DOGEUSDT
+2025-08-15 16:53:49,325 - WARNING - Falha ao obter dados de mercado
+2025-08-15 16:53:49,326 - INFO - Aguardando 20 segundos...
+2025-08-15 16:53:56,642 - INFO - === CICLO 4 ===
+2025-08-15 16:53:59,303 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=DOGEUSDT
+2025-08-15 16:53:59,306 - WARNING - Falha ao obter dados de mercado
+2025-08-15 16:53:59,306 - INFO - Aguardando 20 segundos...
+2025-08-15 16:54:00,267 - INFO - === CICLO 5 ===
+2025-08-15 16:54:02,666 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=DOGEUSDT
+2025-08-15 16:54:02,666 - WARNING - Falha ao obter dados de mercado
+2025-08-15 16:54:02,666 - INFO - Aguardando 20 segundos...
+2025-08-15 16:54:09,327 - INFO - === CICLO 5 ===
+2025-08-15 16:54:11,669 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=DOGEUSDT
+2025-08-15 16:54:11,670 - WARNING - Falha ao obter dados de mercado
+2025-08-15 16:54:11,671 - INFO - Aguardando 20 segundos...
+2025-08-15 16:54:19,311 - INFO - === CICLO 5 ===
+2025-08-18 08:57:41,355 - INFO - Binance configurado. Testnet: False
+2025-08-18 08:57:41,358 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 08:57:41,359 - INFO - === CICLO 1 ===
+2025-08-18 08:57:46,106 - INFO - Preço: $0.22195000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 08:57:46,108 - INFO - Aguardando 20 segundos...
+2025-08-18 08:58:06,110 - INFO - === CICLO 2 ===
+2025-08-18 08:58:10,521 - INFO - Preço: $0.22217000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 08:58:10,522 - INFO - Aguardando 20 segundos...
+2025-08-18 08:58:30,522 - INFO - === CICLO 3 ===
+2025-08-18 08:58:34,946 - INFO - Preço: $0.22196000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 08:58:34,946 - INFO - Aguardando 20 segundos...
+2025-08-18 08:58:54,947 - INFO - === CICLO 4 ===
+2025-08-18 08:58:59,332 - INFO - Preço: $0.22208000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 08:58:59,332 - INFO - Aguardando 20 segundos...
+2025-08-18 08:59:19,333 - INFO - === CICLO 5 ===
+2025-08-18 08:59:24,172 - INFO - Preço: $0.22183000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 08:59:24,184 - INFO - Aguardando 20 segundos...
+2025-08-18 08:59:44,197 - INFO - === CICLO 6 ===
+2025-08-18 08:59:48,744 - INFO - Preço: $0.22184000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 08:59:48,747 - INFO - Aguardando 20 segundos...
+2025-08-18 09:00:08,750 - INFO - === CICLO 7 ===
+2025-08-18 09:00:13,179 - INFO - Preço: $0.22180000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:00:13,180 - INFO - Aguardando 20 segundos...
+2025-08-18 09:00:33,183 - INFO - === CICLO 8 ===
+2025-08-18 09:00:37,526 - INFO - Preço: $0.22168000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:00:37,527 - INFO - Aguardando 20 segundos...
+2025-08-18 09:00:57,527 - INFO - === CICLO 9 ===
+2025-08-18 09:01:01,865 - INFO - Preço: $0.22170000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:01:01,865 - INFO - Aguardando 20 segundos...
+2025-08-18 09:01:21,866 - INFO - === CICLO 10 ===
+2025-08-18 09:01:26,209 - INFO - Preço: $0.22168000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:01:26,210 - INFO - Status: 10 ciclos completados
+2025-08-18 09:01:26,211 - INFO - Aguardando 20 segundos...
+2025-08-18 09:01:46,211 - INFO - === CICLO 11 ===
+2025-08-18 09:01:50,547 - INFO - Preço: $0.22151000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:01:50,548 - INFO - Aguardando 20 segundos...
+2025-08-18 09:02:10,549 - INFO - === CICLO 12 ===
+2025-08-18 09:02:14,914 - INFO - Preço: $0.22165000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:02:14,915 - INFO - Aguardando 20 segundos...
+2025-08-18 09:02:34,938 - INFO - === CICLO 13 ===
+2025-08-18 09:02:39,514 - INFO - Preço: $0.22186000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:02:39,514 - INFO - Aguardando 20 segundos...
+2025-08-18 09:02:59,518 - INFO - === CICLO 14 ===
+2025-08-18 09:03:04,322 - INFO - Preço: $0.22198000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:03:04,323 - INFO - Aguardando 20 segundos...
+2025-08-18 09:03:24,325 - INFO - === CICLO 15 ===
+2025-08-18 09:03:28,770 - INFO - Preço: $0.22199000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:03:28,772 - INFO - Aguardando 20 segundos...
+2025-08-18 09:03:48,773 - INFO - === CICLO 16 ===
+2025-08-18 09:03:53,097 - INFO - Preço: $0.22231000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:03:53,097 - INFO - Aguardando 20 segundos...
+2025-08-18 09:04:13,098 - INFO - === CICLO 17 ===
+2025-08-18 09:04:17,466 - INFO - Preço: $0.22223000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:04:17,466 - INFO - Aguardando 20 segundos...
+2025-08-18 09:04:37,469 - INFO - === CICLO 18 ===
+2025-08-18 09:04:42,741 - INFO - Preço: $0.22218000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:04:42,743 - INFO - Aguardando 20 segundos...
+2025-08-18 09:05:02,744 - INFO - === CICLO 19 ===
+2025-08-18 09:05:07,071 - INFO - Preço: $0.22222000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:05:07,071 - INFO - Aguardando 20 segundos...
+2025-08-18 09:05:27,074 - INFO - === CICLO 20 ===
+2025-08-18 09:05:31,480 - INFO - Preço: $0.22232000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:05:31,481 - INFO - Status: 20 ciclos completados
+2025-08-18 09:05:31,481 - INFO - Aguardando 20 segundos...
+2025-08-18 09:05:51,482 - INFO - === CICLO 21 ===
+2025-08-18 09:05:55,825 - INFO - Preço: $0.22220000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:05:55,826 - INFO - Aguardando 20 segundos...
+2025-08-18 09:06:15,827 - INFO - === CICLO 22 ===
+2025-08-18 09:06:20,210 - INFO - Preço: $0.22212000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:06:20,210 - INFO - Aguardando 20 segundos...
+2025-08-18 09:06:40,212 - INFO - === CICLO 23 ===
+2025-08-18 09:06:44,651 - INFO - Preço: $0.22230000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:06:44,651 - INFO - Aguardando 20 segundos...
+2025-08-18 09:07:04,652 - INFO - === CICLO 24 ===
+2025-08-18 09:07:09,012 - INFO - Preço: $0.22231000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:07:09,012 - INFO - Aguardando 20 segundos...
+2025-08-18 09:07:29,012 - INFO - === CICLO 25 ===
+2025-08-18 09:07:33,599 - INFO - Preço: $0.22238000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:07:33,600 - INFO - Aguardando 20 segundos...
+2025-08-18 09:07:50,327 - INFO - Agente interrompido pelo usuário
+2025-08-18 09:07:50,330 - INFO - === AGENTE FINALIZADO ===
+2025-08-18 09:33:35,205 - INFO - Binance configurado. Testnet: False
+2025-08-18 09:33:35,208 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 09:33:35,208 - INFO - === CICLO 1 ===
+2025-08-18 09:33:40,263 - INFO - Preço: $0.22339000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:33:40,265 - INFO - Aguardando 20 segundos...
+2025-08-18 09:34:00,267 - INFO - === CICLO 2 ===
+2025-08-18 09:34:05,125 - INFO - Preço: $0.22344000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:34:05,127 - INFO - Aguardando 20 segundos...
+2025-08-18 09:34:25,128 - INFO - === CICLO 3 ===
+2025-08-18 09:34:29,567 - INFO - Preço: $0.22333000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:34:29,567 - INFO - Aguardando 20 segundos...
+2025-08-18 09:34:49,568 - INFO - === CICLO 4 ===
+2025-08-18 09:34:53,998 - INFO - Preço: $0.22341000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:34:53,998 - INFO - Aguardando 20 segundos...
+2025-08-18 09:35:13,998 - INFO - === CICLO 5 ===
+2025-08-18 09:35:18,414 - INFO - Preço: $0.22331000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:35:18,414 - INFO - Aguardando 20 segundos...
+2025-08-18 09:35:38,415 - INFO - === CICLO 6 ===
+2025-08-18 09:35:42,820 - INFO - Preço: $0.22334000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:35:42,820 - INFO - Aguardando 20 segundos...
+2025-08-18 09:36:02,821 - INFO - === CICLO 7 ===
+2025-08-18 09:36:07,214 - INFO - Preço: $0.22325000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:36:07,215 - INFO - Aguardando 20 segundos...
+2025-08-18 09:36:27,216 - INFO - === CICLO 8 ===
+2025-08-18 09:36:31,645 - INFO - Preço: $0.22298000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:36:31,645 - INFO - Aguardando 20 segundos...
+2025-08-18 09:36:51,646 - INFO - === CICLO 9 ===
+2025-08-18 09:36:56,092 - INFO - Preço: $0.22319000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:36:56,092 - INFO - Aguardando 20 segundos...
+2025-08-18 09:37:16,092 - INFO - === CICLO 10 ===
+2025-08-18 09:37:20,523 - INFO - Preço: $0.22338000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:37:20,523 - INFO - Status: 10 ciclos completados
+2025-08-18 09:37:20,523 - INFO - Aguardando 20 segundos...
+2025-08-18 09:37:40,524 - INFO - === CICLO 11 ===
+2025-08-18 09:37:44,954 - INFO - Preço: $0.22395000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:37:44,954 - INFO - Aguardando 20 segundos...
+2025-08-18 09:38:04,955 - INFO - === CICLO 12 ===
+2025-08-18 09:38:09,377 - INFO - Preço: $0.22378000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:38:09,377 - INFO - Aguardando 20 segundos...
+2025-08-18 09:38:29,378 - INFO - === CICLO 13 ===
+2025-08-18 09:38:33,832 - INFO - Preço: $0.22348000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:38:33,832 - INFO - Aguardando 20 segundos...
+2025-08-18 09:38:53,833 - INFO - === CICLO 14 ===
+2025-08-18 09:38:58,270 - INFO - Preço: $0.22344000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:38:58,271 - INFO - Aguardando 20 segundos...
+2025-08-18 09:39:18,271 - INFO - === CICLO 15 ===
+2025-08-18 09:39:22,639 - INFO - Preço: $0.22347000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:39:22,639 - INFO - Aguardando 20 segundos...
+2025-08-18 09:39:42,639 - INFO - === CICLO 16 ===
+2025-08-18 09:39:47,042 - INFO - Preço: $0.22343000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:39:47,043 - INFO - Aguardando 20 segundos...
+2025-08-18 09:40:07,043 - INFO - === CICLO 17 ===
+2025-08-18 09:40:11,401 - INFO - Preço: $0.22338000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:40:11,401 - INFO - Aguardando 20 segundos...
+2025-08-18 09:40:31,403 - INFO - === CICLO 18 ===
+2025-08-18 09:40:35,836 - INFO - Preço: $0.22344000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:40:35,837 - INFO - Aguardando 20 segundos...
+2025-08-18 09:40:55,837 - INFO - === CICLO 19 ===
+2025-08-18 09:41:00,205 - INFO - Preço: $0.22363000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:41:00,205 - INFO - Aguardando 20 segundos...
+2025-08-18 09:41:20,206 - INFO - === CICLO 20 ===
+2025-08-18 09:41:24,601 - INFO - Preço: $0.22388000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:41:24,601 - INFO - Status: 20 ciclos completados
+2025-08-18 09:41:24,601 - INFO - Aguardando 20 segundos...
+2025-08-18 09:41:44,604 - INFO - === CICLO 21 ===
+2025-08-18 09:41:49,123 - INFO - Preço: $0.22397000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:41:49,124 - INFO - Aguardando 20 segundos...
+2025-08-18 09:42:09,125 - INFO - === CICLO 22 ===
+2025-08-18 09:42:13,524 - INFO - Preço: $0.22380000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:42:13,525 - INFO - Aguardando 20 segundos...
+2025-08-18 09:42:33,526 - INFO - === CICLO 23 ===
+2025-08-18 09:42:38,091 - INFO - Preço: $0.22371000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:42:38,092 - INFO - Aguardando 20 segundos...
+2025-08-18 09:42:58,094 - INFO - === CICLO 24 ===
+2025-08-18 09:43:02,482 - INFO - Preço: $0.22368000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:43:02,483 - INFO - Aguardando 20 segundos...
+2025-08-18 09:43:22,484 - INFO - === CICLO 25 ===
+2025-08-18 09:43:27,083 - INFO - Preço: $0.22372000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:43:27,083 - INFO - Aguardando 20 segundos...
+2025-08-18 09:43:47,083 - INFO - === CICLO 26 ===
+2025-08-18 09:43:51,532 - INFO - Preço: $0.22389000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:43:51,532 - INFO - Aguardando 20 segundos...
+2025-08-18 09:44:11,534 - INFO - === CICLO 27 ===
+2025-08-18 09:44:16,027 - INFO - Preço: $0.22394000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:44:16,027 - INFO - Aguardando 20 segundos...
+2025-08-18 09:44:36,028 - INFO - === CICLO 28 ===
+2025-08-18 09:44:40,460 - INFO - Preço: $0.22397000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:44:40,460 - INFO - Aguardando 20 segundos...
+2025-08-18 09:45:00,461 - INFO - === CICLO 29 ===
+2025-08-18 09:45:04,893 - INFO - Preço: $0.22398000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:45:04,894 - INFO - Aguardando 20 segundos...
+2025-08-18 09:45:24,894 - INFO - === CICLO 30 ===
+2025-08-18 09:45:29,303 - INFO - Preço: $0.22385000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:45:29,304 - INFO - Status: 30 ciclos completados
+2025-08-18 09:45:29,304 - INFO - Aguardando 20 segundos...
+2025-08-18 09:45:49,305 - INFO - === CICLO 31 ===
+2025-08-18 09:45:53,711 - INFO - Preço: $0.22377000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:45:53,711 - INFO - Aguardando 20 segundos...
+2025-08-18 09:46:13,713 - INFO - === CICLO 32 ===
+2025-08-18 09:46:18,229 - INFO - Preço: $0.22380000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:46:18,229 - INFO - Aguardando 20 segundos...
+2025-08-18 09:46:38,231 - INFO - === CICLO 33 ===
+2025-08-18 09:46:42,857 - INFO - Preço: $0.22370000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:46:42,858 - INFO - Aguardando 20 segundos...
+2025-08-18 09:47:02,860 - INFO - === CICLO 34 ===
+2025-08-18 09:47:07,345 - INFO - Preço: $0.22369000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:47:07,346 - INFO - Aguardando 20 segundos...
+2025-08-18 09:47:27,347 - INFO - === CICLO 35 ===
+2025-08-18 09:47:31,819 - INFO - Preço: $0.22359000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:47:31,819 - INFO - Aguardando 20 segundos...
+2025-08-18 09:47:51,820 - INFO - === CICLO 36 ===
+2025-08-18 09:47:56,270 - INFO - Preço: $0.22363000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:47:56,271 - INFO - Aguardando 20 segundos...
+2025-08-18 09:48:16,272 - INFO - === CICLO 37 ===
+2025-08-18 09:48:20,780 - INFO - Preço: $0.22359000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:48:20,780 - INFO - Aguardando 20 segundos...
+2025-08-18 09:48:40,781 - INFO - === CICLO 38 ===
+2025-08-18 09:48:45,211 - INFO - Preço: $0.22364000 | Ação: HOLD | Confiança: 0.10 | Razão: Mercado estável: 0.00%
+2025-08-18 09:48:45,212 - INFO - Aguardando 20 segundos...
+2025-08-18 09:48:45,377 - INFO - Agente interrompido pelo usuário
+2025-08-18 09:48:45,377 - INFO - === AGENTE FINALIZADO ===
+2025-08-18 09:49:28,200 - INFO - Carregadas 14 moedas ativas: DOGEUSDT, SHIBUSDT, PEPEUSDT, WIFUSDT, FLOKIUSDT...
+2025-08-18 09:49:28,201 - WARNING - Credenciais Binance não configuradas. Modo simulação ativo.
+2025-08-18 09:49:28,201 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 09:49:28,201 - INFO - === CICLO 1 - Analisando 14 moedas ===
+2025-08-18 09:49:32,360 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=DOGEUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002A74D492120>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 09:49:41,465 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=5)
+2025-08-18 09:49:45,935 - INFO - PEPEUSDT: $0.00001078 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:49:50,394 - INFO - WIFUSDT: $0.87900000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:49:54,794 - INFO - FLOKIUSDT: $0.00010231 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:49:59,212 - INFO - BONKUSDT: $0.00002264 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:50:03,628 - INFO - MEMEUSDT: $0.00210400 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:50:08,016 - INFO - BOMEUSDT: $0.00180700 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:50:12,438 - INFO - UNIUSDT: $10.46300000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:50:16,901 - INFO - AAVEUSDT: $290.60000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:50:21,592 - INFO - COMPUSDT: $47.21000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:50:26,024 - INFO - SOLUSDT: $182.33000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:50:30,440 - INFO - ADAUSDT: $0.91060000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:50:34,892 - INFO - AVAXUSDT: $23.94000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:50:34,893 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 09:50:34,895 - INFO - Aguardando 20 segundos...
+2025-08-18 09:50:54,896 - INFO - === CICLO 2 - Analisando 14 moedas ===
+2025-08-18 09:50:59,334 - INFO - DOGEUSDT: $0.22383000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:03,711 - INFO - SHIBUSDT: $0.00001263 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:08,102 - INFO - PEPEUSDT: $0.00001077 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:12,501 - INFO - WIFUSDT: $0.87900000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:16,934 - INFO - FLOKIUSDT: $0.00010241 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:21,384 - INFO - BONKUSDT: $0.00002265 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:25,798 - INFO - MEMEUSDT: $0.00212300 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:30,195 - INFO - BOMEUSDT: $0.00180800 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:34,626 - INFO - UNIUSDT: $10.47100000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:39,041 - INFO - AAVEUSDT: $291.26000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:43,448 - INFO - COMPUSDT: $47.18000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:47,886 - INFO - SOLUSDT: $182.42000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:52,299 - INFO - ADAUSDT: $0.91070000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:56,692 - INFO - AVAXUSDT: $23.94000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:51:56,692 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 09:51:56,693 - INFO - Aguardando 20 segundos...
+2025-08-18 09:52:16,693 - INFO - === CICLO 3 - Analisando 14 moedas ===
+2025-08-18 09:52:21,116 - INFO - DOGEUSDT: $0.22402000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:52:25,543 - INFO - SHIBUSDT: $0.00001266 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:52:29,997 - INFO - PEPEUSDT: $0.00001079 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:52:34,421 - INFO - WIFUSDT: $0.88000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:52:38,849 - INFO - FLOKIUSDT: $0.00010261 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:52:43,269 - INFO - BONKUSDT: $0.00002273 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:52:47,718 - INFO - MEMEUSDT: $0.00216100 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:52:52,134 - INFO - BOMEUSDT: $0.00181500 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:52:56,551 - INFO - UNIUSDT: $10.48900000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:53:00,997 - INFO - AAVEUSDT: $291.93000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:53:05,446 - INFO - COMPUSDT: $47.27000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:53:09,810 - INFO - SOLUSDT: $182.51000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:53:14,214 - INFO - ADAUSDT: $0.91120000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:53:18,619 - INFO - AVAXUSDT: $23.97000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:53:18,619 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 09:53:18,619 - INFO - Aguardando 20 segundos...
+2025-08-18 09:53:38,620 - INFO - === CICLO 4 - Analisando 14 moedas ===
+2025-08-18 09:53:43,058 - INFO - DOGEUSDT: $0.22407000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:53:47,460 - INFO - SHIBUSDT: $0.00001266 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:53:51,865 - INFO - PEPEUSDT: $0.00001080 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:53:56,317 - INFO - WIFUSDT: $0.88000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:00,728 - INFO - FLOKIUSDT: $0.00010256 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:05,146 - INFO - BONKUSDT: $0.00002273 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:09,549 - INFO - MEMEUSDT: $0.00218600 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:13,971 - INFO - BOMEUSDT: $0.00181600 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:18,388 - INFO - UNIUSDT: $10.48800000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:22,830 - INFO - AAVEUSDT: $291.84000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:27,265 - INFO - COMPUSDT: $47.26000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:31,700 - INFO - SOLUSDT: $182.56000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:36,115 - INFO - ADAUSDT: $0.91130000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:40,556 - INFO - AVAXUSDT: $23.99000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:54:40,557 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 09:54:40,557 - INFO - Aguardando 20 segundos...
+2025-08-18 09:55:00,558 - INFO - === CICLO 5 - Analisando 14 moedas ===
+2025-08-18 09:55:04,990 - INFO - DOGEUSDT: $0.22415000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:09,419 - INFO - SHIBUSDT: $0.00001267 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:13,817 - INFO - PEPEUSDT: $0.00001079 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:18,227 - INFO - WIFUSDT: $0.88200000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:22,680 - INFO - FLOKIUSDT: $0.00010272 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:27,095 - INFO - BONKUSDT: $0.00002272 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:31,476 - INFO - MEMEUSDT: $0.00214900 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:35,914 - INFO - BOMEUSDT: $0.00181800 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:40,338 - INFO - UNIUSDT: $10.50000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:44,761 - INFO - AAVEUSDT: $291.79000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:49,174 - INFO - COMPUSDT: $47.26000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:53,559 - INFO - SOLUSDT: $182.51000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:55:57,958 - INFO - ADAUSDT: $0.91090000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:56:02,398 - INFO - AVAXUSDT: $24.00000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:56:02,399 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 09:56:02,399 - INFO - Aguardando 20 segundos...
+2025-08-18 09:56:22,400 - INFO - === CICLO 6 - Analisando 14 moedas ===
+2025-08-18 09:56:26,795 - INFO - DOGEUSDT: $0.22410000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:56:31,212 - INFO - SHIBUSDT: $0.00001266 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:56:35,627 - INFO - PEPEUSDT: $0.00001081 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:56:40,030 - INFO - WIFUSDT: $0.88300000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:56:44,497 - INFO - FLOKIUSDT: $0.00010276 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:56:49,050 - INFO - BONKUSDT: $0.00002272 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:56:53,659 - INFO - MEMEUSDT: $0.00217400 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:56:58,066 - INFO - BOMEUSDT: $0.00181800 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:57:02,682 - INFO - UNIUSDT: $10.50900000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:57:07,050 - INFO - AAVEUSDT: $292.13000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:57:11,487 - INFO - COMPUSDT: $47.28000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:57:15,924 - INFO - SOLUSDT: $182.62000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:57:20,373 - INFO - ADAUSDT: $0.91160000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:57:24,799 - INFO - AVAXUSDT: $24.05000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:57:24,799 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 09:57:24,800 - INFO - Aguardando 20 segundos...
+2025-08-18 09:57:44,801 - INFO - === CICLO 7 - Analisando 14 moedas ===
+2025-08-18 09:57:49,214 - INFO - DOGEUSDT: $0.22415000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:57:53,640 - INFO - SHIBUSDT: $0.00001268 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:57:58,116 - INFO - PEPEUSDT: $0.00001081 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:02,649 - INFO - WIFUSDT: $0.88300000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:07,177 - INFO - FLOKIUSDT: $0.00010286 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:11,610 - INFO - BONKUSDT: $0.00002275 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:16,027 - INFO - MEMEUSDT: $0.00215100 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:20,478 - INFO - BOMEUSDT: $0.00182000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:24,889 - INFO - UNIUSDT: $10.51700000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:29,317 - INFO - AAVEUSDT: $292.13000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:33,731 - INFO - COMPUSDT: $47.32000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:38,139 - INFO - SOLUSDT: $182.98000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:42,522 - INFO - ADAUSDT: $0.91230000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:47,173 - INFO - AVAXUSDT: $24.06000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:58:47,174 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 09:58:47,175 - INFO - Aguardando 20 segundos...
+2025-08-18 09:59:07,177 - INFO - === CICLO 8 - Analisando 14 moedas ===
+2025-08-18 09:59:11,594 - INFO - DOGEUSDT: $0.22423000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:16,035 - INFO - SHIBUSDT: $0.00001268 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:20,452 - INFO - PEPEUSDT: $0.00001081 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:24,853 - INFO - WIFUSDT: $0.88400000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:29,273 - INFO - FLOKIUSDT: $0.00010297 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:33,657 - INFO - BONKUSDT: $0.00002278 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:38,057 - INFO - MEMEUSDT: $0.00213700 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:42,473 - INFO - BOMEUSDT: $0.00182200 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:46,911 - INFO - UNIUSDT: $10.51900000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:51,318 - INFO - AAVEUSDT: $292.49000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 09:59:55,898 - INFO - COMPUSDT: $47.34000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:00:00,315 - INFO - SOLUSDT: $183.18000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:00:04,765 - INFO - ADAUSDT: $0.91330000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:00:09,189 - INFO - AVAXUSDT: $24.06000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:00:09,190 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 10:00:09,191 - INFO - Aguardando 20 segundos...
+2025-08-18 10:00:29,191 - INFO - === CICLO 9 - Analisando 14 moedas ===
+2025-08-18 10:00:33,599 - INFO - DOGEUSDT: $0.22409000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:00:38,058 - INFO - SHIBUSDT: $0.00001268 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:00:42,453 - INFO - PEPEUSDT: $0.00001079 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:00:46,808 - INFO - WIFUSDT: $0.88100000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:00:51,203 - INFO - FLOKIUSDT: $0.00010294 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:00:55,617 - INFO - BONKUSDT: $0.00002277 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:00,030 - INFO - MEMEUSDT: $0.00216900 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:04,418 - INFO - BOMEUSDT: $0.00182300 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:08,839 - INFO - UNIUSDT: $10.49800000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:13,268 - INFO - AAVEUSDT: $292.17000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:17,733 - INFO - COMPUSDT: $47.22000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:22,153 - INFO - SOLUSDT: $182.91000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:26,556 - INFO - ADAUSDT: $0.91200000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:30,982 - INFO - AVAXUSDT: $24.03000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:30,983 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 10:01:30,983 - INFO - Aguardando 20 segundos...
+2025-08-18 10:01:50,984 - INFO - === CICLO 10 - Analisando 14 moedas ===
+2025-08-18 10:01:55,404 - INFO - DOGEUSDT: $0.22395000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:01:59,991 - INFO - SHIBUSDT: $0.00001267 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:04,935 - INFO - PEPEUSDT: $0.00001078 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:09,464 - INFO - WIFUSDT: $0.88100000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:13,884 - INFO - FLOKIUSDT: $0.00010287 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:18,302 - INFO - BONKUSDT: $0.00002276 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:22,734 - INFO - MEMEUSDT: $0.00216800 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:27,139 - INFO - BOMEUSDT: $0.00182300 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:31,574 - INFO - UNIUSDT: $10.51200000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:35,976 - INFO - AAVEUSDT: $292.22000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:40,393 - INFO - COMPUSDT: $47.26000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:44,799 - INFO - SOLUSDT: $182.98000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:49,223 - INFO - ADAUSDT: $0.91280000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:53,637 - INFO - AVAXUSDT: $24.07000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:02:53,637 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 10:02:53,638 - INFO - Status: 10 ciclos completados
+2025-08-18 10:02:53,639 - INFO - Aguardando 20 segundos...
+2025-08-18 10:03:13,640 - INFO - === CICLO 11 - Analisando 14 moedas ===
+2025-08-18 10:03:18,048 - INFO - DOGEUSDT: $0.22436000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:03:22,486 - INFO - SHIBUSDT: $0.00001269 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:03:26,865 - INFO - PEPEUSDT: $0.00001080 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:03:31,307 - INFO - WIFUSDT: $0.88300000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:03:35,730 - INFO - FLOKIUSDT: $0.00010299 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:03:40,199 - INFO - BONKUSDT: $0.00002280 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:03:44,644 - INFO - MEMEUSDT: $0.00217300 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:03:49,073 - INFO - BOMEUSDT: $0.00182500 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:03:53,513 - INFO - UNIUSDT: $10.52900000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:03:57,964 - INFO - AAVEUSDT: $292.47000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:04:02,393 - INFO - COMPUSDT: $47.27000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:04:06,817 - INFO - SOLUSDT: $183.19000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:04:11,228 - INFO - ADAUSDT: $0.91400000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:04:15,631 - INFO - AVAXUSDT: $24.10000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:04:15,632 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 10:04:15,632 - INFO - Aguardando 20 segundos...
+2025-08-18 10:04:35,633 - INFO - === CICLO 12 - Analisando 14 moedas ===
+2025-08-18 10:04:40,033 - INFO - DOGEUSDT: $0.22448000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:04:44,473 - INFO - SHIBUSDT: $0.00001270 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:04:49,379 - INFO - PEPEUSDT: $0.00001080 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:04:53,778 - INFO - WIFUSDT: $0.88200000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:04:58,219 - INFO - FLOKIUSDT: $0.00010299 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:02,631 - INFO - BONKUSDT: $0.00002279 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:07,051 - INFO - MEMEUSDT: $0.00213900 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:11,446 - INFO - BOMEUSDT: $0.00182400 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:15,843 - INFO - UNIUSDT: $10.53400000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:20,248 - INFO - AAVEUSDT: $293.17000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:24,695 - INFO - COMPUSDT: $47.32000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:29,117 - INFO - SOLUSDT: $183.24000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:33,554 - INFO - ADAUSDT: $0.91370000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:37,965 - INFO - AVAXUSDT: $24.14000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:05:37,965 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 10:05:37,966 - INFO - Aguardando 20 segundos...
+2025-08-18 10:05:57,967 - INFO - === CICLO 13 - Analisando 14 moedas ===
+2025-08-18 10:06:02,377 - INFO - DOGEUSDT: $0.22456000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:06,788 - INFO - SHIBUSDT: $0.00001271 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:11,247 - INFO - PEPEUSDT: $0.00001080 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:15,623 - INFO - WIFUSDT: $0.88100000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:20,054 - INFO - FLOKIUSDT: $0.00010292 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:24,484 - INFO - BONKUSDT: $0.00002277 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:28,894 - INFO - MEMEUSDT: $0.00216500 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:33,280 - INFO - BOMEUSDT: $0.00182000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:37,688 - INFO - UNIUSDT: $10.53400000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:42,086 - INFO - AAVEUSDT: $293.10000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:46,513 - INFO - COMPUSDT: $47.32000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:50,925 - INFO - SOLUSDT: $183.08000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:55,373 - INFO - ADAUSDT: $0.91450000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:59,817 - INFO - AVAXUSDT: $24.15000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:06:59,817 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 10:06:59,818 - INFO - Aguardando 20 segundos...
+2025-08-18 10:07:19,819 - INFO - === CICLO 14 - Analisando 14 moedas ===
+2025-08-18 10:07:24,280 - INFO - DOGEUSDT: $0.22434000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:07:28,954 - INFO - SHIBUSDT: $0.00001269 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:07:33,442 - INFO - PEPEUSDT: $0.00001077 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:07:37,851 - INFO - WIFUSDT: $0.88000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:07:42,276 - INFO - FLOKIUSDT: $0.00010265 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:07:46,692 - INFO - BONKUSDT: $0.00002272 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:07:51,096 - INFO - MEMEUSDT: $0.00216900 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:07:55,573 - INFO - BOMEUSDT: $0.00181700 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:07:59,992 - INFO - UNIUSDT: $10.52600000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:08:04,429 - INFO - AAVEUSDT: $292.94000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:08:08,853 - INFO - COMPUSDT: $47.29000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:08:13,278 - INFO - SOLUSDT: $182.63000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:08:17,678 - INFO - ADAUSDT: $0.91310000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:08:22,081 - INFO - AVAXUSDT: $24.09000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:08:22,081 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 10:08:22,082 - INFO - Aguardando 20 segundos...
+2025-08-18 10:08:42,083 - INFO - === CICLO 15 - Analisando 14 moedas ===
+2025-08-18 10:08:46,496 - INFO - DOGEUSDT: $0.22396000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:08:50,908 - INFO - SHIBUSDT: $0.00001267 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:08:55,352 - INFO - PEPEUSDT: $0.00001075 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:08:59,802 - INFO - WIFUSDT: $0.87700000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:04,221 - INFO - FLOKIUSDT: $0.00010245 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:08,618 - INFO - BONKUSDT: $0.00002266 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:13,021 - INFO - MEMEUSDT: $0.00214900 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:17,442 - INFO - BOMEUSDT: $0.00181100 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:21,854 - INFO - UNIUSDT: $10.49100000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:26,263 - INFO - AAVEUSDT: $291.91000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:30,750 - INFO - COMPUSDT: $47.21000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:35,179 - INFO - SOLUSDT: $182.31000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:39,623 - INFO - ADAUSDT: $0.91030000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:44,112 - INFO - AVAXUSDT: $24.04000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:09:44,116 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 10:09:44,120 - INFO - Aguardando 20 segundos...
+2025-08-18 10:10:04,123 - INFO - === CICLO 16 - Analisando 14 moedas ===
+2025-08-18 10:10:08,597 - INFO - DOGEUSDT: $0.22349000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:10:13,014 - INFO - SHIBUSDT: $0.00001266 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:10:17,433 - INFO - PEPEUSDT: $0.00001073 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:10:21,851 - INFO - WIFUSDT: $0.87600000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:10:26,269 - INFO - FLOKIUSDT: $0.00010237 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:10:28,311 - INFO - Agente interrompido pelo usuário
+2025-08-18 10:10:28,312 - INFO - === AGENTE FINALIZADO ===
+2025-08-18 10:10:36,546 - INFO - Carregadas 44 moedas ativas: DOGEUSDT, SHIBUSDT, PEPEUSDT, WIFUSDT, FLOKIUSDT...
+2025-08-18 10:10:36,547 - WARNING - Credenciais Binance não configuradas. Modo simulação ativo.
+2025-08-18 10:10:36,548 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 10:10:36,548 - INFO - === CICLO 1 - Analisando 44 moedas ===
+2025-08-18 10:10:41,017 - INFO - DOGEUSDT: $0.22349000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:10:45,590 - INFO - SHIBUSDT: $0.00001266 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:10:50,030 - INFO - PEPEUSDT: $0.00001074 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:10:54,471 - INFO - WIFUSDT: $0.87600000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:10:58,885 - INFO - FLOKIUSDT: $0.00010242 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:03,322 - INFO - BONKUSDT: $0.00002266 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:07,742 - INFO - MEMEUSDT: $0.00214900 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:12,136 - INFO - BOMEUSDT: $0.00181000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:16,662 - INFO - JUPUSDT: $0.49550000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:21,111 - INFO - UNIUSDT: $10.48300000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:25,549 - INFO - AAVEUSDT: $291.85000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:29,983 - INFO - COMPUSDT: $47.18000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:34,410 - INFO - BIOUSDT: $0.12940000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:38,833 - INFO - EPICUSDT: $2.96200000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:43,204 - INFO - MEMEUSDT: $0.00215000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:47,641 - INFO - API3USDT: $0.85200000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:52,022 - INFO - FIOUSDT: $0.01933000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:11:56,409 - INFO - LINKUSDT: $25.57000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:00,964 - INFO - FUNUSDT: $0.00959200 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:06,454 - INFO - SKLUSDT: $0.03631000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:10,889 - INFO - POLUSDT: $0.25200000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:15,422 - INFO - TSTUSDT: $0.03214000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:19,884 - INFO - SPELLUSDT: $0.00050850 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:24,307 - INFO - GLMUSDT: $0.25910000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:28,749 - INFO - AEURUSDT: $1.11220000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:33,186 - INFO - RESOLVUSDT: $0.17380000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:37,600 - INFO - PAXGUSDT: $3338.45000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:41,956 - INFO - FORMUSDT: $3.74680000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:46,464 - INFO - USDPUSDT: $0.99950000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:50,847 - INFO - USD1USDT: $0.99920000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:55,527 - INFO - FDUSDUSDT: $0.99780000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:12:57,613 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=USDTUSDT
+2025-08-18 10:13:02,004 - INFO - USDCUSDT: $0.99930000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:06,432 - INFO - XUSDUSDT: $0.99950000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:10,890 - INFO - TUSDUSDT: $0.99750000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:15,315 - INFO - MDTUSDT: $0.02878000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:19,771 - INFO - HIFIUSDT: $0.09210000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:24,183 - INFO - EURIUSDT: $1.16600000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:28,723 - INFO - TOWNSUSDT: $0.03118000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:33,205 - INFO - MAGICUSDT: $0.24750000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:37,607 - INFO - FISUSDT: $0.12090000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:42,036 - INFO - SOLUSDT: $182.33000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:46,487 - INFO - ADAUSDT: $0.91090000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:50,937 - INFO - AVAXUSDT: $24.04000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:13:50,939 - INFO - Nenhuma oportunidade de trading encontrada neste ciclo.
+2025-08-18 10:13:50,940 - INFO - Aguardando 20 segundos...
+2025-08-18 10:14:10,942 - INFO - === CICLO 2 - Analisando 44 moedas ===
+2025-08-18 10:14:15,534 - INFO - DOGEUSDT: $0.22320000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:14:20,590 - INFO - SHIBUSDT: $0.00001264 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:14:25,336 - INFO - PEPEUSDT: $0.00001073 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:14:29,895 - INFO - WIFUSDT: $0.87500000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:14:34,368 - INFO - FLOKIUSDT: $0.00010229 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:14:38,923 - INFO - BONKUSDT: $0.00002262 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:14:43,745 - INFO - MEMEUSDT: $0.00215800 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:14:48,315 - INFO - BOMEUSDT: $0.00181100 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:14:52,834 - INFO - JUPUSDT: $0.49510000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:14:57,415 - INFO - UNIUSDT: $10.46900000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:01,830 - INFO - AAVEUSDT: $291.08000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:06,233 - INFO - COMPUSDT: $47.06000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:10,668 - INFO - BIOUSDT: $0.12940000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:15,082 - INFO - EPICUSDT: $2.99700000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:19,459 - INFO - MEMEUSDT: $0.00216000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:23,846 - INFO - API3USDT: $0.85300000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:28,278 - INFO - FIOUSDT: $0.01933000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:32,683 - INFO - LINKUSDT: $25.54000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:37,106 - INFO - FUNUSDT: $0.00957500 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:15:39,194 - INFO - Agente interrompido pelo usuário
+2025-08-18 10:15:39,195 - INFO - === AGENTE FINALIZADO ===
+2025-08-18 10:15:52,351 - INFO - Carregadas 44 moedas ativas: DOGEUSDT, SHIBUSDT, PEPEUSDT, WIFUSDT, FLOKIUSDT...
+2025-08-18 10:15:52,351 - WARNING - Credenciais Binance não configuradas. Modo simulação ativo.
+2025-08-18 10:15:52,352 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 10:15:52,352 - INFO - === CICLO 1 - Analisando 44 moedas ===
+2025-08-18 10:15:56,805 - INFO - DOGEUSDT: $0.22321000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:16:01,230 - INFO - SHIBUSDT: $0.00001265 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:16:05,613 - INFO - Agente interrompido pelo usuário
+2025-08-18 10:16:05,613 - INFO - === AGENTE FINALIZADO ===
+2025-08-18 10:16:32,110 - INFO - Carregadas 44 moedas ativas: DOGEUSDT, SHIBUSDT, PEPEUSDT, WIFUSDT, FLOKIUSDT...
+2025-08-18 10:16:32,110 - WARNING - Credenciais Binance não configuradas. Modo simulação ativo.
+2025-08-18 10:16:32,111 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 10:16:32,111 - INFO - === CICLO 1 - Analisando 44 moedas ===
+2025-08-18 10:16:36,660 - INFO - DOGEUSDT: $0.22301000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:16:41,077 - INFO - SHIBUSDT: $0.00001264 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:16:45,496 - INFO - PEPEUSDT: $0.00001072 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:16:49,948 - INFO - WIFUSDT: $0.87400000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:16:54,355 - INFO - FLOKIUSDT: $0.00010221 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:16:58,781 - INFO - BONKUSDT: $0.00002259 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:03,212 - INFO - MEMEUSDT: $0.00216700 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:07,613 - INFO - BOMEUSDT: $0.00181200 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:12,032 - INFO - JUPUSDT: $0.49450000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:16,469 - INFO - UNIUSDT: $10.45400000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:20,884 - INFO - AAVEUSDT: $290.34000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:25,327 - INFO - COMPUSDT: $47.00000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:29,745 - INFO - BIOUSDT: $0.13120000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:34,171 - INFO - EPICUSDT: $2.98800000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:38,602 - INFO - MEMEUSDT: $0.00214900 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:43,057 - INFO - API3USDT: $0.84500000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:47,510 - INFO - FIOUSDT: $0.01917000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:51,971 - INFO - LINKUSDT: $25.37000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:17:56,408 - INFO - FUNUSDT: $0.00951500 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:00,845 - INFO - SKLUSDT: $0.03651000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:05,285 - INFO - POLUSDT: $0.25140000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:09,700 - INFO - TSTUSDT: $0.03208000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:14,132 - INFO - SPELLUSDT: $0.00050580 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:18,559 - INFO - GLMUSDT: $0.25840000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:33,733 - INFO - Carregadas 44 moedas ativas: DOGEUSDT, SHIBUSDT, PEPEUSDT, WIFUSDT, FLOKIUSDT...
+2025-08-18 10:18:33,734 - WARNING - Credenciais Binance não configuradas. Modo simulação ativo.
+2025-08-18 10:18:33,734 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 10:18:33,734 - INFO - === CICLO 1 - Analisando 44 moedas ===
+2025-08-18 10:18:38,145 - INFO - DOGEUSDT: $0.22335000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:42,525 - INFO - SHIBUSDT: $0.00001266 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:46,953 - INFO - PEPEUSDT: $0.00001074 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:51,417 - INFO - WIFUSDT: $0.87500000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:18:55,800 - INFO - FLOKIUSDT: $0.00010237 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:00,234 - INFO - BONKUSDT: $0.00002262 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:04,659 - INFO - MEMEUSDT: $0.00213400 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:09,112 - INFO - BOMEUSDT: $0.00181700 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:13,498 - INFO - JUPUSDT: $0.49600000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:17,933 - INFO - UNIUSDT: $10.47800000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:22,390 - INFO - AAVEUSDT: $291.18000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:26,810 - INFO - COMPUSDT: $47.11000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:31,218 - INFO - BIOUSDT: $0.13140000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:35,657 - INFO - EPICUSDT: $3.02100000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:40,188 - INFO - MEMEUSDT: $0.00212700 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:44,592 - INFO - API3USDT: $0.84700000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:49,035 - INFO - FIOUSDT: $0.01918000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:53,460 - INFO - LINKUSDT: $25.60000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:19:57,893 - INFO - FUNUSDT: $0.00954700 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:02,268 - INFO - SKLUSDT: $0.03663000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:06,694 - INFO - POLUSDT: $0.25150000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:11,131 - INFO - TSTUSDT: $0.03222000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:15,736 - INFO - SPELLUSDT: $0.00050310 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:20,673 - INFO - GLMUSDT: $0.25910000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:25,118 - INFO - AEURUSDT: $1.11120000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:29,555 - INFO - RESOLVUSDT: $0.17410000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:33,987 - INFO - PAXGUSDT: $3337.58000000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:38,454 - INFO - FORMUSDT: $3.74570000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:42,828 - INFO - USDPUSDT: $0.99950000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:49,354 - INFO - USD1USDT: $0.99920000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:20:55,947 - INFO - FDUSDUSDT: $0.99770000 | -0.01% | HOLD (0.10) - 😴 Mercado estável: -0.01%
+2025-08-18 10:20:58,055 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=USDTUSDT
+2025-08-18 10:21:04,600 - INFO - USDCUSDT: $0.99950000 | +0.02% | HOLD (0.10) - 😴 Mercado estável: 0.02%
+2025-08-18 10:21:09,036 - INFO - XUSDUSDT: $0.99950000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:21:13,435 - INFO - TUSDUSDT: $0.99750000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:21:17,806 - INFO - MDTUSDT: $0.02900000 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
+2025-08-18 10:21:53,139 - INFO - Carregadas 44 moedas ativas: DOGEUSDT, SHIBUSDT, PEPEUSDT, WIFUSDT, FLOKIUSDT...
+2025-08-18 10:21:53,140 - WARNING - Credenciais Binance não configuradas. Modo simulação ativo.
+2025-08-18 10:21:53,140 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 10:21:53,141 - INFO - === CICLO 1 - Analisando 44 moedas ===
+2025-08-18 10:22:00,249 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=5)
+2025-08-18 10:22:04,675 - INFO - SHIBUSDT: $0.00001270 | -3.20% | SELL (0.40) - ⚠️ Queda moderada: -3.20%
+2025-08-18 10:22:06,719 - INFO - Agente interrompido pelo usuário
+2025-08-18 10:22:06,720 - INFO - === AGENTE FINALIZADO ===
+2025-08-18 10:23:42,190 - INFO - Carregadas 44 moedas ativas: DOGEUSDT, SHIBUSDT, PEPEUSDT, WIFUSDT, FLOKIUSDT...
+2025-08-18 10:23:42,191 - WARNING - Credenciais Binance não configuradas. Modo simulação ativo.
+2025-08-18 10:23:42,192 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 10:23:42,192 - INFO - === CICLO 1 - Analisando 44 moedas ===
+2025-08-18 10:23:49,283 - INFO - Agente interrompido pelo usuário
+2025-08-18 10:23:49,283 - INFO - === AGENTE FINALIZADO ===
+2025-08-18 10:23:58,713 - INFO - Carregadas 44 moedas ativas: DOGEUSDT, SHIBUSDT, PEPEUSDT, WIFUSDT, FLOKIUSDT...
+2025-08-18 10:23:58,714 - WARNING - Credenciais Binance não configuradas. Modo simulação ativo.
+2025-08-18 10:23:58,714 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 10:23:58,714 - INFO - === CICLO 1 - Analisando 44 moedas ===
+2025-08-18 10:24:03,133 - INFO - DOGEUSDT: $0.22417000 | -3.81% | SELL (0.40) - ⚠️ Queda moderada: -3.81%
+2025-08-18 10:24:07,525 - INFO - SHIBUSDT: $0.00001269 | -3.20% | SELL (0.40) - ⚠️ Queda moderada: -3.20%
+2025-08-18 10:24:11,927 - INFO - PEPEUSDT: $0.00001077 | -4.18% | SELL (0.40) - ⚠️ Queda moderada: -4.18%
+2025-08-18 10:24:16,338 - INFO - WIFUSDT: $0.87900000 | -2.98% | HOLD (0.12) - 📍 Movimento lateral: -2.98%
+2025-08-18 10:24:20,721 - INFO - FLOKIUSDT: $0.00010274 | -3.92% | SELL (0.40) - ⚠️ Queda moderada: -3.92%
+2025-08-18 10:24:25,130 - INFO - BONKUSDT: $0.00002269 | -6.24% | SELL (0.80) - 📉 Queda significativa: -6.24%
+2025-08-18 10:24:29,548 - INFO - MEMEUSDT: $0.00211900 | +6.59% | BUY (0.80) - 📈 Alta significativa: 6.59%
+2025-08-18 10:24:33,977 - INFO - BOMEUSDT: $0.00181600 | -3.66% | SELL (0.40) - ⚠️ Queda moderada: -3.66%
+2025-08-18 10:24:38,560 - INFO - JUPUSDT: $0.49790000 | -3.43% | SELL (0.40) - ⚠️ Queda moderada: -3.43%
+2025-08-18 10:24:42,983 - INFO - UNIUSDT: $10.53600000 | -4.76% | SELL (0.40) - ⚠️ Queda moderada: -4.76%
+2025-08-18 10:24:47,973 - INFO - AAVEUSDT: $291.80000000 | -3.88% | SELL (0.20) - ⚠️ Queda moderada: -3.88%
+2025-08-18 10:24:52,911 - INFO - COMPUSDT: $47.13000000 | -2.50% | HOLD (0.06) - 📍 Movimento lateral: -2.50%
+2025-08-18 10:24:57,293 - INFO - BIOUSDT: $0.13170000 | +26.51% | BUY (0.90) - 🚀 ALTA FORTE: 26.51% - Oportunidade detectada!
+2025-08-18 10:25:01,721 - INFO - EPICUSDT: $3.01800000 | +12.28% | BUY (0.90) - 🚀 ALTA FORTE: 12.28% - Oportunidade detectada!
+2025-08-18 10:25:06,136 - INFO - MEMEUSDT: $0.00211900 | +6.64% | BUY (0.80) - 📈 Alta significativa: 6.64%
+2025-08-18 10:25:10,553 - INFO - API3USDT: $0.86500000 | +8.94% | BUY (0.90) - 🚀 ALTA FORTE: 8.94% - Oportunidade detectada!
+2025-08-18 10:25:14,991 - INFO - FIOUSDT: $0.01895000 | +3.21% | BUY (0.60) - 📊 Alta moderada: 3.21%
+2025-08-18 10:25:19,533 - INFO - LINKUSDT: $25.68000000 | +4.73% | BUY (0.60) - 📊 Alta moderada: 4.73%
+2025-08-18 10:25:24,376 - INFO - FUNUSDT: $0.00951800 | +3.17% | BUY (0.40) - 📊 Alta moderada: 3.17%
+2025-08-18 10:25:28,927 - INFO - SKLUSDT: $0.03644000 | +3.26% | BUY (0.40) - 📊 Alta moderada: 3.26%
+2025-08-18 10:25:35,608 - INFO - POLUSDT: $0.24960000 | +1.34% | HOLD (0.06) - 📍 Movimento lateral: 1.34%
+2025-08-18 10:25:40,118 - INFO - TSTUSDT: $0.03268000 | +2.25% | HOLD (0.12) - 📍 Movimento lateral: 2.25%
+2025-08-18 10:25:44,594 - INFO - SPELLUSDT: $0.00050320 | +0.24% | HOLD (0.10) - 😴 Mercado estável: 0.24%
+2025-08-18 10:25:49,205 - INFO - GLMUSDT: $0.25920000 | +0.50% | HOLD (0.10) - 😴 Mercado estável: 0.50%
+2025-08-18 10:25:56,699 - INFO - AEURUSDT: $1.11290000 | -0.70% | HOLD (0.10) - 😴 Mercado estável: -0.70%
+2025-08-18 10:26:04,013 - INFO - RESOLVUSDT: $0.16950000 | -0.94% | HOLD (0.10) - 😴 Mercado estável: -0.94%
+2025-08-18 10:26:08,622 - INFO - PAXGUSDT: $3342.92000000 | +0.39% | HOLD (0.10) - 😴 Mercado estável: 0.39%
+2025-08-18 10:26:16,686 - INFO - FORMUSDT: $3.74790000 | +0.12% | HOLD (0.10) - 😴 Mercado estável: 0.12%
+2025-08-18 10:26:22,067 - INFO - USDPUSDT: $0.99940000 | +0.01% | HOLD (0.10) - 😴 Mercado estável: 0.01%
+2025-08-18 10:26:26,714 - INFO - USD1USDT: $0.99910000 | -0.01% | HOLD (0.10) - 😴 Mercado estável: -0.01%
+2025-08-18 10:26:31,230 - INFO - FDUSDUSDT: $0.99780000 | +0.01% | HOLD (0.10) - 😴 Mercado estável: 0.01%
+2025-08-18 10:26:33,317 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=USDTUSDT
+2025-08-18 10:26:37,775 - INFO - USDCUSDT: $0.99940000 | -0.01% | HOLD (0.10) - 😴 Mercado estável: -0.01%
+2025-08-18 10:26:42,171 - INFO - XUSDUSDT: $0.99950000 | -0.02% | HOLD (0.10) - 😴 Mercado estável: -0.02%
+2025-08-18 10:26:46,581 - INFO - TUSDUSDT: $0.99740000 | -0.03% | HOLD (0.10) - 😴 Mercado estável: -0.03%
+2025-08-18 10:26:50,998 - INFO - MDTUSDT: $0.02885000 | +2.05% | HOLD (0.06) - 📍 Movimento lateral: 2.05%
+2025-08-18 10:26:55,414 - INFO - HIFIUSDT: $0.09270000 | -0.43% | HOLD (0.10) - 😴 Mercado estável: -0.43%
+2025-08-18 10:26:59,821 - INFO - EURIUSDT: $1.16620000 | -0.18% | HOLD (0.10) - 😴 Mercado estável: -0.18%
+2025-08-18 10:27:04,236 - ERROR - Erro ao analisar TOWNSUSDT: float() argument must be a string or a real number, not 'NoneType'
+2025-08-18 10:27:08,651 - INFO - MAGICUSDT: $0.24920000 | +1.34% | HOLD (0.00) - 📍 Movimento lateral: 1.34%
+2025-08-18 10:27:13,144 - INFO - FISUSDT: $0.12130000 | -0.90% | HOLD (0.10) - 😴 Mercado estável: -0.90%
+2025-08-18 10:27:17,563 - INFO - SOLUSDT: $182.74000000 | -5.06% | SELL (0.60) - 📉 Queda significativa: -5.06%
+2025-08-18 10:27:21,954 - INFO - ADAUSDT: $0.91200000 | -5.44% | SELL (0.80) - 📉 Queda significativa: -5.44%
+2025-08-18 10:27:26,366 - INFO - AVAXUSDT: $24.06000000 | -2.27% | HOLD (0.06) - 📍 Movimento lateral: -2.27%
+2025-08-18 10:27:26,368 - INFO - === ENCONTRADAS 10 OPORTUNIDADES ===
+2025-08-18 10:27:26,369 - INFO - 1. BIOUSDT: BUY | Confiança: 0.90 | Mudança 24h: +26.51% | Razão: 🚀 ALTA FORTE: 26.51% - Oportunidade detectada!
+2025-08-18 10:27:26,370 - INFO - 2. EPICUSDT: BUY | Confiança: 0.90 | Mudança 24h: +12.28% | Razão: 🚀 ALTA FORTE: 12.28% - Oportunidade detectada!
+2025-08-18 10:27:26,371 - INFO - 3. API3USDT: BUY | Confiança: 0.90 | Mudança 24h: +8.94% | Razão: 🚀 ALTA FORTE: 8.94% - Oportunidade detectada!
+2025-08-18 10:27:26,371 - INFO - [SIMULAÇÃO] BUY BIOUSDT - Modo simulação ativo (confiança: 0.90)
+2025-08-18 10:27:26,372 - INFO - Aguardando 20 segundos...
+2025-08-18 10:27:46,373 - INFO - === CICLO 2 - Analisando 44 moedas ===
+2025-08-18 10:27:51,337 - INFO - DOGEUSDT: $0.22383000 | -3.95% | SELL (0.40) - ⚠️ Queda moderada: -3.95%
+2025-08-18 10:27:55,774 - INFO - SHIBUSDT: $0.00001307 | -1.06% | HOLD (0.12) - 📍 Movimento lateral: -1.06%
+2025-08-18 10:28:00,271 - INFO - PEPEUSDT: $0.00001077 | -4.18% | SELL (0.40) - ⚠️ Queda moderada: -4.18%
+2025-08-18 10:28:04,725 - INFO - WIFUSDT: $0.87900000 | -3.09% | SELL (0.20) - ⚠️ Queda moderada: -3.09%
+2025-08-18 10:28:09,141 - INFO - FLOKIUSDT: $0.00010260 | -4.73% | SELL (0.40) - ⚠️ Queda moderada: -4.73%
+2025-08-18 10:28:13,556 - INFO - BONKUSDT: $0.00002265 | -7.29% | SELL (0.80) - 📉 Queda significativa: -7.29%
+2025-08-18 10:28:17,997 - INFO - MEMEUSDT: $0.00213200 | +6.33% | BUY (0.80) - 📈 Alta significativa: 6.33%
+2025-08-18 10:28:22,141 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=BOMEUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024161A167A0>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:28:26,256 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=JUPUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024161A16AD0>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:28:33,106 - INFO - UNIUSDT: $10.51100000 | -5.51% | SELL (0.60) - 📉 Queda significativa: -5.51%
+2025-08-18 10:28:37,526 - INFO - AAVEUSDT: $291.84000000 | -3.96% | SELL (0.20) - ⚠️ Queda moderada: -3.96%
+2025-08-18 10:28:41,926 - INFO - COMPUSDT: $47.13000000 | -2.87% | HOLD (0.06) - 📍 Movimento lateral: -2.87%
+2025-08-18 10:28:47,304 - INFO - BIOUSDT: $0.13060000 | +23.44% | BUY (0.90) - 🚀 ALTA FORTE: 23.44% - Oportunidade detectada!
+2025-08-18 10:28:55,786 - INFO - EPICUSDT: $3.00600000 | +10.35% | BUY (0.70) - 🚀 ALTA FORTE: 10.35% - Oportunidade detectada!
+2025-08-18 10:29:01,726 - INFO - MEMEUSDT: $0.00213200 | +6.33% | BUY (0.80) - 📈 Alta significativa: 6.33%
+2025-08-18 10:29:06,365 - INFO - API3USDT: $0.85900000 | +9.57% | BUY (0.90) - 🚀 ALTA FORTE: 9.57% - Oportunidade detectada!
+2025-08-18 10:29:13,470 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=5)
+2025-08-18 10:29:21,589 - INFO - LINKUSDT: $25.68000000 | +4.47% | BUY (0.20) - 📊 Alta moderada: 4.47%
+2025-08-18 10:29:26,230 - INFO - FUNUSDT: $0.00958000 | +4.39% | BUY (0.20) - 📊 Alta moderada: 4.39%
+2025-08-18 10:29:30,752 - INFO - SKLUSDT: $0.03662000 | +4.72% | BUY (0.40) - 📊 Alta moderada: 4.72%
+2025-08-18 10:29:35,168 - INFO - POLUSDT: $0.25000000 | +1.50% | HOLD (0.06) - 📍 Movimento lateral: 1.50%
+2025-08-18 10:29:39,621 - INFO - TSTUSDT: $0.03268000 | +2.25% | HOLD (0.12) - 📍 Movimento lateral: 2.25%
+2025-08-18 10:29:44,554 - INFO - SPELLUSDT: $0.00050320 | +0.24% | HOLD (0.10) - 😴 Mercado estável: 0.24%
+2025-08-18 10:29:48,982 - INFO - GLMUSDT: $0.25920000 | +0.50% | HOLD (0.10) - 😴 Mercado estável: 0.50%
+2025-08-18 10:29:53,411 - INFO - AEURUSDT: $1.11290000 | -1.35% | HOLD (0.00) - 📍 Movimento lateral: -1.35%
+2025-08-18 10:29:58,004 - INFO - RESOLVUSDT: $0.16950000 | -0.94% | HOLD (0.10) - 😴 Mercado estável: -0.94%
+2025-08-18 10:30:06,982 - INFO - PAXGUSDT: $3342.92000000 | +0.39% | HOLD (0.10) - 😴 Mercado estável: 0.39%
+2025-08-18 10:30:11,681 - INFO - FORMUSDT: $3.74790000 | +0.12% | HOLD (0.10) - 😴 Mercado estável: 0.12%
+2025-08-18 10:30:16,899 - INFO - USDPUSDT: $0.99940000 | +0.01% | HOLD (0.10) - 😴 Mercado estável: 0.01%
+2025-08-18 10:30:25,012 - INFO - USD1USDT: $0.99910000 | -0.01% | HOLD (0.10) - 😴 Mercado estável: -0.01%
+2025-08-18 10:30:31,476 - INFO - FDUSDUSDT: $0.99780000 | +0.01% | HOLD (0.10) - 😴 Mercado estável: 0.01%
+2025-08-18 10:30:33,706 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=USDTUSDT
+2025-08-18 10:30:38,473 - INFO - USDCUSDT: $0.99940000 | -0.01% | HOLD (0.10) - 😴 Mercado estável: -0.01%
+2025-08-18 10:30:43,167 - INFO - XUSDUSDT: $0.99950000 | -0.02% | HOLD (0.10) - 😴 Mercado estável: -0.02%
+2025-08-18 10:30:47,835 - INFO - TUSDUSDT: $0.99740000 | -0.03% | HOLD (0.10) - 😴 Mercado estável: -0.03%
+2025-08-18 10:30:52,540 - INFO - MDTUSDT: $0.02885000 | +2.05% | HOLD (0.06) - 📍 Movimento lateral: 2.05%
+2025-08-18 10:30:57,414 - INFO - HIFIUSDT: $0.09170000 | -1.50% | HOLD (0.00) - 📍 Movimento lateral: -1.50%
+2025-08-18 10:31:02,174 - INFO - EURIUSDT: $1.16630000 | -0.17% | HOLD (0.10) - 😴 Mercado estável: -0.17%
+2025-08-18 10:31:07,017 - ERROR - Erro ao analisar TOWNSUSDT: float() argument must be a string or a real number, not 'NoneType'
+2025-08-18 10:31:11,796 - INFO - MAGICUSDT: $0.24920000 | +1.34% | HOLD (0.00) - 📍 Movimento lateral: 1.34%
+2025-08-18 10:31:16,629 - INFO - FISUSDT: $0.12130000 | -0.90% | HOLD (0.10) - 😴 Mercado estável: -0.90%
+2025-08-18 10:31:21,769 - INFO - SOLUSDT: $183.09000000 | -4.81% | SELL (0.20) - ⚠️ Queda moderada: -4.81%
+2025-08-18 10:31:26,458 - INFO - ADAUSDT: $0.91160000 | -5.73% | SELL (0.80) - 📉 Queda significativa: -5.73%
+2025-08-18 10:31:31,217 - INFO - AVAXUSDT: $24.07000000 | -2.39% | HOLD (0.06) - 📍 Movimento lateral: -2.39%
+2025-08-18 10:31:31,227 - INFO - === ENCONTRADAS 8 OPORTUNIDADES ===
+2025-08-18 10:31:31,229 - INFO - 1. BIOUSDT: BUY | Confiança: 0.90 | Mudança 24h: +23.44% | Razão: 🚀 ALTA FORTE: 23.44% - Oportunidade detectada!
+2025-08-18 10:31:31,244 - INFO - 2. API3USDT: BUY | Confiança: 0.90 | Mudança 24h: +9.57% | Razão: 🚀 ALTA FORTE: 9.57% - Oportunidade detectada!
+2025-08-18 10:31:31,246 - INFO - 3. BONKUSDT: SELL | Confiança: 0.80 | Mudança 24h: -7.29% | Razão: 📉 Queda significativa: -7.29%
+2025-08-18 10:31:31,253 - INFO - [SIMULAÇÃO] BUY BIOUSDT - Modo simulação ativo (confiança: 0.90)
+2025-08-18 10:31:31,262 - INFO - Aguardando 20 segundos...
+2025-08-18 10:31:51,266 - INFO - === CICLO 3 - Analisando 44 moedas ===
+2025-08-18 10:31:56,752 - INFO - DOGEUSDT: $0.22347000 | -4.13% | SELL (0.40) - ⚠️ Queda moderada: -4.13%
+2025-08-18 10:32:01,539 - INFO - SHIBUSDT: $0.00001307 | -1.06% | HOLD (0.12) - 📍 Movimento lateral: -1.06%
+2025-08-18 10:32:07,253 - INFO - PEPEUSDT: $0.00001076 | -4.18% | SELL (0.40) - ⚠️ Queda moderada: -4.18%
+2025-08-18 10:32:12,120 - INFO - WIFUSDT: $0.87500000 | -3.63% | SELL (0.20) - ⚠️ Queda moderada: -3.63%
+2025-08-18 10:32:17,476 - INFO - FLOKIUSDT: $0.00010260 | -4.73% | SELL (0.40) - ⚠️ Queda moderada: -4.73%
+2025-08-18 10:32:24,127 - INFO - BONKUSDT: $0.00002265 | -7.29% | SELL (0.80) - 📉 Queda significativa: -7.29%
+2025-08-18 10:32:28,950 - INFO - MEMEUSDT: $0.00213200 | +6.33% | BUY (0.80) - 📈 Alta significativa: 6.33%
+2025-08-18 10:32:33,853 - INFO - BOMEUSDT: $0.00180700 | -4.64% | SELL (0.40) - ⚠️ Queda moderada: -4.64%
+2025-08-18 10:32:38,889 - INFO - JUPUSDT: $0.49380000 | -3.59% | SELL (0.20) - ⚠️ Queda moderada: -3.59%
+2025-08-18 10:32:43,759 - INFO - UNIUSDT: $10.46600000 | -5.92% | SELL (0.60) - 📉 Queda significativa: -5.92%
+2025-08-18 10:32:48,744 - INFO - AAVEUSDT: $291.40000000 | -4.14% | SELL (0.20) - ⚠️ Queda moderada: -4.14%
+2025-08-18 10:32:53,483 - INFO - COMPUSDT: $47.13000000 | -2.87% | HOLD (0.06) - 📍 Movimento lateral: -2.87%
+2025-08-18 10:32:58,414 - INFO - BIOUSDT: $0.13380000 | +26.46% | BUY (0.90) - 🚀 ALTA FORTE: 26.46% - Oportunidade detectada!
+2025-08-18 10:33:03,185 - INFO - EPICUSDT: $3.00600000 | +10.35% | BUY (0.70) - 🚀 ALTA FORTE: 10.35% - Oportunidade detectada!
+2025-08-18 10:33:08,422 - INFO - MEMEUSDT: $0.00213200 | +6.33% | BUY (0.80) - 📈 Alta significativa: 6.33%
+2025-08-18 10:33:13,258 - INFO - API3USDT: $0.85900000 | +9.57% | BUY (0.70) - 🚀 ALTA FORTE: 9.57% - Oportunidade detectada!
+2025-08-18 10:33:17,930 - INFO - FIOUSDT: $0.01867000 | +1.52% | HOLD (0.06) - 📍 Movimento lateral: 1.52%
+2025-08-18 10:33:23,637 - INFO - LINKUSDT: $25.49000000 | +3.32% | BUY (0.20) - 📊 Alta moderada: 3.32%
+2025-08-18 10:33:27,830 - ERROR - Erro ao obter market data: ('Connection aborted.', ConnectionResetError(10054, 'Foi forçado o cancelamento de uma conexão existente pelo host remoto', None, 10054, None))
+2025-08-18 10:33:32,027 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=SKLUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024161A17350>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:33:36,212 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=POLUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024161A17790>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:33:40,359 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=TSTUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024161A17BD0>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:33:44,484 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=SPELLUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024161B60050>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:33:48,630 - INFO - Agente interrompido pelo usuário
+2025-08-18 10:33:48,638 - INFO - === AGENTE FINALIZADO ===
+2025-08-18 10:34:29,170 - INFO - [DEBUG] BINANCE_API_KEY: SET (HxfD...)
+2025-08-18 10:34:29,175 - INFO - [DEBUG] BINANCE_API_SECRET: SET (lJrr...)
+2025-08-18 10:34:29,184 - INFO - [DEBUG] USE_TESTNET: True
+2025-08-18 10:34:29,222 - INFO - Carregadas 44 moedas ativas: DOGEUSDT, SHIBUSDT, PEPEUSDT, WIFUSDT, FLOKIUSDT...
+2025-08-18 10:34:29,278 - INFO - Binance configurado. Testnet: True
+2025-08-18 10:34:29,279 - INFO - === AGENTE IA TRADING INICIADO ===
+2025-08-18 10:34:29,281 - INFO - === CICLO 1 - Analisando 44 moedas ===
+2025-08-18 10:34:33,622 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=DOGEUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000208FBC0E7B0>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:34:37,769 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=SHIBUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000208FBCCA5D0>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:34:41,901 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=PEPEUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000208FBCCAD50>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:34:46,023 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=WIFUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000208FBD35350>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:34:50,172 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/market_data?symbol=FLOKIUSDT (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000208FBD35940>: Failed to establish a new connection: [WinError 10061] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente'))
+2025-08-18 10:34:57,773 - INFO - BONKUSDT: $0.00002265 | -7.29% | SELL (0.80) - 📉 Queda significativa: -7.29%
+2025-08-18 10:35:02,579 - INFO - MEMEUSDT: $0.00213200 | +6.33% | BUY (0.80) - 📈 Alta significativa: 6.33%
+2025-08-18 10:35:07,332 - INFO - BOMEUSDT: $0.00180700 | -4.64% | SELL (0.40) - ⚠️ Queda moderada: -4.64%
+2025-08-18 10:35:12,265 - INFO - JUPUSDT: $0.49380000 | -3.59% | SELL (0.20) - ⚠️ Queda moderada: -3.59%
+2025-08-18 10:35:16,841 - INFO - UNIUSDT: $10.50400000 | -5.57% | SELL (0.60) - 📉 Queda significativa: -5.57%
+2025-08-18 10:35:24,812 - INFO - AAVEUSDT: $291.40000000 | -4.14% | SELL (0.20) - ⚠️ Queda moderada: -4.14%
+2025-08-18 10:35:29,436 - INFO - COMPUSDT: $47.13000000 | -2.87% | HOLD (0.06) - 📍 Movimento lateral: -2.87%
+2025-08-18 10:35:34,067 - INFO - BIOUSDT: $0.13360000 | +26.28% | BUY (0.90) - 🚀 ALTA FORTE: 26.28% - Oportunidade detectada!
+2025-08-18 10:35:38,533 - INFO - EPICUSDT: $3.00600000 | +10.35% | BUY (0.70) - 🚀 ALTA FORTE: 10.35% - Oportunidade detectada!
+2025-08-18 10:35:42,985 - INFO - MEMEUSDT: $0.00213200 | +6.33% | BUY (0.80) - 📈 Alta significativa: 6.33%
+2025-08-18 10:35:47,482 - INFO - API3USDT: $0.86000000 | +9.69% | BUY (0.70) - 🚀 ALTA FORTE: 9.69% - Oportunidade detectada!
+2025-08-18 10:35:51,906 - INFO - FIOUSDT: $0.01867000 | +1.52% | HOLD (0.06) - 📍 Movimento lateral: 1.52%
+2025-08-18 10:35:56,314 - INFO - LINKUSDT: $25.61000000 | +3.35% | BUY (0.20) - 📊 Alta moderada: 3.35%
+2025-08-18 10:36:01,009 - INFO - FUNUSDT: $0.00944800 | +2.95% | HOLD (0.12) - 📍 Movimento lateral: 2.95%
+2025-08-18 10:36:05,788 - INFO - SKLUSDT: $0.03662000 | +4.72% | BUY (0.40) - 📊 Alta moderada: 4.72%
+2025-08-18 10:36:10,929 - INFO - POLUSDT: $0.25000000 | +1.09% | HOLD (0.06) - 📍 Movimento lateral: 1.09%
+2025-08-18 10:36:16,689 - INFO - TSTUSDT: $0.03268000 | +2.25% | HOLD (0.06) - 📍 Movimento lateral: 2.25%
+2025-08-18 10:36:22,580 - INFO - SPELLUSDT: $0.00050320 | +0.24% | HOLD (0.10) - 😴 Mercado estável: 0.24%
+2025-08-18 10:36:30,462 - INFO - GLMUSDT: $0.25920000 | +0.50% | HOLD (0.10) - 😴 Mercado estável: 0.50%
+2025-08-18 10:36:37,630 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=5)
+2025-08-18 10:36:44,897 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=5)
+2025-08-18 10:36:52,088 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=5)
+2025-08-18 10:36:59,254 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=5)
+2025-08-18 10:37:06,500 - INFO - USDPUSDT: $0.99940000 | +0.01% | HOLD (0.10) - 😴 Mercado estável: 0.01%
+2025-08-18 10:37:11,154 - INFO - USD1USDT: $0.99910000 | -0.01% | HOLD (0.10) - 😴 Mercado estável: -0.01%
+2025-08-18 10:37:15,769 - INFO - FDUSDUSDT: $0.99780000 | -1.57% | HOLD (0.06) - 📍 Movimento lateral: -1.57%
+2025-08-18 10:37:17,901 - ERROR - Erro ao obter market data: 500 Server Error: INTERNAL SERVER ERROR for url: http://localhost:5000/api/market_data?symbol=USDTUSDT
+2025-08-18 10:37:23,243 - INFO - USDCUSDT: $0.99940000 | -0.01% | HOLD (0.10) - 😴 Mercado estável: -0.01%
+2025-08-18 10:37:28,072 - INFO - XUSDUSDT: $0.99950000 | -0.02% | HOLD (0.10) - 😴 Mercado estável: -0.02%
+2025-08-18 10:37:32,765 - INFO - TUSDUSDT: $0.99740000 | -0.04% | HOLD (0.10) - 😴 Mercado estável: -0.04%
+2025-08-18 10:37:37,414 - INFO - MDTUSDT: $0.02895000 | +2.40% | HOLD (0.06) - 📍 Movimento lateral: 2.40%
+2025-08-18 10:37:42,497 - INFO - HIFIUSDT: $0.09160000 | -1.61% | HOLD (0.06) - 📍 Movimento lateral: -1.61%
+2025-08-18 10:37:47,930 - INFO - EURIUSDT: $1.16630000 | -0.17% | HOLD (0.10) - 😴 Mercado estável: -0.17%
+2025-08-18 10:37:53,581 - ERROR - Erro ao analisar TOWNSUSDT: float() argument must be a string or a real number, not 'NoneType'
+2025-08-18 10:37:58,216 - INFO - MAGICUSDT: $0.24920000 | +1.34% | HOLD (0.00) - 📍 Movimento lateral: 1.34%
+2025-08-18 10:38:02,875 - INFO - FISUSDT: $0.12130000 | -0.90% | HOLD (0.10) - 😴 Mercado estável: -0.90%
+2025-08-18 10:38:07,539 - INFO - SOLUSDT: $182.64000000 | -4.93% | SELL (0.20) - ⚠️ Queda moderada: -4.93%
+2025-08-18 10:38:12,793 - INFO - ADAUSDT: $0.91200000 | -5.86% | SELL (0.80) - 📉 Queda significativa: -5.86%
+2025-08-18 10:38:17,463 - INFO - AVAXUSDT: $23.94000000 | -3.15% | SELL (0.20) - ⚠️ Queda moderada: -3.15%
+2025-08-18 10:38:17,469 - INFO - === ENCONTRADAS 8 OPORTUNIDADES ===
+2025-08-18 10:38:17,476 - INFO - 1. BIOUSDT: BUY | Confiança: 0.90 | Mudança 24h: +26.28% | Razão: 🚀 ALTA FORTE: 26.28% - Oportunidade detectada!
+2025-08-18 10:38:17,480 - INFO - 2. BONKUSDT: SELL | Confiança: 0.80 | Mudança 24h: -7.29% | Razão: 📉 Queda significativa: -7.29%
+2025-08-18 10:38:17,486 - INFO - 3. MEMEUSDT: BUY | Confiança: 0.80 | Mudança 24h: +6.33% | Razão: 📈 Alta significativa: 6.33%
+2025-08-18 10:38:24,134 - ERROR - ❌ Erro ao executar ordem real: binance {"code":-2015,"msg":"Invalid API-key, IP, or permissions for action."}
+2025-08-18 10:38:24,140 - INFO - [SIMULAÇÃO FALLBACK] BUY BIOUSDT executado com confiança 0.90
+2025-08-18 10:38:24,145 - INFO - Aguardando 20 segundos...
+2025-08-18 10:38:44,152 - INFO - === CICLO 2 - Analisando 44 moedas ===
+2025-08-18 10:38:48,868 - INFO - DOGEUSDT: $0.22330000 | -4.48% | SELL (0.40) - ⚠️ Queda moderada: -4.48%
+2025-08-18 10:38:55,964 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=5)
+2025-08-18 10:39:03,027 - ERROR - Erro ao obter market data: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=5)

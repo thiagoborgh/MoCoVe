@@ -31,7 +31,7 @@ class CoinData:
     last_updated: Optional[datetime] = None
 
 class WatchlistManager:
-    def __init__(self, config_file: str = "coin_watchlist.json", db_path: str = "memecoin.db"):
+    def __init__(self, config_file: str = "coin_watchlist_expanded.json", db_path: str = "memecoin.db"):
         self.config_file = config_file
         self.db_path = db_path
         self.logger = logging.getLogger(__name__)
