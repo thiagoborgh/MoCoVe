@@ -129,6 +129,43 @@
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
+        
+        /* Log Management Styles */
+        .log-entry {
+            transition: background-color 0.2s ease;
+        }
+        
+        .log-entry:hover {
+            background-color: rgba(75, 85, 99, 0.3);
+        }
+        
+        .log-container {
+            scrollbar-width: thin;
+            scrollbar-color: #4b5563 #1f2937;
+        }
+        
+        .log-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .log-container::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        
+        .log-container::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 3px;
+        }
+        
+        .log-container::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+        
+        /* Log Level Colors */
+        .log-level-info { color: #10b981; }
+        .log-level-warning { color: #f59e0b; }
+        .log-level-error { color: #ef4444; }
+        .log-level-unknown { color: #6b7280; }
     </style>
 </head>
 <body>
@@ -249,10 +286,43 @@
             <div class="glass-card rounded-xl p-6 mt-6">
                 <h2 class="text-xl font-bold mb-4 flex items-center">
                     <i class="fas fa-wallet mr-2 text-green-400"></i>
-                    Portfolio
+                    Portfolio Performance
                 </h2>
-                <div id="portfolioData">
-                    <div class="animate-pulse">Carregando...</div>
+                
+                <!-- Portfolio Summary Stats -->
+                <div id="portfolioSummary" class="mb-4">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="metric-card p-3">
+                            <div class="text-xs text-gray-400">Total Investido</div>
+                            <div id="totalInvested" class="text-lg font-bold text-white">$0.00</div>
+                        </div>
+                        <div class="metric-card p-3">
+                            <div class="text-xs text-gray-400">Valor Atual</div>
+                            <div id="currentValue" class="text-lg font-bold text-white">$0.00</div>
+                        </div>
+                        <div class="metric-card p-3">
+                            <div class="text-xs text-gray-400">P&L Total</div>
+                            <div id="totalPnL" class="text-lg font-bold">$0.00</div>
+                        </div>
+                        <div class="metric-card p-3">
+                            <div class="text-xs text-gray-400">Performance</div>
+                            <div id="portfolioPerformance" class="text-lg font-bold">0.00%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Positions -->
+                <div id="portfolioPositions">
+                    <h3 class="text-sm font-medium mb-3 text-gray-300">Posições Ativas</h3>
+                    <div id="positionsList" class="space-y-2">
+                        <div class="text-center text-gray-400 py-4">Carregando posições...</div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Alerts -->
+                <div id="portfolioAlerts" class="mt-4" style="display: none;">
+                    <h3 class="text-sm font-medium mb-2 text-yellow-400">⚠️ Alertas Ativos</h3>
+                    <div id="alertsList" class="space-y-1"></div>
                 </div>
             </div>
         </div>
@@ -329,9 +399,49 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- AI Logs -->
                 <div>
-                    <h3 class="text-lg font-medium mb-3">Logs da IA</h3>
-                    <div id="aiLogs" class="bg-gray-900 rounded-lg p-4 h-48 overflow-y-auto font-mono text-sm">
-                        <div class="text-gray-400">Carregando logs...</div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-lg font-medium">🤖 Logs da IA Robust</h3>
+                        <div class="flex items-center space-x-2">
+                            <!-- Log Level Filter -->
+                            <select id="logLevelFilter" class="bg-gray-700 text-white rounded px-2 py-1 text-xs">
+                                <option value="all">Todos</option>
+                                <option value="INFO">INFO</option>
+                                <option value="WARNING">WARNING</option>
+                                <option value="ERROR">ERROR</option>
+                            </select>
+                            <!-- Auto-scroll Toggle -->
+                            <button id="autoScrollBtn" onclick="toggleAutoScroll()" 
+                                    class="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-xs">
+                                📍 Auto
+                            </button>
+                            <!-- Clear Logs -->
+                            <button onclick="clearLogsDisplay()" 
+                                    class="bg-gray-600 hover:bg-gray-700 px-2 py-1 rounded text-xs">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Log Search -->
+                    <div class="mb-2">
+                        <input type="text" id="logSearch" placeholder="🔍 Buscar nos logs..." 
+                               class="w-full bg-gray-800 text-white rounded px-3 py-1 text-sm border border-gray-600 focus:border-blue-400">
+                    </div>
+                    
+                    <!-- Log Stats -->
+                    <div class="flex items-center justify-between mb-2 text-xs text-gray-400">
+                        <div>
+                            <span id="logStats">Carregando...</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <span id="logUpdateTime">--:--</span>
+                            <div id="logConnectionStatus" class="w-2 h-2 rounded-full bg-gray-500"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Logs Container -->
+                    <div id="aiLogs" class="log-container bg-gray-900 rounded-lg p-4 h-64 overflow-y-auto font-mono text-sm border border-gray-700">
+                        <div class="text-gray-400">Carregando logs do AI agent robust...</div>
                     </div>
                 </div>
                 
@@ -357,28 +467,57 @@
         let portfolioCoins = [];
         let currentSelectedCoin = '';
         let priceData = {};
+        
+        // Log Management Variables
+        let autoScrollEnabled = true;
+        let logCache = [];
+        let filteredLogs = [];
+        let lastLogUpdate = null;
+        let logUpdateInterval = null;
 
         // Initialize Dashboard
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Inicializando MoCoVe Dashboard Pro');
             initializeDashboard();
             startAutoRefresh();
+            initializeLogManagement();
         });
 
         async function initializeDashboard() {
             try {
-                await Promise.all([
-                    updateSystemStatus(),
-                    updateTradingMode(),
-                    updatePortfolio(),
-                    updateAIAnalysis(),
-                    updateAILogs(),
-                    loadPortfolioCoins(),
-                    initializePriceChart()
-                ]);
+                console.log('🚀 [Dashboard] Iniciando inicialização...');
+                
+                console.log('🚀 [Dashboard] Carregando System Status...');
+                await updateSystemStatus();
+                
+                console.log('🚀 [Dashboard] Carregando Trading Mode...');
+                await updateTradingMode();
+                
+                console.log('🚀 [Dashboard] Carregando Portfolio...');
+                await updatePortfolio();
+                
+                console.log('🚀 [Dashboard] Carregando Portfolio Performance...');
+                await updatePortfolioPerformance();
+                
+                console.log('🚀 [Dashboard] Carregando AI Analysis...');
+                await updateAIAnalysis();
+                
+                console.log('🚀 [Dashboard] Carregando AI Logs...');
+                await updateAILogs();
+                
+                console.log('🚀 [Dashboard] Carregando Trade History...');
+                await updateTradeHistory();
+                
+                console.log('🚀 [Dashboard] Carregando Portfolio Coins...');
+                await loadPortfolioCoins();
+                
+                console.log('🚀 [Dashboard] Inicializando Price Chart...');
+                await initializePriceChart();
+                
+                console.log('🚀 [Dashboard] Inicialização concluída com sucesso!');
                 showNotification('Dashboard carregado com sucesso!', 'success');
             } catch (error) {
-                console.error('Erro ao inicializar dashboard:', error);
+                console.error('🚀 [Dashboard] Erro ao inicializar dashboard:', error);
                 showNotification('Erro ao carregar dashboard', 'error');
             }
         }
@@ -687,24 +826,30 @@
                     // Mostrar todas as moedas com saldo > 0
                     const coins = Object.keys(balances).filter(c => balances[c] > 0 && c !== 'timestamp');
                     if (coins.length === 0) {
-                        html = '<div class="text-gray-400">Nenhuma moeda em carteira</div>';
+                        html = '<div class="text-center text-gray-400 py-4">Nenhuma moeda em carteira</div>';
                     } else {
                         coins.forEach(coin => {
+                            const balance = typeof balances[coin] === 'number' ? balances[coin].toFixed(6) : balances[coin];
                             html += `
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-gray-400">${coin}:</span>
-                                    <span class="text-green-400 font-medium">${typeof balances[coin] === 'number' ? balances[coin].toFixed(6) : balances[coin]}</span>
+                                <div class="flex justify-between items-center p-3 bg-gray-700 bg-opacity-50 rounded-lg mb-2">
+                                    <div>
+                                        <div class="font-medium text-white">${coin}</div>
+                                        <div class="text-xs text-gray-400">Saldo disponível</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-green-400 font-medium">${balance}</div>
+                                    </div>
                                 </div>
                             `;
                         });
                     }
-                    document.getElementById('portfolioData').innerHTML = html;
+                    document.getElementById('positionsList').innerHTML = html;
                 } else {
-                    document.getElementById('portfolioData').innerHTML = '<div class="text-gray-400">Erro ao carregar portfolio</div>';
+                    document.getElementById('positionsList').innerHTML = '<div class="text-center text-gray-400 py-4">Erro ao carregar portfolio</div>';
                 }
             } catch (error) {
                 console.error('Erro ao atualizar portfolio:', error);
-                document.getElementById('portfolioData').innerHTML = '<div class="text-gray-400">Erro de conexão</div>';
+                document.getElementById('positionsList').innerHTML = '<div class="text-center text-gray-400 py-4">Erro de conexão</div>';
             }
         }
 
@@ -721,24 +866,59 @@
                     const logLines = response.data.log.split('\n').filter(line => line.trim());
                     // Procurar a última linha de análise de moeda
                     let found = false;
-                    for (let i = logLines.length - 1; i >= 0; i--) {
+                    let analysisCount = 0;
+                    let buyCount = 0;
+                    let sellCount = 0;
+                    let holdCount = 0;
+                    
+                    for (let i = logLines.length - 1; i >= 0 && analysisCount < 50; i--) {
                         const line = logLines[i];
                         // Exemplo: PEPEUSDT: $0.00001078 | +0.00% | HOLD (0.10) - 😴 Mercado estável: 0.00%
-                        const regex = /^(\w+): \$([\d.eE+-]+) \| ([+\-]?[\d.]+)% \| (\w+) \((\d+\.\d+)\) - (.+)$/;
+                        const regex = /(\w+): \$([\d.eE+-]+) \| ([+\-]?[\d.]+)% \| (\w+) \(([\\d.]+)\) - (.+)/;
                         const match = line.match(regex);
                         if (match) {
+                            analysisCount++;
                             const symbol = match[1];
                             const price = match[2];
                             const change = match[3];
                             const action = match[4];
                             const confidence = match[5];
                             const reason = match[6];
-                            document.getElementById('currentAnalysis').textContent = `${action} (${symbol})`;
-                            document.getElementById('confidence').textContent = `${Math.round(parseFloat(confidence) * 100)}%`;
-                            document.getElementById('analysisReason').textContent = reason;
-                            found = true;
-                            break;
+                            
+                            // Contar ações
+                            if (action === 'BUY') buyCount++;
+                            else if (action === 'SELL') sellCount++;
+                            else holdCount++;
+                            
+                            if (!found) {
+                                document.getElementById('currentAnalysis').textContent = `${action} ${symbol}`;
+                                const confidenceElement = document.getElementById('confidence');
+                                if (confidenceElement) {
+                                    confidenceElement.textContent = `${Math.round(parseFloat(confidence) * 100)}%`;
+                                }
+                                document.getElementById('analysisReason').textContent = reason;
+                                found = true;
+                            }
                         }
+                    }
+                    
+                    // Atualizar estatísticas de ações
+                    const topFeaturesElement = document.getElementById('topFeatures');
+                    if (topFeaturesElement && analysisCount > 0) {
+                        topFeaturesElement.innerHTML = `
+                            <div class="flex justify-between">
+                                <span>📈 Sinais de Compra</span>
+                                <span class="text-green-400">${buyCount} (${Math.round(buyCount/analysisCount*100)}%)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>📉 Sinais de Venda</span>
+                                <span class="text-red-400">${sellCount} (${Math.round(sellCount/analysisCount*100)}%)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>📊 Sinais de Hold</span>
+                                <span class="text-yellow-400">${holdCount} (${Math.round(holdCount/analysisCount*100)}%)</span>
+                            </div>
+                        `;
                     }
                     if (!found) {
                         document.getElementById('currentAnalysis').textContent = '--';
@@ -754,32 +934,393 @@
         async function updateAILogs() {
             try {
                 const response = await axios.get(`${API_BASE}/ai-robust-log`);
+                document.getElementById('logConnectionStatus').className = 'w-2 h-2 rounded-full bg-green-400';
+                
                 if (response.data && response.data.log) {
-                    const logLines = response.data.log.split('\n')
-                        .filter(line => line.trim())
-                        .slice(-20) // Last 20 lines
-                        .map(line => {
-                            // Color code different log levels
-                            if (line.includes('ERROR')) {
-                                return `<div class="text-red-400">${line}</div>`;
-                            } else if (line.includes('WARNING')) {
-                                return `<div class="text-yellow-400">${line}</div>`;
-                            } else if (line.includes('INFO')) {
-                                return `<div class="text-green-400">${line}</div>`;
-                            }
-                            return `<div class="text-gray-300">${line}</div>`;
-                        });
+                    // Parse logs into structured format
+                    const rawLogs = response.data.log.split('\n').filter(line => line.trim());
+                    logCache = rawLogs.map((line, index) => {
+                        const logEntry = parseLogLine(line);
+                        logEntry.id = index;
+                        return logEntry;
+                    });
                     
-                    document.getElementById('aiLogs').innerHTML = logLines.join('');
+                    // Update log stats
+                    updateLogStats();
                     
-                    // Auto scroll to bottom
-                    const logsContainer = document.getElementById('aiLogs');
-                    logsContainer.scrollTop = logsContainer.scrollHeight;
+                    // Apply current filters and display
+                    applyLogFilters();
+                    
+                    // Update timestamp
+                    const now = new Date();
+                    document.getElementById('logUpdateTime').textContent = now.toLocaleTimeString();
+                    lastLogUpdate = now;
+                } else {
+                    throw new Error('No log data received');
                 }
             } catch (error) {
-                console.error('Erro ao atualizar logs:', error);
+                console.error('❌ Erro ao atualizar logs:', error);
+                document.getElementById('logConnectionStatus').className = 'w-2 h-2 rounded-full bg-red-400';
                 document.getElementById('aiLogs').innerHTML = 
-                    '<div class="text-red-400">Erro ao carregar logs</div>';
+                    '<div class="text-red-400">❌ Erro ao carregar logs do AI agent robust</div>' +
+                    '<div class="text-gray-500 text-xs mt-1">Verifique se o backend está rodando</div>';
+            }
+        }
+
+        function parseLogLine(line) {
+            // Parse log line: "2025-08-18 13:43:08,054 - INFO - Message"
+            const regex = /^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) - (\w+) - (.+)$/;
+            const match = line.match(regex);
+            
+            if (match) {
+                return {
+                    timestamp: match[1],
+                    level: match[2],
+                    message: match[3],
+                    raw: line
+                };
+            } else {
+                // Fallback for non-standard log lines
+                return {
+                    timestamp: '',
+                    level: 'UNKNOWN',
+                    message: line,
+                    raw: line
+                };
+            }
+        }
+
+        function updateLogStats() {
+            const stats = {
+                total: logCache.length,
+                info: logCache.filter(log => log.level === 'INFO').length,
+                warning: logCache.filter(log => log.level === 'WARNING').length,
+                error: logCache.filter(log => log.level === 'ERROR').length
+            };
+            
+            document.getElementById('logStats').innerHTML = 
+                `Total: ${stats.total} | ` +
+                `<span class="text-green-400">INFO: ${stats.info}</span> | ` +
+                `<span class="text-yellow-400">WARN: ${stats.warning}</span> | ` +
+                `<span class="text-red-400">ERROR: ${stats.error}</span>`;
+        }
+
+        function applyLogFilters() {
+            const levelFilter = document.getElementById('logLevelFilter').value;
+            const searchTerm = document.getElementById('logSearch').value.toLowerCase();
+            
+            // Filter by level
+            let logs = logCache;
+            if (levelFilter !== 'all') {
+                logs = logs.filter(log => log.level === levelFilter);
+            }
+            
+            // Filter by search term
+            if (searchTerm) {
+                logs = logs.filter(log => 
+                    log.message.toLowerCase().includes(searchTerm) ||
+                    log.timestamp.includes(searchTerm)
+                );
+            }
+            
+            // Keep only last 100 filtered logs for performance
+            filteredLogs = logs.slice(-100);
+            
+            // Display logs
+            displayLogs(filteredLogs);
+        }
+
+        function displayLogs(logs) {
+            const container = document.getElementById('aiLogs');
+            
+            if (logs.length === 0) {
+                container.innerHTML = '<div class="text-gray-400">Nenhum log encontrado com os filtros aplicados</div>';
+                return;
+            }
+            
+            const logElements = logs.map(log => {
+                let levelClass = 'text-gray-300';
+                let levelIcon = '📄';
+                
+                if (log.level === 'ERROR') {
+                    levelClass = 'text-red-400';
+                    levelIcon = '❌';
+                } else if (log.level === 'WARNING') {
+                    levelClass = 'text-yellow-400';
+                    levelIcon = '⚠️';
+                } else if (log.level === 'INFO') {
+                    levelClass = 'text-green-400';
+                    levelIcon = '✅';
+                }
+                
+                const timeStr = log.timestamp ? 
+                    new Date(log.timestamp.replace(',', '.')).toLocaleTimeString() : 
+                    '';
+                
+                return `
+                    <div class="log-entry mb-1 p-2 rounded hover:bg-gray-800 transition-colors">
+                        <div class="flex items-start space-x-2">
+                            <span class="text-xs mt-1">${levelIcon}</span>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <span class="text-xs text-gray-400">${timeStr}</span>
+                                    <span class="text-xs font-medium ${levelClass}">${log.level}</span>
+                                </div>
+                                <div class="text-sm ${levelClass} break-words">${escapeHtml(log.message)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = logElements;
+            
+            // Auto scroll to bottom if enabled
+            if (autoScrollEnabled) {
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function initializeLogManagement() {
+            // Add event listeners for log controls
+            document.getElementById('logLevelFilter').addEventListener('change', applyLogFilters);
+            document.getElementById('logSearch').addEventListener('input', debounce(applyLogFilters, 300));
+            
+            // Start frequent log updates
+            logUpdateInterval = setInterval(updateAILogs, 3000); // Update every 3 seconds
+            
+            // Initial load
+            updateAILogs();
+        }
+
+        function toggleAutoScroll() {
+            autoScrollEnabled = !autoScrollEnabled;
+            const btn = document.getElementById('autoScrollBtn');
+            
+            if (autoScrollEnabled) {
+                btn.textContent = '📍 Auto';
+                btn.className = 'bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-xs';
+                
+                // Scroll to bottom immediately
+                const container = document.getElementById('aiLogs');
+                container.scrollTop = container.scrollHeight;
+            } else {
+                btn.textContent = '📍 Manual';
+                btn.className = 'bg-gray-600 hover:bg-gray-700 px-2 py-1 rounded text-xs';
+            }
+        }
+
+        function clearLogsDisplay() {
+            document.getElementById('aiLogs').innerHTML = 
+                '<div class="text-gray-400">Logs limpos da visualização. Aguarde próxima atualização...</div>';
+            
+            // Reset cache and stats
+            logCache = [];
+            filteredLogs = [];
+            document.getElementById('logStats').textContent = 'Logs limpos';
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        async function updateTradeHistory() {
+            try {
+                const response = await axios.get(`${API_BASE}/trades`);
+                const tradeHistoryElement = document.getElementById('tradeHistory');
+                
+                if (response.data && response.data.length > 0) {
+                    const trades = response.data.slice(0, 10); // Últimos 10 trades
+                    const tradeElements = trades.map(trade => {
+                        const date = new Date(trade.date).toLocaleString('pt-BR');
+                        const typeClass = trade.type === 'buy' ? 'text-green-400' : 'text-red-400';
+                        const typeIcon = trade.type === 'buy' ? '📈' : '📉';
+                        
+                        return `
+                            <div class="bg-gray-800 rounded-lg p-3 border-l-4 ${trade.type === 'buy' ? 'border-green-400' : 'border-red-400'}">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-lg">${typeIcon}</span>
+                                        <span class="font-medium ${typeClass}">${trade.type.toUpperCase()}</span>
+                                        <span class="text-gray-300">${trade.symbol}</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-bold">$${parseFloat(trade.total).toFixed(2)}</div>
+                                        <div class="text-xs text-gray-400">${date}</div>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-gray-400 mt-1">
+                                    Qtd: ${parseFloat(trade.amount).toFixed(6)} | Preço: $${parseFloat(trade.price).toFixed(8)}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    tradeHistoryElement.innerHTML = tradeElements;
+                } else {
+                    tradeHistoryElement.innerHTML = '<div class="text-gray-400 text-center py-8">Nenhum trade executado ainda...</div>';
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar histórico de trades:', error);
+                document.getElementById('tradeHistory').innerHTML = '<div class="text-red-400 text-center py-8">Erro ao carregar trades</div>';
+            }
+        }
+
+        async function updatePortfolioPerformance() {
+            try {
+                console.log('📊 [Portfolio] Iniciando atualização...');
+                const response = await axios.get(`${API_BASE}/portfolio/performance`);
+                console.log('📊 [Portfolio] Resposta da API:', response.data);
+                
+                if (response.data && response.data.success && response.data.portfolio) {
+                    const portfolio = response.data.portfolio;
+                    const alerts = response.data.alerts || [];
+                    
+                    console.log('📊 [Portfolio] Dados do portfolio:', portfolio);
+                    
+                    // Atualizar estatísticas principais com verificações de segurança
+                    const totalInvestedElement = document.getElementById('totalInvested');
+                    const currentValueElement = document.getElementById('currentValue');
+                    const pnlElement = document.getElementById('totalPnL');
+                    const perfElement = document.getElementById('portfolioPerformance');
+                    
+                    console.log('📊 [Portfolio] Elementos encontrados:', {
+                        totalInvested: !!totalInvestedElement,
+                        currentValue: !!currentValueElement, 
+                        pnl: !!pnlElement,
+                        perf: !!perfElement
+                    });
+                    
+                    if (totalInvestedElement) {
+                        totalInvestedElement.textContent = `$${(portfolio.total_invested || 0).toFixed(2)}`;
+                        console.log('📊 [Portfolio] Investido atualizado:', totalInvestedElement.textContent);
+                    }
+                    
+                    if (currentValueElement) {
+                        currentValueElement.textContent = `$${(portfolio.total_current_value || 0).toFixed(2)}`;
+                        console.log('📊 [Portfolio] Valor atual atualizado:', currentValueElement.textContent);
+                    }
+                    
+                    // P&L com cores
+                    if (pnlElement) {
+                        const pnl = portfolio.total_pnl || 0;
+                        pnlElement.textContent = `$${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}`;
+                        pnlElement.className = `text-lg font-bold ${pnl >= 0 ? 'text-green-400' : 'text-red-400'}`;
+                        console.log('📊 [Portfolio] P&L atualizado:', pnlElement.textContent);
+                    }
+                    
+                    // Performance percentual com cores
+                    if (perfElement) {
+                        const perf = portfolio.portfolio_performance_pct || 0;
+                        perfElement.textContent = `${perf >= 0 ? '+' : ''}${perf.toFixed(2)}%`;
+                        perfElement.className = `text-lg font-bold ${perf >= 0 ? 'text-green-400' : 'text-red-400'}`;
+                        console.log('📊 [Portfolio] Performance atualizada:', perfElement.textContent);
+                    }
+                    
+                    // Atualizar lista de posições
+                    const positionsElement = document.getElementById('positionsList');
+                    if (positionsElement) {
+                        console.log('📊 [Portfolio] Posições disponíveis:', portfolio.positions ? portfolio.positions.length : 0);
+                        if (portfolio.positions && portfolio.positions.length > 0) {
+                            const positionsHtml = portfolio.positions.map(pos => {
+                                const statusEmoji = {
+                                    'excellent': '🚀',
+                                    'good': '📈',
+                                    'positive': '✅',
+                                    'slight_loss': '⚠️',
+                                    'loss': '📉',
+                                    'heavy_loss': '🚨'
+                                }[pos.status] || '❓';
+                                
+                                const perfPct = pos.performance_pct || 0;
+                                const pnlUsd = pos.pnl_usd || 0;
+                                const perfColor = perfPct >= 0 ? 'text-green-400' : 'text-red-400';
+                                const pnlColor = pnlUsd >= 0 ? 'text-green-400' : 'text-red-400';
+                                
+                                return `
+                                    <div class="bg-gray-800 rounded-lg p-3 border-l-4 ${perfPct >= 0 ? 'border-green-400' : 'border-red-400'}">
+                                        <div class="flex justify-between items-center">
+                                            <div class="flex items-center space-x-2">
+                                                <span class="text-lg">${statusEmoji}</span>
+                                                <span class="font-medium text-white">${pos.symbol || 'N/A'}</span>
+                                                <span class="text-xs text-gray-400">${pos.days_held || 0}d</span>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="font-bold ${perfColor}">${perfPct >= 0 ? '+' : ''}${perfPct.toFixed(2)}%</div>
+                                                <div class="text-sm ${pnlColor}">$${pnlUsd >= 0 ? '+' : ''}${pnlUsd.toFixed(2)}</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-gray-400 mt-1">
+                                            Compra: $${(pos.buy_price || 0).toFixed(8)} | Atual: $${(pos.current_price || 0).toFixed(8)}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('');
+                            
+                            positionsElement.innerHTML = positionsHtml;
+                        } else {
+                            positionsElement.innerHTML = '<div class="text-center text-gray-400 py-4">Nenhuma posição ativa</div>';
+                        }
+                    }
+                    
+                    // Atualizar alertas
+                    const alertsElement = document.getElementById('portfolioAlerts');
+                    const alertsListElement = document.getElementById('alertsList');
+                    
+                    if (alertsElement && alertsListElement) {
+                        if (alerts.length > 0) {
+                            alertsElement.style.display = 'block';
+                            const alertsHtml = alerts.map(alert => {
+                                const alertClass = alert.type === 'stop_loss' ? 'text-red-400' : 'text-yellow-400';
+                                const icon = alert.type === 'stop_loss' ? '🚨' : '🎯';
+                                const perfPct = alert.performance_pct || 0;
+                                
+                                return `
+                                    <div class="bg-gray-800 rounded p-2 border-l-4 ${alert.type === 'stop_loss' ? 'border-red-400' : 'border-yellow-400'}">
+                                        <span class="${alertClass}">${icon} ${alert.symbol || 'N/A'}: ${perfPct >= 0 ? '+' : ''}${perfPct.toFixed(2)}%</span>
+                                        <div class="text-xs text-gray-400">${alert.recommendation || 'N/A'}</div>
+                                    </div>
+                                `;
+                            }).join('');
+                            
+                            alertsListElement.innerHTML = alertsHtml;
+                        } else {
+                            alertsElement.style.display = 'none';
+                        }
+                    }
+                    
+                    console.log('📊 [Portfolio] Atualização concluída com sucesso');
+                    
+                } else {
+                    console.warn('📊 [Portfolio] Resposta da API sem dados válidos:', response.data);
+                    // Se o sistema não está disponível, mostrar valores padrão
+                    if (document.getElementById('totalInvested')) document.getElementById('totalInvested').textContent = '$0.00';
+                    if (document.getElementById('currentValue')) document.getElementById('currentValue').textContent = '$0.00';
+                    if (document.getElementById('totalPnL')) document.getElementById('totalPnL').textContent = '$0.00';
+                    if (document.getElementById('portfolioPerformance')) document.getElementById('portfolioPerformance').textContent = '0.00%';
+                    if (document.getElementById('positionsList')) document.getElementById('positionsList').innerHTML = '<div class="text-center text-gray-400 py-4">Sistema de monitoramento indisponível</div>';
+                }
+                
+            } catch (error) {
+                console.error('📊 [Portfolio] Erro ao atualizar performance:', error);
+                if (document.getElementById('positionsList')) document.getElementById('positionsList').innerHTML = '<div class="text-center text-red-400 py-4">Erro ao carregar performance</div>';
             }
         }
 
@@ -959,14 +1500,16 @@
         }
 
         function startAutoRefresh() {
-            // Refresh every 15 seconds
+            // Refresh every 15 seconds (but logs update every 3 seconds separately)
             refreshInterval = setInterval(async () => {
                 await Promise.all([
                     updateSystemStatus(),
                     updatePortfolio(),
+                    updatePortfolioPerformance(),
                     updateAIAnalysis(),
-                    updateAILogs(),
+                    updateTradeHistory(),
                     updateAIStatus()
+                    // Note: updateAILogs() is called separately with higher frequency
                 ]);
                 
                 // Atualizar gráfico se há moeda selecionada
@@ -980,6 +1523,8 @@
             showNotification('Atualizando dashboard...', 'info');
             try {
                 await initializeDashboard();
+                // Force immediate log update
+                await updateAILogs();
                 showNotification('Dashboard atualizado!', 'success');
             } catch (error) {
                 showNotification('Erro na atualização', 'error');
@@ -1004,11 +1549,17 @@
         // Handle page visibility changes to pause/resume updates
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
+                // Pause all intervals when page is hidden
                 if (refreshInterval) {
                     clearInterval(refreshInterval);
                 }
+                if (logUpdateInterval) {
+                    clearInterval(logUpdateInterval);
+                }
             } else {
+                // Resume updates when page becomes visible
                 startAutoRefresh();
+                initializeLogManagement();
             }
         });
     </script>

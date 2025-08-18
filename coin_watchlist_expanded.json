@@ -466,6 +466,16 @@
         "volatility_target": 0.35,
         "social_weight": 0.3,
         "trading_enabled": false
+      },
+      {
+        "symbol": "PLUMEUSDC",
+        "name": "Plume",
+        "category": "Layer 1",
+        "market_cap_rank": 200,
+        "volume_threshold": 3000000,
+        "volatility_target": 0.40,
+        "social_weight": 0.3,
+        "trading_enabled": true
       }
     ]
   },

@@ -175,6 +175,50 @@ def get_trades():
         logger.error(f"Erro ao buscar negociações: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/trades', methods=['POST'])
+def create_trade():
+    """Cria um novo trade no banco de dados"""
+    try:
+        data = request.get_json()
+        
+        # Validar dados obrigatórios
+        required_fields = ['date', 'type', 'symbol', 'amount', 'price', 'total']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'Campo obrigatório: {field}'}), 400
+        
+        # Validar tipo de trade
+        if data['type'] not in ['buy', 'sell']:
+            return jsonify({'error': 'Tipo deve ser buy ou sell'}), 400
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Inserir trade
+        cursor.execute('''
+            INSERT INTO trades (date, type, symbol, amount, price, total, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            data['date'],
+            data['type'],
+            data['symbol'],
+            data['amount'],
+            data['price'],
+            data['total'],
+            data.get('status', 'completed')
+        ))
+        
+        trade_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        
+        logger.info(f"Trade criado: {data['type'].upper()} {data['symbol']} - ${data['total']}")
+        return jsonify({'id': trade_id, 'message': 'Trade criado com sucesso'}), 201
+        
+    except Exception as e:
+        logger.error(f"Erro ao criar trade: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/trades/daily-performance', methods=['GET'])
 def get_daily_performance():
     """Retorna performance diária de trading"""
@@ -222,6 +266,63 @@ def get_daily_performance():
         
     except Exception as e:
         logger.error(f"Erro ao calcular performance diária: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/portfolio/performance', methods=['GET'])
+def get_portfolio_performance():
+    """Retorna performance detalhada do portfólio baseada no preço de compra"""
+    try:
+        # Importar o Portfolio Monitor
+        try:
+            import sys
+            import os
+            # Adicionar o diretório raiz ao path se não estiver
+            root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            if root_dir not in sys.path:
+                sys.path.append(root_dir)
+            
+            logger.info(f"Tentando importar Portfolio Monitor do diretório: {root_dir}")
+            
+            from portfolio_monitor import PortfolioMonitor
+            logger.info("Portfolio Monitor importado com sucesso")
+            
+            monitor = PortfolioMonitor()
+            portfolio = monitor.get_portfolio_performance()
+            
+            # Também obter alertas
+            alerts = monitor.check_alerts()
+            
+            response = {
+                'success': True,
+                'portfolio': portfolio,
+                'alerts': alerts,
+                'timestamp': portfolio.get('last_update')
+            }
+            
+            logger.info(f"Portfolio performance obtida: {len(portfolio.get('positions', []))} posições")
+            return jsonify(response)
+            
+        except Exception as e:
+            logger.error(f"Erro ao importar/usar Portfolio Monitor: {type(e).__name__}: {e}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            
+            return jsonify({
+                'success': False,
+                'error': f'Portfolio Monitor não disponível: {str(e)}',
+                'portfolio': {
+                    'total_positions': 0,
+                    'total_invested': 0.0,
+                    'total_current_value': 0.0,
+                    'total_pnl': 0.0,
+                    'portfolio_performance_pct': 0.0,
+                    'positions': []
+                },
+                'alerts': []
+            }), 200
+            
+    except Exception as e:
+        logger.error(f"Erro ao obter performance do portfólio: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/ai-config', methods=['GET', 'POST'])
@@ -482,7 +583,12 @@ def get_market_data():
     """Retorna dados de mercado em tempo real"""
     try:
         symbol = request.args.get('symbol', 'DOGE/BUSD')
-        
+        # Validação de símbolo inválido (ex: USDTUSDT, BTCBTC, etc)
+        base = symbol[:-4]
+        quote = symbol[-4:]
+        if base == quote or symbol.upper() == f"{quote}{quote}":
+            return jsonify({'error': f'Símbolo inválido: {symbol}'}), 400
+
         # Buscar dados do exchange
         ticker = exchange.fetch_ticker(symbol.replace('/', ''))
         
@@ -1197,7 +1303,12 @@ def trading_mode():
 @app.route('/')
 def serve_frontend():
     """Serve a página principal do frontend"""
-    return send_from_directory('../frontend', 'index.html')
+    return send_from_directory('../frontend', 'dashboard_pro.html')
+
+@app.route('/dashboard')
+def serve_dashboard():
+    """Serve o dashboard pro com logs do AI agent robust"""
+    return send_from_directory('../frontend', 'dashboard_pro.html')
 
 @app.route('/<path:filename>')
 def serve_static(filename):
