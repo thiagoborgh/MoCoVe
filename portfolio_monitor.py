@@ -117,13 +117,13 @@ class PortfolioMonitor:
         self.portfolio_file = "portfolio_positions.json"
         self.load_positions()
         
-        # Configurações de alertas - TRAILING STOP
-        self.trailing_stop_percentage = 1.0  # 1% de queda do pico máximo
-        self.take_profit_threshold = 15.0  # +15%
+        # Configurações de alertas - STOP LOSS
+        self.trailing_stop_percentage = 1.0  # 1% de queda do preço de compra
+        self.take_profit_threshold = 5.0  # +5%
         self.monitoring_enabled = True
         
         log.info(f"🚀 Portfolio Monitor configurado:")
-        log.info(f"   📉 Trailing Stop: {self.trailing_stop_percentage}% de queda do pico")
+        log.info(f"   � Stop Loss: {self.trailing_stop_percentage}% de queda do preço de compra")
         log.info(f"   🎯 Take Profit: {self.take_profit_threshold}%")
         
     def load_positions(self):
@@ -304,19 +304,17 @@ class PortfolioMonitor:
         for position in self.positions.values():
             perf = position.get_performance()
             
-            # 🚀 TRAILING STOP: Verificar queda do pico máximo
-            if perf['drop_from_peak_pct'] <= -self.trailing_stop_percentage:
+            # 🚀 TRAILING STOP: Verificar queda de 1% do preço de compra
+            if perf['performance_pct'] <= -self.trailing_stop_percentage:
                 alerts.append({
                     'type': 'trailing_stop',
                     'symbol': position.symbol,
                     'current_price': position.current_price,
-                    'peak_price': position.peak_price,
-                    'drop_from_peak_pct': perf['drop_from_peak_pct'],
-                    'peak_performance_pct': perf['peak_performance_pct'],
+                    'purchase_price': position.purchase_price,
                     'performance_pct': perf['performance_pct'],
                     'threshold': -self.trailing_stop_percentage,
-                    'message': f"� TRAILING STOP: {position.symbol} caiu {abs(perf['drop_from_peak_pct']):.2f}% do pico de +{perf['peak_performance_pct']:.2f}%",
-                    'recommendation': 'VENDER TOTAL - Proteção de lucros'
+                    'message': f"🛑 STOP LOSS: {position.symbol} caiu {abs(perf['performance_pct']):.2f}% do preço de compra (${position.purchase_price:.6f})",
+                    'recommendation': 'VENDER TOTAL - Proteção contra perdas'
                 })
                 
                 # Marcar trailing stop como acionado

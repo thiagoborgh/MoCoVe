@@ -129,6 +129,12 @@ class SimpleAgent:
                     'sandbox': self.use_testnet,
                     'enableRateLimit': True,
                     'options': {'defaultType': 'spot'},
+                    'urls': {
+                        'api': {
+                            'public': 'https://testnet.binance.vision/api' if self.use_testnet else 'https://api.binance.com/api',
+                            'private': 'https://testnet.binance.vision/api' if self.use_testnet else 'https://api.binance.com/api'
+                        }
+                    } if self.use_testnet else {}
                 })
                 # Testar conexão
                 balance = self.binance.fetch_balance()
